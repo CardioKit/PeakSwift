@@ -8,27 +8,29 @@
 import Foundation
 
 /// DOI: 10.1109/JTEHM.2018.2878000
-class Nabian2018 {
+class Nabian2018: Algorithm {
     
-    func detectRPeaks(ecgSignal: [Double], samplingRate: Double) -> [Int] {
+    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
         // Preprocessing
         // TODO: apply bandpass filter instead
-        let filteredSignal = Lowpass.applyLowPassFilter(ecgSignal, cutoffFrequency: 0.2, sampleRate: samplingRate)
+        let filteredSignal = Lowpass.applyLowPassFilter(ecgSignal, cutoffFrequency: 0.2, sampleRate: samplingFrequency)
         let derivativeSignal = Derivative.applyDerivativeFilter(filteredSignal)
-        
-
+        return derivativeSignal
+    }
+    
+    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
         var rPeaks: Set<Int> = Set()
         
-        let windowSize = Int(0.4 * samplingRate)
+        let windowSize = Int(0.4 * samplingFrequency)
         
         for i in stride(from: 1 + windowSize, to: ecgSignal.count - windowSize, by: windowSize) {
-            let ecgWindow = derivativeSignal[(i - windowSize)..<(i + windowSize)]
+            let ecgWindow = ecgSignal[(i - windowSize)..<(i + windowSize)]
             
             let rPeak = ecgWindow.argmax()!
             let min = ecgWindow.argmin()!
             
             // if global max is not followed by global min in 100ms, it's not an r peak
-            if min > rPeak && min < rPeak + Int(0.1 * samplingRate) {
+            if min > rPeak && min < rPeak + Int(0.1 * samplingFrequency) {
                 // R Peak must be before the global min
                 rPeaks.insert(rPeak)
             }

@@ -7,8 +7,9 @@
 
 import Foundation
 
-class GQRS {
-    func detectRPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
+class GQRS: Algorithm {
+    
+    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
         // to be implemented
         var rPeaks: [Int] = []
         return rPeaks

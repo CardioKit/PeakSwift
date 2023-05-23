@@ -7,14 +7,18 @@
 
 import Foundation
 
-class Basic {
+class Basic: Algorithm {
     
-    func detectRPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
-      // First, apply a low-pass filter to the ECG signal to remove high-frequency noise
-        let filteredSignal = Lowpass.applyLowPassFilter(ecgSignal, cutoffFrequency: 0.2, sampleRate: samplingFrequency)
-      // Next, apply a derivative filter to the filtered signal to highlight the R peaks
-        let derivativeSignal = Derivative.applyDerivativeFilter(filteredSignal)
+    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        // First, apply a low-pass filter to the ECG signal to remove high-frequency noise
+          let filteredSignal = Lowpass.applyLowPassFilter(ecgSignal, cutoffFrequency: 0.2, sampleRate: samplingFrequency)
+        // Next, apply a derivative filter to the filtered signal to highlight the R peaks
+          let derivativeSignal = Derivative.applyDerivativeFilter(filteredSignal)
+          return derivativeSignal
+    }
+    
+    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
       // Finally, apply a threshold to the derivative signal to identify the R peaks
-        return Threshold.applyThreshold(derivativeSignal, threshold: 0.6)
+        return Threshold.applyThreshold(ecgSignal, threshold: 0.6)
     }
 }

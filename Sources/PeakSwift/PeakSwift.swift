@@ -16,34 +16,29 @@ public class PeakSwift {
         case GQRS
         case WQRS
         case Nabian2018
+        
     }
     
-    public static func peakDetection(input: Electrocardiogram, algorithm: Algorithms) -> PeakResult {
+    public static func peakDetection(input: Electrocardiogram, algorithm: Algorithms) -> ElectrocardiogramResult {
+        let algorithm = createAlgorithm(algorithm: algorithm)
+        let peaks = algorithm.processSignal(electrocardiogram: input)
+        return peaks
+    }
+    
+    static func createAlgorithm(algorithm: Algorithms) -> Algorithm {
         switch algorithm {
         case .Basic:
-            let basic = Basic()
-            let peaks = basic.detectRPeaks(ecgSignal: input.ecg, samplingFrequency: input.samplingRate)
-            return .init(rPeaks: peaks)
+            return Basic()
         case .Aristotle:
-            let aristotle = Aristotle()
-            let peaks = aristotle.detectRPeaks(ecgSignal: input.ecg)
-            return .init(rPeaks: peaks)
+            return Aristotle()
         case .Christov:
-            let christov = Christov()
-            let peaks = christov.detectRPeaks(ecgSignal: input.ecg)
-            return .init(rPeaks: peaks)
+            return Christov()
         case .GQRS:
-            let gqrs = GQRS()
-            let peaks = gqrs.detectRPeaks(ecgSignal: input.ecg, samplingFrequency: input.samplingRate)
-            return .init(rPeaks: peaks)
+            return GQRS()
         case .WQRS:
-            let wqrs = WQRS()
-            let peaks = wqrs.detectRPeaks(ecgSignal: input.ecg, samplingFrequency: input.samplingRate)
-            return .init(rPeaks: peaks)
+            return WQRS()
         case .Nabian2018:
-            let nabian = Nabian2018()
-            let peaks = nabian.detectRPeaks(ecgSignal: input.ecg, samplingRate: input.samplingRate)
-            return .init(rPeaks: peaks)
+            return Nabian2018()
         }
     }
 }

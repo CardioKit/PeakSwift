@@ -8,19 +8,25 @@
 import Accelerate
 
 
-class WQRS {
-    func detectRPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
+class WQRS: Algorithm {
+    
+    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        let lowPassFiltered = Lowpass.applyLowPassFilter(ecgSignal, cutoffFrequency: 15, sampleRate: samplingFrequency)
+        let lengthTransformed = lengthTransform(signal: lowPassFiltered, w: Int(ceil(samplingFrequency * 0.13)), samplingFrequency: samplingFrequency)
+        return lengthTransformed
+        
+    }
+    
+    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
         /// based on W Zong, GB Moody, D Jiang
         /// A Robust Open-source Algorithm to Detect Onset and Duration of QRS  Complexes
         /// In: 2003 IEEE
         
         var rPeaks: [Int] = []
-        let lowPassFiltered = Lowpass.applyLowPassFilter(ecgSignal, cutoffFrequency: 15, sampleRate: samplingFrequency)
-        let lengthTransformed = lengthTransform(signal: lowPassFiltered, w: Int(ceil(samplingFrequency * 0.13)), samplingFrequency: samplingFrequency)
         
-        let u: [Double] = MWA_convolve(signal: lengthTransformed, windowSize: Int(10 * samplingFrequency))
-        for i in 0..<lengthTransformed.count {
-            if (rPeaks.count == 0 || i > rPeaks.last! + Int((samplingFrequency * 0.35))) && lengthTransformed[i] > u[i] {
+        let u: [Double] = MWA_convolve(signal: ecgSignal, windowSize: Int(10 * samplingFrequency))
+        for i in 0..<ecgSignal.count {
+            if (rPeaks.count == 0 || i > rPeaks.last! + Int((samplingFrequency * 0.35))) && ecgSignal[i] > u[i] {
                 rPeaks.append(i)
             }
         }
