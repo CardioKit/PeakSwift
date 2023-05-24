@@ -7,10 +7,11 @@
 
 import Foundation
 
-class Aristotle {
+class Aristotle: Algorithm {
     
-    func detectRPeaks(ecgSignal: [Double]) -> [Int] {
-        var rPeaks: [Int] = []
+    
+    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
+        var rPeaks: [UInt] = []
         var lastPeak: Int?
         let threshold = 0.2
 
@@ -19,7 +20,7 @@ class Aristotle {
                 if point > ecgSignal[lastPeak1] {
                     lastPeak = index
                 } else if point < ecgSignal[lastPeak1] - threshold {
-                    rPeaks.append(lastPeak1)
+                    rPeaks.append(UInt(lastPeak1))
                     lastPeak = nil
                 }
             } else if point > threshold {
@@ -29,4 +30,5 @@ class Aristotle {
 
         return rPeaks
     }
+    
 }
