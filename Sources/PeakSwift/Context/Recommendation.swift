@@ -9,5 +9,5 @@ import Foundation
 
 protocol Recommendation {
     
-    func recommend(electrocardiogram: Electrocardiogram) -> [RecommendationResult]
+    func recommend(electrocardiogram: Electrocardiogram) -> RecommendedAlgorithms
 }

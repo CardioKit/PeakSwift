@@ -8,11 +8,11 @@
 import Foundation
 
 enum Threshold {
-    static func applyThreshold(_ ecgSignal: [Double], threshold: Double) -> [Int] {
-      var rPeaks = [Int]()
+    static func applyThreshold(_ ecgSignal: [Double], threshold: Double) -> [UInt] {
+      var rPeaks = [UInt]()
       for i in 0..<ecgSignal.count {
         if ecgSignal[i] > threshold {
-          rPeaks.append(i)
+          rPeaks.append(UInt(i))
         }
       }
       return rPeaks

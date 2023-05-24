@@ -17,17 +17,17 @@ class WQRS: Algorithm {
         
     }
     
-    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
+    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         /// based on W Zong, GB Moody, D Jiang
         /// A Robust Open-source Algorithm to Detect Onset and Duration of QRS  Complexes
         /// In: 2003 IEEE
         
-        var rPeaks: [Int] = []
+        var rPeaks: [UInt] = []
         
         let u: [Double] = MWA_convolve(signal: ecgSignal, windowSize: Int(10 * samplingFrequency))
         for i in 0..<ecgSignal.count {
-            if (rPeaks.count == 0 || i > rPeaks.last! + Int((samplingFrequency * 0.35))) && ecgSignal[i] > u[i] {
-                rPeaks.append(i)
+            if (rPeaks.count == 0 || i > rPeaks.last! + UInt((samplingFrequency * 0.35))) && ecgSignal[i] > u[i] {
+                rPeaks.append(UInt(i))
             }
         }
                     

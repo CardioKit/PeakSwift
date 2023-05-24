@@ -12,7 +12,7 @@ class AlgorithmStrategy {
     private var algorithm: Algorithm = Nabian2018()
     
     
-    func processSignal(electrocardiogram: Electrocardiogram) -> ElectrocardiogramResult {
+    func processSignal(electrocardiogram: Electrocardiogram) -> QRSResult {
         return algorithm.processSignal(electrocardiogram: electrocardiogram)
     }
     

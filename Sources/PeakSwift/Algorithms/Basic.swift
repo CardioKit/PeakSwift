@@ -17,7 +17,7 @@ class Basic: Algorithm {
           return derivativeSignal
     }
     
-    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
+    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
       // Finally, apply a threshold to the derivative signal to identify the R peaks
         return Threshold.applyThreshold(ecgSignal, threshold: 0.6)
     }

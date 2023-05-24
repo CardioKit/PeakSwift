@@ -10,9 +10,9 @@ import Foundation
 /// https://pubmed.ncbi.nlm.nih.gov/15333132/
 class Christov: Algorithm {
     
-    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
+    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         //TODO to be implemented
-        var rPeaks: [Int] = []
+        var rPeaks: [UInt] = []
         return rPeaks
     }
 

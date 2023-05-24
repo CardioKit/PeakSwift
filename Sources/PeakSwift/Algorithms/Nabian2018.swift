@@ -18,8 +18,8 @@ class Nabian2018: Algorithm {
         return derivativeSignal
     }
     
-    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [Int] {
-        var rPeaks: Set<Int> = Set()
+    func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
+        var rPeaks: Set<UInt> = Set()
         
         let windowSize = Int(0.4 * samplingFrequency)
         
@@ -32,7 +32,7 @@ class Nabian2018: Algorithm {
             // if global max is not followed by global min in 100ms, it's not an r peak
             if min > rPeak && min < rPeak + Int(0.1 * samplingFrequency) {
                 // R Peak must be before the global min
-                rPeaks.insert(rPeak)
+                rPeaks.insert(UInt(rPeak))
             }
             
         }

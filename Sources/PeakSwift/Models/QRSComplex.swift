@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct RecommendationResult {
+public struct QRSComplex {
     
-    let algorithm: Algorithms
-    let rank: Int
+    let rPeak: UInt
+    let qWave: UInt?
+    let sWave: UInt?
     
 }
