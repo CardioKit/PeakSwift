@@ -8,16 +8,7 @@
 import Foundation
 
 public class PeakSwift {
-    
-    public enum Algorithms {
-        case Basic
-        case Aristotle
-        case Christov
-        case GQRS
-        case WQRS
-        case Nabian2018
-        
-    }
+
     
     public static func peakDetection(input: Electrocardiogram, algorithm: Algorithms) -> ElectrocardiogramResult {
         let algorithm = createAlgorithm(algorithm: algorithm)
