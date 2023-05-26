@@ -1,0 +1,16 @@
+<testset>
+
+<algorithm>Nabian</algorithm>
+<signal>
+    <samplingrate>250</samplingrate>
+<datapoints>
+    <datapoint>10</datapoint>
+    <datapoint>12</datapoint>
+</datapoints>
+</signal>
+
+<peaks>
+    <datapoint>1</datapoint>
+</peaks>
+
+</testset>

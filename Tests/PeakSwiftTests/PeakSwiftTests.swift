@@ -5,6 +5,7 @@ import XCTest
 final class PeakSwiftTests: XCTestCase {
     
     let testData: ECGTestData = ECGTestData()
+    let testDataSetLoader: TestDataSetLoader = TestDataSetLoader()
     
     
     func testAristotlePeaks() {
@@ -64,5 +65,17 @@ final class PeakSwiftTests: XCTestCase {
         
         XCTAssertEqual(result.rPeaks, expectedRPeaks)
     }
+    
+    func testFileManager() {
+    
+        
+        do {
+            try testDataSetLoader.getTestData(testDataSet: .TestNabian)
+        } catch {
+            XCTAssertTrue(false)
+        }
+        XCTAssertTrue(true)
+    }
+
 
 }
