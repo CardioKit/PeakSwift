@@ -67,10 +67,11 @@ final class PeakSwiftTests: XCTestCase {
     }
     
     func testFileManager() {
-    
-        
         do {
-            try testDataSetLoader.getTestData(testDataSet: .TestNabian)
+            let content = try testDataSetLoader.getTestData(testDataSet: .TestNabian)
+            let expectedContent = "Hi test!"
+
+            XCTAssertEqual(content, expectedContent)
         } catch {
             XCTAssertTrue(false)
         }
