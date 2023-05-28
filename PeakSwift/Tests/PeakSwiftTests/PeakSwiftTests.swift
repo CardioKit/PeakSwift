@@ -66,16 +66,29 @@ final class PeakSwiftTests: XCTestCase {
         XCTAssertEqual(result.rPeaks, expectedRPeaks)
     }
     
-    func testFileManager() {
+    func testNabianNeuroKit() {
+        
+        let qrsDetector = QRSDetector()
         do {
-            let content = try testDataSetLoader.getTestData(testDataSet: .TestNabian)
-            let expectedContent = "Hi test!"
+            let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestNabian)
+            let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .Nabian2018)
+            XCTAssertEqual(actualResult.rPeaks, expectedResult.rPeaks)
 
-            XCTAssertEqual(content, expectedContent)
         } catch {
             XCTAssertTrue(false)
         }
-        XCTAssertTrue(true)
+    }
+    
+    func testWQRSNeuroKit() {
+        
+        let qrsDetector = QRSDetector()
+        do {
+            let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestWQRS)
+            let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .WQRS)
+            XCTAssertEqual(actualResult.rPeaks, expectedResult.rPeaks)
+        } catch {
+            XCTAssertTrue(false)
+        }
     }
 
 

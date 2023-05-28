@@ -7,9 +7,11 @@
 
 import Foundation
 
-public struct QRSResult {
+public struct QRSResult: Decodable {
     public let qrsComplexes: [QRSComplex]
     public let electrocardiogram: Electrocardiogram
+    
+    
     
     public var rPeaks: [UInt] {
         return qrsComplexes.map { $0.rPeak }

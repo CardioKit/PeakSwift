@@ -9,5 +9,6 @@ import Foundation
 
 enum TestDataSet: String  {
     
-    case TestNabian = "TestNabian"
+    case TestNabian = "Testnabian"
+    case TestWQRS = "Testwqrs"
 }

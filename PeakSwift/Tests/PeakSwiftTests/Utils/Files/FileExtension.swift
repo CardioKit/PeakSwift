@@ -9,4 +9,5 @@ import Foundation
 
 enum FileExtension: String {
    case xml = ".xml"
+   case json = ".json"
 }
