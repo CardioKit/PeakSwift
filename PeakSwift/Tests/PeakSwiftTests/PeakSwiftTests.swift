@@ -70,29 +70,26 @@ final class PeakSwiftTests: XCTestCase {
         XCTAssertEqual(result.rPeaks, expectedRPeaks)
     }
     
-    func testNabianNeuroKit() {
+    func testNabianNeuroKit() throws {
         
         let qrsDetector = QRSDetector()
-        do {
-            let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestNabian)
-            let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .Nabian2018)
-            AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestNabian)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .Nabian2018)
+        
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
 
-        } catch {
-            XCTAssertTrue(false)
-        }
     }
     
-    func testWQRSNeuroKit() {
+    func testWQRSNeuroKit() throws {
         
         let qrsDetector = QRSDetector()
-        do {
-            let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestWQRS)
-            let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .WQRS)
-            AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
-        } catch {
-            XCTAssertTrue(false)
-        }
+
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestWQRS)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .WQRS)
+        
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
+
     }
 
 
