@@ -7,6 +7,10 @@ final class PeakSwiftTests: XCTestCase {
     let testData: ECGTestData = ECGTestData()
     let testDataSetLoader: TestDataSetLoader = TestDataSetLoader()
     
+    // Defines the accuracy, how much samples the algorithms may differ from the benchmarks
+    // here if foundRPeaks is element of [actualPeak - threshold;actualPeak+threshold]
+    let threshold: UInt = 5
+    
     
     func testAristotlePeaks() {
         let qrsDetector = QRSDetector()
@@ -72,7 +76,7 @@ final class PeakSwiftTests: XCTestCase {
         do {
             let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestNabian)
             let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .Nabian2018)
-            XCTAssertEqual(actualResult.rPeaks, expectedResult.rPeaks)
+            AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
 
         } catch {
             XCTAssertTrue(false)
@@ -85,7 +89,7 @@ final class PeakSwiftTests: XCTestCase {
         do {
             let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestWQRS)
             let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .WQRS)
-            XCTAssertEqual(actualResult.rPeaks, expectedResult.rPeaks)
+            AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
         } catch {
             XCTAssertTrue(false)
         }

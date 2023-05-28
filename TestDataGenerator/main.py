@@ -46,7 +46,7 @@ if __name__ == '__main__':
     # Simulate ECG signal
     ecg = nk.ecg_simulate(duration=15, sampling_rate=1000, heart_rate=80)
 
-    algorithm = "wqrs"
+    algorithm = "nabian"
 
     # Preprocess ECG signal
     signals, info = nk.ecg_peaks(ecg, sampling_rate=1000, method=algorithm, correct_artifacts=False)
