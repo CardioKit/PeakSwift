@@ -9,10 +9,11 @@ jobs:
         run: | 
           cd TestDataGenerator
           python3 main.py
-          cd ..
       - name: Build
         run: | 
           cd PeakSwift
           swift build
       - name: Run tests
-        run: swift test
+        run: | 
+          cd PeakSwift
+          swift test
