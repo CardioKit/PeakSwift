@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Electrocardiogram {
+public struct Electrocardiogram: Decodable {
     let ecg: [Double]
     let samplingRate: Double
     
