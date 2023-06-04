@@ -101,6 +101,19 @@ final class PeakSwiftTests: XCTestCase {
         
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
     }
+    
+    func testChristovOptimizedNeuroKit() throws {
+        
+        let qrsDetector = QRSDetector()
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestChristov)
+        var actualResult: QRSResult? = nil
+        measure {
+             actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .ChristovOptimized)
+        }
+    
+        AssertEqualWithThreshold(actualResult!.rPeaks, expectedResult.rPeaks, threshold: threshold)
+    }
 
 
 }
