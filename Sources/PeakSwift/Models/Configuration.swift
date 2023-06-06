@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum Configuration {
+public enum Configuration {
     case auto
 }

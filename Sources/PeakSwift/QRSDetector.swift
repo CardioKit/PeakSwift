@@ -16,12 +16,12 @@ public class QRSDetector {
         self.policy = Policy(algortihmStrategy: self.algorithmStrategy)
     }
     
-    func detectPeaks(electrocardiogram: Electrocardiogram, algorithm: Algorithms) -> QRSResult {
+    public func detectPeaks(electrocardiogram: Electrocardiogram, algorithm: Algorithms) -> QRSResult {
         self.algorithmStrategy.setAlgorithm(algorithm: algorithm)
         return self.algorithmStrategy.processSignal(electrocardiogram: electrocardiogram)
     }
     
-    func detectPeaks(electrocardiogram: Electrocardiogram, configuration: Configuration) -> QRSResult {
+    public func detectPeaks(electrocardiogram: Electrocardiogram, configuration: Configuration) -> QRSResult {
         self.policy.configureAlgorithm(electrocardiogram: electrocardiogram)
         return self.algorithmStrategy.processSignal(electrocardiogram: electrocardiogram)
     }
