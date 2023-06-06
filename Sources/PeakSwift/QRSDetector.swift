@@ -12,7 +12,7 @@ public class QRSDetector {
     private let algorithmStrategy: AlgorithmStrategy = AlgorithmStrategy()
     private let policy: Policy
     
-    init() {
+    public init() {
         self.policy = Policy(algortihmStrategy: self.algorithmStrategy)
     }
     
