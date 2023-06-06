@@ -14,6 +14,5 @@ public enum Algorithms {
     case GQRS
     case WQRS
     case Nabian2018
-    case ChristovOptimized
     
 }
