@@ -7,7 +7,7 @@
 
 import Foundation
 
-class QRSDetector {
+public class QRSDetector {
     
     private let algorithmStrategy: AlgorithmStrategy = AlgorithmStrategy()
     private let policy: Policy
