@@ -4,7 +4,7 @@ import numpy as np
 
 class QRSConverter(ABC):
 
-    PATH = "../PeakSwift/Tests/PeakSwiftTests/Resources/"
+    PATH = "../Tests/PeakSwiftTests/Resources/"
 
     @abstractmethod
     def serialize(self, sampling_rate: int, signal: np.ndarray, r_peaks: np.ndarray) -> str:
