@@ -30,6 +30,8 @@ class AlgorithmStrategy {
             self.algorithm = WQRS()
         case .Nabian2018:
             self.algorithm = Nabian2018()
+        case .Hamilton:
+            self.algorithm = Hamilton()
         }
     }
     

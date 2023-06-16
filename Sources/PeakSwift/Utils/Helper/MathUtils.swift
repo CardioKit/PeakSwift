@@ -19,4 +19,21 @@ class MathUtils {
     static func mean(array: [Double]) -> Double {
         return vDSP.mean(array)
     }
+    
+    static func mean(array: [Int]) -> Double {
+        // I don't think that makes sense, since we could just calculate the mean
+        let convertedArray = array.map {
+            number in
+                Double(number)
+        }
+
+        return vDSP.mean(convertedArray)
+    }
+    
+    static func diff(_ input: [Double]) -> [Double] {
+        
+        let vectorSlice1 = input[1...input.count-1]
+        let vectorSlice2 = input[0...(input.count-2)]
+        return vDSP.subtract(vectorSlice1, vectorSlice2)
+    }
 }
