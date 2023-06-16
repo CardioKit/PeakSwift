@@ -13,11 +13,11 @@ class Hamilton: Algorithm {
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
-        let diff = MathUtils.diff(ecgSignal)
+        let diff = MathUtils.absolute(array: MathUtils.diff(ecgSignal))
         var ma = lfilter(ecgSignal: diff, samplingFrequency: samplingFrequency, c: 0.08)
         let paddingSize = Int(0.08 * samplingFrequency * 2)
         
-        ma.replaceSubrange(0...(paddingSize-1), with: repeatElement(0.0, count: paddingSize-1))
+        ma.replaceSubrange(0...(paddingSize-1), with: repeatElement(0.0, count: paddingSize))
         
         var nPKS: [Double] = []
         var nPKSAVE = 0.0
@@ -27,7 +27,7 @@ class Hamilton: Algorithm {
         
         var qrs: [Int] = [0]
         var rr: [Int] = []
-        var rrAVE = 0.0
+        var rrAVE = 0
         
         var th = 0.0
         
@@ -49,12 +49,12 @@ class Hamilton: Algorithm {
                     }
                     sPKSAVE = MathUtils.mean(array: sPKS)
                     
-                    if rrAVE != 0.0, Double(qrs[-1] - qrs[-2]) > (1.5 * rrAVE) {
-                        let missedPeaks = peaks[idx[-2]+1...idx[-2]]
+                    if rrAVE != 0, Double(qrs[back: -1] - qrs[back: -2]) > (1.5 * Double(rrAVE)), idx[back: -1] < peaks.count {
+                        let missedPeaks = peaks[idx[back: -2]+1...idx[back: -1]]
                         
                         missedPeaks.filter {
                             missedPeak in
-                            missedPeak - peaks[idx[-2]] > Int(0.36 * samplingFrequency) && ma[missedPeak] > (0.5 * th)
+                            missedPeak - peaks[idx[back: -2]] > Int(0.36 * samplingFrequency) && ma[missedPeak] > (0.5 * th)
                         }.forEach {
                             missedPeaks in
                             qrs.append(missedPeaks)
@@ -63,11 +63,11 @@ class Hamilton: Algorithm {
                     }
                     
                     if qrs.count > 2 {
-                        rr.append(qrs[-1] - qrs[-2])
+                        rr.append(qrs[back: -1] - qrs[back: -2])
                         if nPKS.count > 8 {
                             sPKS.remove(at: 0)
                         }
-                        rrAVE = MathUtils.mean(array: rr)
+                        rrAVE = Int(MathUtils.mean(array: rr))
                     }
  
                 } else {
@@ -75,7 +75,7 @@ class Hamilton: Algorithm {
                     if nPKS.count > 8 {
                         nPKS.remove(at: 0)
                     }
-                    nPKSAVE = MathUtils.mean(array: peaks)
+                    nPKSAVE = MathUtils.mean(array: nPKS)
                 }
                 
                 th = nPKSAVE + 0.45 * (sPKSAVE - nPKSAVE)

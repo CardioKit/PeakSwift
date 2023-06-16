@@ -102,5 +102,22 @@ final class PeakSwiftTests: XCTestCase {
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
     }
     
+    func testHamilton() throws {
+        
+        let qrsDetector = QRSDetector()
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestHamilton)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .Hamilton)
+        
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
+    }
+    
+    func testDiff() {
+        let actualResult = MathUtils.diff([1, 2, 4, 7, 0])
+        let exptectedResult: [Double] = [ 1,  2,  3, -7]
+        
+        XCTAssertEqual(actualResult, exptectedResult)
+    }
+    
 
 }

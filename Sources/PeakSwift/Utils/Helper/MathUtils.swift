@@ -36,4 +36,8 @@ class MathUtils {
         let vectorSlice2 = input[0...(input.count-2)]
         return vDSP.subtract(vectorSlice1, vectorSlice2)
     }
+    
+    static func absolute(array: [Double]) -> [Double] {
+        return vDSP.absolute(array)
+    }
 }
