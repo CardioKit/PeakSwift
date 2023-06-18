@@ -20,8 +20,8 @@ class Christov: Algorithm {
         
         let totalTaps = Int(c1 * samplingFrequency) + Int(c2 * samplingFrequency) + Int(c3 * samplingFrequency)
         
-        let MA1 = lfilter(ecgSignal: ecgSignal, samplingFrequency: samplingFrequency, c: c1)
-        let MA2 = lfilter(ecgSignal: MA1, samplingFrequency: samplingFrequency, c: c2)
+        let MA1 = LinearFilter.applyLinearFilter(ecgSignal: ecgSignal, samplingFrequency: samplingFrequency, c: c1)
+        let MA2 = LinearFilter.applyLinearFilter(ecgSignal: MA1, samplingFrequency: samplingFrequency, c: c2)
         
 
         // TODO eventually optimize the loop
@@ -30,7 +30,7 @@ class Christov: Algorithm {
             Y.append(abs(MA2[i+1] - MA2[i-1]))
         }
         
-        var MA3 = lfilter(ecgSignal: Y, samplingFrequency: samplingFrequency, c: c3)
+        var MA3 = LinearFilter.applyLinearFilter(ecgSignal: Y, samplingFrequency: samplingFrequency, c: c3)
         
         MA3.replaceSubrange(0...totalTaps, with: repeatElement(0, count: totalTaps))
         
@@ -133,28 +133,5 @@ class Christov: Algorithm {
             UInt(r)
         }
     }
-    
-    
-    private func lfilter(ecgSignal: [Double], samplingFrequency: Double, c: Double) -> [Double] {
-        
-        let impulseRespone = createImpulseResponse(samplingFrequency: samplingFrequency, c: c)
-        let filteredSignal = FIT().filter(impulseResponse: impulseRespone, signal: ecgSignal)
-        return filteredSignal
-
-    }
-    
-    private func createImpulseResponse(samplingFrequency: Double, c: Double) -> [Double] {
-        let impulseResponeTemp: [Double] = [Double](repeating: 1, count: Int(samplingFrequency * c))
-        
-        let impulseRespone = impulseResponeTemp.map { x in
-            x / (samplingFrequency * c)
-        }
-        
-        return impulseRespone
-    }
-    
-    
-    
-
 
 }

@@ -14,7 +14,7 @@ class Hamilton: Algorithm {
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
         let diff = MathUtils.absolute(array: MathUtils.diff(ecgSignal))
-        var ma = lfilter(ecgSignal: diff, samplingFrequency: samplingFrequency, c: 0.08)
+        var ma = LinearFilter.applyLinearFilter(ecgSignal: diff, samplingFrequency: samplingFrequency, c: 0.08)
         let paddingSize = Int(0.08 * samplingFrequency * 2)
         
         ma.replaceSubrange(0...(paddingSize-1), with: repeatElement(0.0, count: paddingSize))
@@ -86,26 +86,5 @@ class Hamilton: Algorithm {
         
         return qrs.map { UInt($0) }
     }
-    
-    
-    // Todo remove Copy paste
-    private func lfilter(ecgSignal: [Double], samplingFrequency: Double, c: Double) -> [Double] {
-        
-        let impulseRespone = createImpulseResponse(samplingFrequency: samplingFrequency, c: c)
-        let filteredSignal = FIT().filter(impulseResponse: impulseRespone, signal: ecgSignal)
-        return filteredSignal
-
-    }
-    
-    private func createImpulseResponse(samplingFrequency: Double, c: Double) -> [Double] {
-        let impulseResponeTemp: [Double] = [Double](repeating: 1, count: Int(samplingFrequency * c))
-        
-        let impulseRespone = impulseResponeTemp.map { x in
-            x / (samplingFrequency * c)
-        }
-        
-        return impulseRespone
-    }
-    
     
 }
