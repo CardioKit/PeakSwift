@@ -13,78 +13,79 @@ class Hamilton: Algorithm {
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
-        let diff = MathUtils.absolute(array: MathUtils.diff(ecgSignal))
-        var ma = LinearFilter.applyLinearFilter(ecgSignal: diff, samplingFrequency: samplingFrequency, c: 0.08)
+        let difference = MathUtils.absolute(array: MathUtils.diff(ecgSignal))
+        var movingAverage = LinearFilter.applyLinearFilter(ecgSignal: difference, samplingFrequency: samplingFrequency, c: 0.08)
         let paddingSize = Int(0.08 * samplingFrequency * 2)
         
-        ma.replaceSubrange(0...(paddingSize-1), with: repeatElement(0.0, count: paddingSize))
+        movingAverage.replaceSubrange(0...(paddingSize-1), with: repeatElement(0.0, count: paddingSize))
         
-        var nPKS: [Double] = []
-        var nPKSAVE = 0.0
+        var noisePeaks: [Double] = []
+        var averageNoisePeak = 0.0
         
-        var sPKS: [Double] = []
-        var sPKSAVE = 0.0
+        var averageQRSPeakVoltage: [Double] = []
+        var averageQRSPeaks = 0.0
         
-        var qrs: [Int] = [0]
-        var rr: [Int] = []
-        var rrAVE = 0
+        var qrsComplexes: [Int] = [0]
+        var rrInterval: [Int] = []
+        var averageRRInterval = 0
         
-        var th = 0.0
+        var detectionThreshold = 0.0
         
         var idx: [Int] = []
         var peaks: [Int] = []
         
-        for i in 0...(ma.count-1) {
-            if i > 0, i < ma.count - 1, ma[i - 1] < ma[i], ma[i + 1] < ma[i] {
+        for i in 0...(movingAverage.count-1) {
+            if i > 0, i < movingAverage.count - 1, movingAverage[i - 1] < movingAverage[i], movingAverage[i + 1] < movingAverage[i] {
                 let peak = i
                 peaks.append(peak)
                 
-                if ma[peak] > th, let lastQRS = qrs.last, Double(peak - lastQRS) > (0.3 * samplingFrequency) {
-                    qrs.append(peak)
+                if movingAverage[peak] > detectionThreshold, let lastQRS = qrsComplexes.last, Double(peak - lastQRS) > (0.3 * samplingFrequency) {
+                    qrsComplexes.append(peak)
                     idx.append(peak)
-                    sPKS.append(ma[peak])
+                    averageQRSPeakVoltage.append(movingAverage[peak])
                     
-                    if nPKS.count > 8 {
-                        sPKS.remove(at: 0)
+                    if noisePeaks.count > 8 {
+                        averageQRSPeakVoltage.remove(at: 0)
                     }
-                    sPKSAVE = MathUtils.mean(array: sPKS)
+                    averageQRSPeaks = MathUtils.mean(array: averageQRSPeakVoltage)
                     
-                    if rrAVE != 0, Double(qrs[back: -1] - qrs[back: -2]) > (1.5 * Double(rrAVE)), idx[back: -1] < peaks.count {
+                    if averageRRInterval != 0, Double(qrsComplexes[back: -1] - qrsComplexes[back: -2]) > (1.5 * Double(averageRRInterval)), idx[back: -1] < peaks.count {
                         let missedPeaks = peaks[idx[back: -2]+1...idx[back: -1]]
                         
                         missedPeaks.filter {
                             missedPeak in
-                            missedPeak - peaks[idx[back: -2]] > Int(0.36 * samplingFrequency) && ma[missedPeak] > (0.5 * th)
+                            missedPeak - peaks[idx[back: -2]] > Int(0.36 * samplingFrequency) && movingAverage[missedPeak] > (0.5 * detectionThreshold)
                         }.forEach {
                             missedPeaks in
-                            qrs.append(missedPeaks)
-                            qrs = qrs.sorted()
+                            qrsComplexes.append(missedPeaks)
+                            qrsComplexes = qrsComplexes.sorted()
                         }
                     }
                     
-                    if qrs.count > 2 {
-                        rr.append(qrs[back: -1] - qrs[back: -2])
-                        if nPKS.count > 8 {
-                            sPKS.remove(at: 0)
+                    if qrsComplexes.count > 2 {
+                        rrInterval.append(qrsComplexes[back: -1] - qrsComplexes[back: -2])
+                        if noisePeaks.count > 8 {
+                            averageQRSPeakVoltage.remove(at: 0)
                         }
-                        rrAVE = Int(MathUtils.mean(array: rr))
+                        averageRRInterval = Int(MathUtils.mean(array: rrInterval))
                     }
  
                 } else {
-                    nPKS.append(ma[peak])
-                    if nPKS.count > 8 {
-                        nPKS.remove(at: 0)
+                    noisePeaks.append(movingAverage[peak])
+                    if noisePeaks.count > 8 {
+                        noisePeaks.remove(at: 0)
                     }
-                    nPKSAVE = MathUtils.mean(array: nPKS)
+                    averageNoisePeak = MathUtils.mean(array: noisePeaks)
                 }
                 
-                th = nPKSAVE + 0.45 * (sPKSAVE - nPKSAVE)
+                let threshold = 0.45
+                detectionThreshold = averageNoisePeak + threshold * (averageQRSPeaks - averageNoisePeak)
             }
         }
         
-        qrs.remove(at: 0)
+        qrsComplexes.remove(at: 0)
         
-        return qrs.map { UInt($0) }
+        return qrsComplexes.map { UInt($0) }
     }
     
 }
