@@ -16,11 +16,11 @@ class FixSizedQueue<T> {
         self.size = size
     }
     
-    func append(value: T) {
+    func append(_ value: T) {
+        values.append(value)
         if(values.count > size) {
             values.remove(at: 0)
         }
-        values.append(value)
     }
     
     

@@ -19,10 +19,11 @@ class Hamilton: Algorithm {
         
         movingAverage.replaceSubrange(0...(paddingSize-1), with: repeatElement(0.0, count: paddingSize))
         
-        var noisePeaks: [Double] = []
+        let peaksToTrack = 8
+        let noisePeaks = FixSizedQueue<Double>(size: peaksToTrack)
         var averageNoisePeak = 0.0
         
-        var averageQRSPeakVoltage: [Double] = []
+        let averageQRSPeakVoltage = FixSizedQueue<Double>(size: peaksToTrack)
         var averageQRSPeaks = 0.0
         
         var qrsComplexes: [Int] = [0]
@@ -44,10 +45,7 @@ class Hamilton: Algorithm {
                     idx.append(peak)
                     averageQRSPeakVoltage.append(movingAverage[peak])
                     
-                    if noisePeaks.count > 8 {
-                        averageQRSPeakVoltage.remove(at: 0)
-                    }
-                    averageQRSPeaks = MathUtils.mean(array: averageQRSPeakVoltage)
+                    averageQRSPeaks = MathUtils.mean(array: averageQRSPeakVoltage.values)
                     
                     if averageRRInterval != 0, Double(qrsComplexes[back: -1] - qrsComplexes[back: -2]) > (1.5 * Double(averageRRInterval)), idx[back: -1] < peaks.count {
                         let missedPeaks = peaks[idx[back: -2]+1...idx[back: -1]]
@@ -64,18 +62,12 @@ class Hamilton: Algorithm {
                     
                     if qrsComplexes.count > 2 {
                         rrInterval.append(qrsComplexes[back: -1] - qrsComplexes[back: -2])
-                        if noisePeaks.count > 8 {
-                            averageQRSPeakVoltage.remove(at: 0)
-                        }
                         averageRRInterval = Int(MathUtils.mean(array: rrInterval))
                     }
  
                 } else {
                     noisePeaks.append(movingAverage[peak])
-                    if noisePeaks.count > 8 {
-                        noisePeaks.remove(at: 0)
-                    }
-                    averageNoisePeak = MathUtils.mean(array: noisePeaks)
+                    averageNoisePeak = MathUtils.mean(array: noisePeaks.values)
                 }
                 
                 let threshold = 0.45
