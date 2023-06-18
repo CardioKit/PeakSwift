@@ -47,17 +47,10 @@ class Hamilton: Algorithm {
                     
                     averageQRSPeaks = MathUtils.mean(array: averageQRSPeakVoltage.values)
                     
-                    if averageRRInterval != 0, isAverageRRIntervalLarge(qrsComplexes: qrsComplexes, averageRRInterval: averageRRInterval), idx[back: -1] < peaks.count {
-                        let missedPeaks = peaks[idx[back: -2]+1...idx[back: -1]]
-                        
-                        missedPeaks.filter {
-                            missedPeak in
-                            missedPeak - peaks[idx[back: -2]] > Int(0.36 * samplingFrequency) && movingAverage[missedPeak] > (0.5 * detectionThreshold)
-                        }.forEach {
-                            missedPeaks in
-                            qrsComplexes.append(missedPeaks)
-                            qrsComplexes = qrsComplexes.sorted()
-                        }
+                    if averageRRInterval != 0, isAverageRRIntervalLarge(qrsComplexes: qrsComplexes, averageRRInterval: averageRRInterval) {
+                        let missedPeaks = findMissedPeaks(peaks: peaks, idx: idx, movingAverage: movingAverage, detectionThreshold: detectionThreshold, samplingFrequency: samplingFrequency)
+                        qrsComplexes.append(contentsOf: missedPeaks)
+                        qrsComplexes = qrsComplexes.sorted()
                     }
                     
                     if qrsComplexes.count > 2 {
@@ -95,6 +88,22 @@ class Hamilton: Algorithm {
     
     private func isAverageRRIntervalLarge(qrsComplexes: [Int], averageRRInterval: Int) -> Bool {
         return Double(qrsComplexes[back: -1] - qrsComplexes[back: -2]) > (1.5 * Double(averageRRInterval))
+    }
+    
+    private func findMissedPeaks(peaks: [Int], idx: [Int], movingAverage: [Double], detectionThreshold: Double, samplingFrequency: Double) -> [Int] {
+        
+        // sometimes the requested peaks are out of range which is strange
+        guard idx[back: -1] < peaks.count else {
+            return []
+        }
+        
+        let missedPeaks = peaks[idx[back: -2]+1...idx[back: -1]]
+        
+        return missedPeaks.filter {
+            missedPeak in
+            missedPeak - peaks[idx[back: -2]] > Int(0.36 * samplingFrequency) && movingAverage[missedPeak] > (0.5 * detectionThreshold)
+        }
+        
     }
     
 }
