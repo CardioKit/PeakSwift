@@ -19,15 +19,15 @@ class Hamilton: Algorithm {
         
         movingAverage.replaceSubrange(0...(paddingSize-1), with: repeatElement(0.0, count: paddingSize))
         
-        let peaksToTrack = 8
-        let noisePeaks = FixSizedQueue<Double>(size: peaksToTrack)
+        let amountOfpeaksToTrack = 8
+        let noisePeaks = FixSizedQueue<Double>(size: amountOfpeaksToTrack)
         var averageNoisePeak = 0.0
         
-        let averageQRSPeakVoltage = FixSizedQueue<Double>(size: peaksToTrack)
+        let averageQRSPeakVoltage = FixSizedQueue<Double>(size: amountOfpeaksToTrack)
         var averageQRSPeaks = 0.0
         
         var qrsComplexes: [Int] = [0]
-        var rrInterval: [Int] = []
+        var rrIntervals: [Int] = []
         var averageRRInterval = 0
         
         var detectionThreshold = 0.0
@@ -36,18 +36,18 @@ class Hamilton: Algorithm {
         var peaks: [Int] = []
         
         for i in 0...(movingAverage.count-1) {
-            if i > 0, i < movingAverage.count - 1, movingAverage[i - 1] < movingAverage[i], movingAverage[i + 1] < movingAverage[i] {
+            if i > 0, i < movingAverage.count - 1, isPeak(signal: movingAverage, index: i) {
                 let peak = i
                 peaks.append(peak)
                 
-                if movingAverage[peak] > detectionThreshold, let lastQRS = qrsComplexes.last, Double(peak - lastQRS) > (0.3 * samplingFrequency) {
+                if movingAverage[peak] > detectionThreshold, let lastQRS = qrsComplexes.last, isTWave(nextPeak: peak, lastRPeak: lastQRS, samplingFrequency: samplingFrequency) {
                     qrsComplexes.append(peak)
                     idx.append(peak)
                     averageQRSPeakVoltage.append(movingAverage[peak])
                     
                     averageQRSPeaks = MathUtils.mean(array: averageQRSPeakVoltage.values)
                     
-                    if averageRRInterval != 0, Double(qrsComplexes[back: -1] - qrsComplexes[back: -2]) > (1.5 * Double(averageRRInterval)), idx[back: -1] < peaks.count {
+                    if averageRRInterval != 0, isAverageRRIntervalLarge(qrsComplexes: qrsComplexes, averageRRInterval: averageRRInterval), idx[back: -1] < peaks.count {
                         let missedPeaks = peaks[idx[back: -2]+1...idx[back: -1]]
                         
                         missedPeaks.filter {
@@ -61,8 +61,9 @@ class Hamilton: Algorithm {
                     }
                     
                     if qrsComplexes.count > 2 {
-                        rrInterval.append(qrsComplexes[back: -1] - qrsComplexes[back: -2])
-                        averageRRInterval = Int(MathUtils.mean(array: rrInterval))
+                        let rrInterval = qrsComplexes[back: -1] - qrsComplexes[back: -2]
+                        rrIntervals.append(rrInterval)
+                        averageRRInterval = Int(MathUtils.mean(array: rrIntervals))
                     }
  
                 } else {
@@ -70,14 +71,30 @@ class Hamilton: Algorithm {
                     averageNoisePeak = MathUtils.mean(array: noisePeaks.values)
                 }
                 
-                let threshold = 0.45
-                detectionThreshold = averageNoisePeak + threshold * (averageQRSPeaks - averageNoisePeak)
+              detectionThreshold = calculateThreshold(averageNoisePeak: averageNoisePeak, averageQRSPeaks: averageQRSPeaks)
             }
         }
         
         qrsComplexes.remove(at: 0)
         
         return qrsComplexes.map { UInt($0) }
+    }
+    
+    private func isPeak(signal: [Double], index: Int) -> Bool {
+        return signal[index - 1] < signal[index] && signal[index + 1] < signal[index]
+    }
+    
+    private func calculateThreshold(averageNoisePeak: Double, averageQRSPeaks: Double) -> Double {
+        let threshold = 0.45
+        return averageNoisePeak + threshold * (averageQRSPeaks - averageNoisePeak)
+    }
+    
+    private func isTWave(nextPeak: Int, lastRPeak: Int, samplingFrequency: Double) -> Bool {
+        return Double(nextPeak - lastRPeak) > (0.3 * samplingFrequency)
+    }
+    
+    private func isAverageRRIntervalLarge(qrsComplexes: [Int], averageRRInterval: Int) -> Bool {
+        return Double(qrsComplexes[back: -1] - qrsComplexes[back: -2]) > (1.5 * Double(averageRRInterval))
     }
     
 }
