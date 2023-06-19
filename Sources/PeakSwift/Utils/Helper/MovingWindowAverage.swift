@@ -11,7 +11,7 @@ import Accelerate
 
 class MovingWindowAverage {
     
-    static func findPeaksMovingWindowAverage(signal: [Double], windowSize: Int) -> [Double] {
+    static func movingWindowAverageCumulative(signal: [Double], windowSize: Int) -> [Double] {
         
         var runningSum = signal
             .reduce(into: []) { $0.append(($0.last ?? 0) + $1) }

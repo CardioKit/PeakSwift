@@ -18,8 +18,8 @@ class TwoAverage : Algorithm {
         
         let absoluteEcgSignal = MathUtils.absolute(array: ecgSignal)
         
-        let movingAverageQRS = MovingWindowAverage.findPeaksMovingWindowAverage(signal: absoluteEcgSignal, windowSize: window1)
-        let movingAverageBeat = MovingWindowAverage.findPeaksMovingWindowAverage(signal: absoluteEcgSignal, windowSize: window2)
+        let movingAverageQRS = MovingWindowAverage.movingWindowAverageCumulative(signal: absoluteEcgSignal, windowSize: window1)
+        let movingAverageBeat = MovingWindowAverage.movingWindowAverageCumulative(signal: absoluteEcgSignal, windowSize: window2)
         
         let blockHeight = MathUtils.max(array: ecgSignal)
         let blocks: [Double] = zip(movingAverageQRS, movingAverageBeat).map {

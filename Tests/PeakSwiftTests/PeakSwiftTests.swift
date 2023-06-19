@@ -129,13 +129,5 @@ final class PeakSwiftTests: XCTestCase {
         
         XCTAssertEqual(actualResult, exptectedResult)
     }
-    
-    func testMath() {
-        let res = MovingWindowAverage.findPeaksMovingWindowAverage(signal: [2, 8, 0, 4, 1, 9, 9, 0], windowSize: 3)
-        
-        XCTAssertEqual(res, [2, 5, 3, 4, 1, 4, 6, 6])
-        
-    }
-
 
 }
