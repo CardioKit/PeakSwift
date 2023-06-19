@@ -102,5 +102,21 @@ final class PeakSwiftTests: XCTestCase {
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
     }
     
+    func testTwoAverageNeuroKit() throws {
+        
+        let qrsDetector = QRSDetector()
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestTwoAverage)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .TwoAverage)
+        
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: 0)
+    }
+    
+    func testMath() {
+        let res = MovingWindowAverage.findPeaksMovingWindowAverage(signal: [2, 8, 0, 4, 1, 9, 9, 0], windowSize: 3)
+        
+        XCTAssertEqual(res, [2, 5, 3, 4, 1, 4, 6, 6])
+    }
+    
 
 }

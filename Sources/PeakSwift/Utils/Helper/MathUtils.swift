@@ -19,4 +19,8 @@ class MathUtils {
     static func mean(array: [Double]) -> Double {
         return vDSP.mean(array)
     }
+    
+    static func max(array: [Double]) -> Double {
+        return vDSP.maximum(array)
+    }
 }
