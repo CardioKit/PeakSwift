@@ -8,11 +8,12 @@
 import Foundation
 
 public enum Algorithms {
-    case Basic
-    case Aristotle
-    case Christov
-    case GQRS
-    case WQRS
-    case Nabian2018
+    case basic
+    case aristotle
+    case christov
+    case gqrs
+    case wqrs
+    case nabian2018
+    case hamilton
     
 }

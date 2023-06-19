@@ -14,7 +14,7 @@ final class PeakSwiftTests: XCTestCase {
     
     func testAristotlePeaks() {
         let qrsDetector = QRSDetector()
-        let result = qrsDetector.detectPeaks(electrocardiogram: testData.d1namoHealthyECG, algorithm: .Aristotle)
+        let result = qrsDetector.detectPeaks(electrocardiogram: testData.d1namoHealthyECG, algorithm: .aristotle)
         let expectedRPeaks: [UInt] = [3, 5, 204, 206, 402, 405, 605, 607, 805, 808, 1002, 1005, 1119, 1122, 1394, 1587, 1590, 1784, 1786, 1977, 2171, 2173, 2362, 2364, 2558, 2756, 2958, 2961, 3171, 3173, 3386, 3597, 3600, 3807]
         
         XCTAssertEqual(result.rPeaks, expectedRPeaks)
@@ -34,7 +34,7 @@ final class PeakSwiftTests: XCTestCase {
     
     func testNabianPeaks() {
         let qrsDetector = QRSDetector()
-        let result = qrsDetector.detectPeaks(electrocardiogram: testData.d1namoHealthyECG, algorithm: .Nabian2018)
+        let result = qrsDetector.detectPeaks(electrocardiogram: testData.d1namoHealthyECG, algorithm: .nabian2018)
         
         let expectedRPeaks: [UInt] = [3, 204, 1002, 1394, 1587, 1784, 1977, 2362, 2558, 2756, 2958, 3171, 3386, 3597, 3807]
         
@@ -43,7 +43,7 @@ final class PeakSwiftTests: XCTestCase {
     
     func testNabianAppleWatch() {
         let qrsDetector = QRSDetector()
-        let result = qrsDetector.detectPeaks(electrocardiogram: testData.appleWatchECG, algorithm: .Nabian2018)
+        let result = qrsDetector.detectPeaks(electrocardiogram: testData.appleWatchECG, algorithm: .nabian2018)
         
         // expected peaks based on NeuroKit peak detection
         let expectedRPeaks: [UInt] = [225, 1816, 2850, 3385, 4421, 5462, 5966, 6504, 7044, 8074, 9117, 10154, 10696, 12222, 12748, 13742]
@@ -53,7 +53,7 @@ final class PeakSwiftTests: XCTestCase {
     
     func testWQRSPeaks() {
         let qrsDetector = QRSDetector()
-        let result = qrsDetector.detectPeaks(electrocardiogram:testData.d1namoHealthyECG, algorithm: .WQRS)
+        let result = qrsDetector.detectPeaks(electrocardiogram:testData.d1namoHealthyECG, algorithm: .wqrs)
         
         let expectedRPeaks: [UInt] = [19, 202, 402, 604, 804, 1001, 1119, 1393, 1586, 1783, 1976, 2170, 2361, 2557, 2755, 2957, 3170, 3385, 3596, 3806]
         
@@ -75,7 +75,7 @@ final class PeakSwiftTests: XCTestCase {
         let qrsDetector = QRSDetector()
         
         let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestNabian)
-        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .Nabian2018)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .nabian2018)
         
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
 
@@ -86,7 +86,7 @@ final class PeakSwiftTests: XCTestCase {
         let qrsDetector = QRSDetector()
 
         let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestWQRS)
-        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .WQRS)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .wqrs)
         
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
 
@@ -97,9 +97,26 @@ final class PeakSwiftTests: XCTestCase {
         let qrsDetector = QRSDetector()
         
         let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestChristov)
-        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .Christov)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .christov)
         
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
+    }
+    
+    func testHamilton() throws {
+        
+        let qrsDetector = QRSDetector()
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestHamilton)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .hamilton)
+        
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
+    }
+    
+    func testDiff() {
+        let actualResult = MathUtils.diff([1, 2, 4, 7, 0])
+        let exptectedResult: [Double] = [ 1,  2,  3, -7]
+        
+        XCTAssertEqual(actualResult, exptectedResult)
     }
     
 
