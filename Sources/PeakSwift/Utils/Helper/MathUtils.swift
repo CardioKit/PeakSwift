@@ -12,8 +12,7 @@ class MathUtils {
     
     static func maxInRange(array: [Double], from: Int, to: Int) -> Double{
         let arraySlice = array[from...to-1]
-        let arrayInRange = Array(arraySlice)
-        return vDSP.maximum(arrayInRange)
+        return vDSP.maximum(arraySlice)
     }
     
     static func mean(array: [Double]) -> Double {
@@ -21,13 +20,8 @@ class MathUtils {
     }
     
     static func mean(array: [Int]) -> Double {
-        // I don't think that makes sense, since we could just calculate the mean
-        let convertedArray = array.map {
-            number in
-                Double(number)
-        }
-
-        return vDSP.mean(convertedArray)
+        let sum = array.reduce(0, +)
+        return Double(sum) / Double(array.count)
     }
     
     static func diff(_ input: [Double]) -> [Double] {

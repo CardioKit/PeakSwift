@@ -10,7 +10,7 @@ import Foundation
 
 extension Collection {
 
-    public subscript(back i: Int) -> Element {
+    public subscript(elementFromEnd i: Int) -> Element {
         return self[index(endIndex, offsetBy: i)]
     }
 }

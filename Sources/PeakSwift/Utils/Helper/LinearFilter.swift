@@ -9,7 +9,15 @@ import Foundation
 
 class LinearFilter {
     
-    public static func applyLinearFilter(ecgSignal: [Double], samplingFrequency: Double, c: Double) -> [Double] {
+    /// A common function to apply linear Filter on a given signal.
+    /// Firstly, it generates an impules response and afterwards filters the signal with the FIT filter.
+    ///
+    /// - Parameters:
+    ///     - ecgSignal: signal to filter
+    ///     - samplingFrequency: sampling rate of the signal
+    ///     - c: coefficient to generate impule response
+    
+    static func applyLinearFilter(ecgSignal: [Double], samplingFrequency: Double, c: Double) -> [Double] {
         
         let impulseRespone = createImpulseResponse(samplingFrequency: samplingFrequency, c: c)
         let filteredSignal = FIT().filter(impulseResponse: impulseRespone, signal: ecgSignal)
@@ -18,7 +26,7 @@ class LinearFilter {
     }
     
     private static func createImpulseResponse(samplingFrequency: Double, c: Double) -> [Double] {
-        let impulseResponeTemp: [Double] = [Double](repeating: 1, count: Int(samplingFrequency * c))
+        let impulseResponeTemp: [Double] = Array(repeating: 1, count: Int(samplingFrequency * c))
         
         let impulseRespone = impulseResponeTemp.map { x in
             x / (samplingFrequency * c)
