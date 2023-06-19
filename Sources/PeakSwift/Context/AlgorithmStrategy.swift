@@ -18,20 +18,22 @@ class AlgorithmStrategy {
     
     func setAlgorithm(algorithm: Algorithms) {
         switch algorithm {
-        case .Basic:
+        case .basic:
             self.algorithm = Basic()
-        case .Aristotle:
+        case .aristotle:
             self.algorithm = Aristotle()
-        case .Christov:
+        case .christov:
             self.algorithm = Christov()
-        case .GQRS:
+        case .gqrs:
             self.algorithm = GQRS()
-        case .WQRS:
+        case .wqrs:
             self.algorithm = WQRS()
-        case .Nabian2018:
+        case .nabian2018:
             self.algorithm = Nabian2018()
-        case .TwoAverage:
+        case .twoAverage:
             self.algorithm = TwoAverage()
+        case .hamilton:
+            self.algorithm = Hamilton()
         }
     }
     

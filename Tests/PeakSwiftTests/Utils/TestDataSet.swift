@@ -13,4 +13,5 @@ enum TestDataSet: String  {
     case TestWQRS = "Testwqrs"
     case TestChristov = "Testchristov"
     case TestTwoAverage = "Testelgendi"
+    case TestHamilton = "Testhamilton"
 }

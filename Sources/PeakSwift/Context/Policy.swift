@@ -18,6 +18,6 @@ class Policy {
     
     func configureAlgorithm(electrocardiogram: Electrocardiogram) {
         // For now the default algorithm is Nabian
-        self.algortihmStrategy.setAlgorithm(algorithm: .Nabian2018)
+        self.algortihmStrategy.setAlgorithm(algorithm: .nabian2018)
     }
 }
