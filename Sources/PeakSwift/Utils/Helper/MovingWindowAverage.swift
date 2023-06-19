@@ -11,33 +11,24 @@ import Accelerate
 
 class MovingWindowAverage {
     
-    static func findPeaksMovingWindowAverage(signal: [Double], windowSize: UInt) -> [Double] {
-//        var movingSum = [Double](repeating: .nan,
-//                              count: signal.count)
-//        let vDSPWindowSize = vDSP_Length(windowSize)
-//        let movingSumCount = vDSP_Length(signal.count) - windowSize + 1
-//        let stride = vDSP_Stride(1)
-//
-//        vDSP_vrsumD(signal, stride, &movingSum, 0.0, stride, vDSP_Length(signal.count))
-//
-//
-//        vDSP_vswsumD(signal, stride,
-//                     &movingSum, stride,
-//                     movingSumCount,
-//                     vDSPWindowSize)
-//        return vDSP.divide(movingSum, Double(windowSize))
+    static func findPeaksMovingWindowAverage(signal: [Double], windowSize: Int) -> [Double] {
         
-        var cumulativeSum: [Double] = []
-           var sum: Double = 0.0
-
-           for (index, value) in signal.enumerated() {
-               sum += value
-               if index >= windowSize {
-                   sum -= signal[index - Int(windowSize)]
-               }
-               cumulativeSum.append(sum / Double(min(index + 1, Int(windowSize))))
-           }
-
-           return cumulativeSum
+        var runningSum = signal
+            .reduce(into: []) { $0.append(($0.last ?? 0) + $1) }
+        
+        let startWindow = runningSum[windowSize...]
+        let endWindow = runningSum[...(runningSum.count-windowSize-1)]
+        
+        let diff = vDSP.subtract(startWindow, endWindow)
+        
+        runningSum.replaceSubrange(windowSize..., with: diff)
+        
+        for i in 1..<windowSize {
+            runningSum[i - 1] = runningSum[i - 1] / Double(i)
+        }
+        
+        runningSum.replaceSubrange((windowSize-1)..., with: vDSP.divide(runningSum[(windowSize-1)...], Double(windowSize)))
+        
+        return runningSum
     }
 }

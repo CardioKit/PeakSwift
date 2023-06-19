@@ -13,11 +13,13 @@ class TwoAverage : Algorithm {
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
-        let window1 = UInt(0.12 * samplingFrequency)
-        let window2 = UInt(0.6 * samplingFrequency)
+        let window1 = Int(0.12 * samplingFrequency)
+        let window2 = Int(0.6 * samplingFrequency)
         
-        let movingAverageQRS = MovingWindowAverage.findPeaksMovingWindowAverage(signal: absolute(array: ecgSignal), windowSize: window1)
-        let movingAverageBeat = MovingWindowAverage.findPeaksMovingWindowAverage(signal: absolute(array: ecgSignal), windowSize: window2)
+        let absoluteEcgSignal = MathUtils.absolute(array: ecgSignal)
+        
+        let movingAverageQRS = MovingWindowAverage.findPeaksMovingWindowAverage(signal: absoluteEcgSignal, windowSize: window1)
+        let movingAverageBeat = MovingWindowAverage.findPeaksMovingWindowAverage(signal: absoluteEcgSignal, windowSize: window2)
         
         let blockHeight = MathUtils.max(array: ecgSignal)
         let blocks: [Double] = zip(movingAverageQRS, movingAverageBeat).map {
@@ -51,12 +53,6 @@ class TwoAverage : Algorithm {
         
         return rPeaks.map { UInt($0) }
     }
-    
-                                                                    
-    // copied utility function from another branch, please remove when merging
-    func absolute(array: [Double]) -> [Double] {
-        return vDSP.absolute(array)
-    }
-    
+                                                            
     
 }
