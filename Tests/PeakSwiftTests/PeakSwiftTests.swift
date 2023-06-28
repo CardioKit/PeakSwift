@@ -119,5 +119,10 @@ final class PeakSwiftTests: XCTestCase {
         XCTAssertEqual(actualResult, exptectedResult)
     }
     
+    func testC() {
+        let butterworth = Butterworth()
+        XCTAssertEqual(butterworth.test(), "test")
+    }
+    
 
 }
