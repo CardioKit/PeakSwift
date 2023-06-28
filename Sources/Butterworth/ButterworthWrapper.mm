@@ -11,12 +11,6 @@
 
 
 @implementation ButterworthWrapper
-- (NSString *) sayHello {
-    std::string helloWorldMessage = "test";//foo();
-    return [NSString
-            stringWithCString:helloWorldMessage.c_str()
-            encoding:NSUTF8StringEncoding];
-}
 
 - (NSMutableArray *) butterworth: (NSArray *) signal :(NSNumber*)samplingRate  :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency {
     const int order = 1;

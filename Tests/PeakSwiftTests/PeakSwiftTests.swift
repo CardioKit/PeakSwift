@@ -119,11 +119,6 @@ final class PeakSwiftTests: XCTestCase {
         XCTAssertEqual(actualResult, exptectedResult)
     }
     
-    func testC() {
-        let butterworth = Butterworth()
-        XCTAssertEqual(butterworth.test(), "test")
-    }
-    
     func testButterworth() {
         let butterworth = Butterworth()
         let actualResult = butterworth.butterworth(signal: [1,2,3], lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)

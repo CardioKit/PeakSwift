@@ -6,17 +6,12 @@
 //
 
 import Foundation
-//import cFoo
 import Butterworth
 
 public class Butterworth {
     
     public init() {
         
-    }
-    
-    public func test() -> String? {
-        return ButterworthWrapper().sayHello();//fooBar()
     }
     
     public func butterworth(signal: [Double], lowCutFrequency: Double, highCutFrequency: Double, sampleRate: Double) -> [Double] {
