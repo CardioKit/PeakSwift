@@ -11,6 +11,10 @@ import Butterworth
 
 public class Butterworth {
     
+    public init() {
+        
+    }
+    
     public func test() -> String? {
         return HelloWorldWrapper().sayHello();//fooBar()
     }
