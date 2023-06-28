@@ -25,7 +25,9 @@ extension Algorithm {
         let qrsComplexes = rPeaks.map { (rPeak) -> QRSComplex in
                 .init(rPeak: rPeak, qWave: nil, sWave: nil)
         }
-        return .init(qrsComlexes: qrsComplexes, electrocardiogram: electrocardiogram)
+        
+        let cleanedECG = Electrocardiogram(ecg: cleanedSignal, samplingRate: electrocardiogram.samplingRate)
+        return .init(qrsComlexes: qrsComplexes, electrocardiogram: electrocardiogram, cleanedElectrocardiogram: cleanedECG)
     }
     
     func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {

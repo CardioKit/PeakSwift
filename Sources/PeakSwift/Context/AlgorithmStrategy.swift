@@ -32,6 +32,8 @@ class AlgorithmStrategy {
             self.algorithm = Nabian2018()
         case .hamilton:
             self.algorithm = Hamilton()
+        case .hamiltonCleaned:
+            self.algorithm = HamiltonCleaned()
         }
     }
     
