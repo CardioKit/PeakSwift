@@ -16,6 +16,17 @@ public class Butterworth {
     }
     
     public func test() -> String? {
-        return HelloWorldWrapper().sayHello();//fooBar()
+        return ButterworthWrapper().sayHello();//fooBar()
+    }
+    
+    public func butterworth(signal: [Double], lowCutFrequency: Double, highCutFrequency: Double, sampleRate: Double) -> [Double] {
+        let signalObjC : [NSNumber] = signal as [NSNumber]
+        let lowCutObjC = NSNumber(value: lowCutFrequency)
+        let highCutObjC = NSNumber(value: highCutFrequency)
+        let sampleRateObjC = NSNumber(value: sampleRate)
+        
+        let filteredSignal = ButterworthWrapper().butterworth(signalObjC, sampleRateObjC, lowCutObjC, highCutObjC)
+        
+        return filteredSignal as! [Double]
     }
 }

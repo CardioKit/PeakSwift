@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HelloWorldWrapper : NSObject
+@interface ButterworthWrapper : NSObject
 - (NSString *) sayHello;
+- (NSMutableArray<NSNumber *> *) butterworth: (NSArray<NSNumber *> *) signal :(NSNumber*)samplingRate :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency;
 @end
