@@ -8,8 +8,9 @@
 import Foundation
 
 public struct Electrocardiogram: Decodable {
-    let ecg: [Double]
-    let samplingRate: Double
+    
+    public let ecg: [Double]
+    public let samplingRate: Double
     
     public init(ecg: [Double], samplingRate: Double) {
         self.ecg = ecg
