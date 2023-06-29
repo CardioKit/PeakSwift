@@ -19,6 +19,11 @@ class MathUtils {
         return vDSP.mean(array)
     }
     
+
+    static func max(array: [Double]) -> Double {
+        return vDSP.maximum(array)
+    }
+
     static func mean(array: [Int]) -> Double {
         let sum = array.reduce(0, +)
         return Double(sum) / Double(array.count)
