@@ -27,10 +27,14 @@ class TwoAverage : Algorithm {
             mwaQRS > mwaBeat ? blockHeight : 0
         }
         
+        let blockSize = Int(0.08 * samplingFrequency)
+        let minRRInterval =  Int(0.3 * samplingFrequency)
+        
         var rPeaks: [Int] = []
         
         var start = 0
         var end = 0
+        
         
         for i in 1...(blocks.count - 1) {
             if blocks[i - 1] == 0, blocks[i] == blockHeight {
@@ -38,10 +42,10 @@ class TwoAverage : Algorithm {
             } else if blocks[i-1] == blockHeight, blocks[i] == 0 {
                 end = i - 1
                 
-                if end - start > Int(0.08 * samplingFrequency) {
+                if end - start > blockSize {
                     let detection: Int = ecgSignal[start...end].argmax() ?? 0 + start
                     if let lastRPeak = rPeaks.last {
-                        if detection - lastRPeak > Int(0.3 * samplingFrequency) {
+                        if detection - lastRPeak > minRRInterval {
                             rPeaks.append(detection)
                         }
                     } else {
