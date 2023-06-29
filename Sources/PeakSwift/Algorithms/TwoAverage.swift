@@ -22,10 +22,6 @@ class TwoAverage : Algorithm {
         let movingAverageBeat = MovingWindowAverage.movingWindowAverageCumulative(signal: absoluteEcgSignal, windowSize: window2)
         
         let blockHeight = MathUtils.max(array: ecgSignal)
-        let blocks: [Double] = zip(movingAverageQRS, movingAverageBeat).map {
-            (mwaQRS, mwaBeat) in
-            mwaQRS > mwaBeat ? blockHeight : 0
-        }
         
         let blockSize = Int(0.08 * samplingFrequency)
         let minRRInterval =  Int(0.3 * samplingFrequency)
@@ -35,8 +31,14 @@ class TwoAverage : Algorithm {
         var start = 0
         var end = 0
         
+        var blocks: [Double] = [ movingAverageQRS[0] > movingAverageBeat[0] ? blockHeight : 0]
         
-        for i in 1...(blocks.count - 1) {
+        
+        for i in 1...(ecgSignal.count - 1) {
+            
+            let currentBlock = movingAverageQRS[i] > movingAverageBeat[i] ? blockHeight : 0
+            blocks.append(currentBlock)
+            
             if blocks[i - 1] == 0, blocks[i] == blockHeight {
                 start = i
             } else if blocks[i-1] == blockHeight, blocks[i] == 0 {
