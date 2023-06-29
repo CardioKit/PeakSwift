@@ -20,7 +20,6 @@ final class PeakSwiftTests: XCTestCase {
         XCTAssertEqual(result.rPeaks, expectedRPeaks)
     }
     
-// Note: this test is not passing due to numeric problems => relying on test case below
 
 //    func testAppleWatchECGAristotlePeaks() {
 //        let qrsDetector = QRSDetector()
@@ -53,7 +52,7 @@ final class PeakSwiftTests: XCTestCase {
     }
     
     
-// Removed test case due to numeric problems, relied only on the
+// Note: this test is not passing due to numeric problems => relying on test case below
     
 //    func testWQRSPeaks() {
 //        let qrsDetector = QRSDetector()
