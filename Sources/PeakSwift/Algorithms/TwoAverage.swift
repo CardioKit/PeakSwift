@@ -31,12 +31,17 @@ class TwoAverage : Algorithm {
         var start = 0
         var end = 0
         
-        var blocks: [Double] = [ movingAverageQRS[0] > movingAverageBeat[0] ? blockHeight : 0]
+        let calcBlockSize = {
+            (index: Int) -> Double in
+            movingAverageQRS[index] > movingAverageBeat[index] ? blockHeight : 0
+        }
+        
+        var blocks: [Double] = [ calcBlockSize(0) ]
         
         
         for i in 1...(ecgSignal.count - 1) {
             
-            let currentBlock = movingAverageQRS[i] > movingAverageBeat[i] ? blockHeight : 0
+            let currentBlock = calcBlockSize(i)
             blocks.append(currentBlock)
             
             if blocks[i - 1] == 0, blocks[i] == blockHeight {
