@@ -5,6 +5,7 @@ test_data_set_generators: [TestDataSetGenerator] = [
     SyntheticNeuroKitTDGenerator(algorithm="nabian", seed=2),
     SyntheticNeuroKitTDGenerator(algorithm="wqrs", seed=1),
     SyntheticNeuroKitTDGenerator(algorithm="christov", seed=1),
+    SyntheticNeuroKitTDGenerator(algorithm="elgendi", seed=1),
     SyntheticNeuroKitTDGenerator(algorithm="hamilton", seed=1),
 ]
 

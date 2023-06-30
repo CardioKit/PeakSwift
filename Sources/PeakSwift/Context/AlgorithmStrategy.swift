@@ -30,6 +30,8 @@ class AlgorithmStrategy {
             self.algorithm = WQRS()
         case .nabian2018:
             self.algorithm = Nabian2018()
+        case .twoAverage:
+            self.algorithm = TwoAverage()
         case .hamilton:
             self.algorithm = Hamilton()
         case .hamiltonCleaned:

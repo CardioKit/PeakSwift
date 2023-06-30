@@ -16,5 +16,6 @@ public enum Algorithms {
     case nabian2018
     case hamilton
     case hamiltonCleaned
+    case twoAverage
     
 }
