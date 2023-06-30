@@ -23,7 +23,7 @@ class Hamilton: Algorithm {
         let noisePeaks = FixSizedQueue<Double>(size: amountOfpeaksToTrack)
         var averageNoisePeak = 0.0
         
-        let averageQRSPeakVoltage = FixSizedQueue<Double>(size: amountOfpeaksToTrack)
+        var averageQRSPeakVoltage: [Double] = []
         var averageQRSPeaks = 0.0
         
         var qrsComplexes: [Int] = [0]
@@ -49,7 +49,12 @@ class Hamilton: Algorithm {
                     idx.append(peak)
                     averageQRSPeakVoltage.append(movingAverage[peak])
                     
-                    averageQRSPeaks = MathUtils.mean(array: averageQRSPeakVoltage.values)
+                    // Note: Eventually a bug in the reference implementation
+                    if noisePeaks.count > 8 {
+                        averageQRSPeakVoltage.remove(at: 0)
+                    }
+                    
+                    averageQRSPeaks = MathUtils.mean(array: averageQRSPeakVoltage)
                     
                     if averageRRInterval != 0, isAverageRRIntervalLarge(qrsComplexes: qrsComplexes, averageRRInterval: averageRRInterval) {
                         let missedPeaks = findMissedPeaks(peaks: peaks, idx: idx, movingAverage: movingAverage, detectionThreshold: detectionThreshold, samplingFrequency: samplingFrequency)

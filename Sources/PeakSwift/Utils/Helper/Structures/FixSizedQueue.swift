@@ -12,6 +12,10 @@ class FixSizedQueue<T> {
     let size: Int
     private(set) var values: [T] = []
     
+    var count: Int {
+        values.count
+    }
+    
     init(size: Int) {
         self.size = size
     }
@@ -22,6 +26,8 @@ class FixSizedQueue<T> {
             values.remove(at: 0)
         }
     }
+    
+    
     
     
     

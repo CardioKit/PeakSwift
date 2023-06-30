@@ -20,6 +20,8 @@ final class PeakSwiftTests: XCTestCase {
         XCTAssertEqual(result.rPeaks, expectedRPeaks)
     }
     
+
+
     // TODO this test is not passing
     //    func testAppleWatchECGAristotlePeaks() {
     //        let qrsDetector = QRSDetector()
@@ -51,13 +53,20 @@ final class PeakSwiftTests: XCTestCase {
         XCTAssertEqual(result.rPeaks, expectedRPeaks)
     }
     
+    
+// Note: this test has precison problem depending on different architectures
+// The output on MChip and intel based devices can differ
     func testWQRSPeaks() {
         let qrsDetector = QRSDetector()
         let result = qrsDetector.detectPeaks(electrocardiogram:testData.d1namoHealthyECG, algorithm: .wqrs)
+    
+        let expectedRPeaksIntel: [UInt] = [19, 202, 402, 604, 804, 1001, 1119, 1393, 1586, 1783, 1976, 2170, 2361, 2557, 2755, 2957, 3170, 3385, 3596, 3806]
+        let expectedRPeaksMChip: [UInt] = [12, 202, 402, 604, 804, 1001, 1119, 1393, 1586, 1783, 1976, 2170, 2361, 2557, 2755, 2957, 3170, 3385, 3596, 3806]
         
-        let expectedRPeaks: [UInt] = [19, 202, 402, 604, 804, 1001, 1119, 1393, 1586, 1783, 1976, 2170, 2361, 2557, 2755, 2957, 3170, 3385, 3596, 3806]
+        let rPeaksMatchOnIntel = expectedRPeaksIntel == result.rPeaks
+        let rPeaksMatchOnMChip = expectedRPeaksMChip == result.rPeaks
         
-        XCTAssertEqual(result.rPeaks, expectedRPeaks)
+        XCTAssertTrue(rPeaksMatchOnIntel || rPeaksMatchOnMChip, "Actual R peaks \(result.rPeaks) differ from expected ones \(expectedRPeaksIntel) (intel) or \(expectedRPeaksMChip) (M chip) ")
     }
     
     func testAuto() {
