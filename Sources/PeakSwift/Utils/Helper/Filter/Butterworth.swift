@@ -20,6 +20,7 @@ public class Butterworth {
         let highCutObjC = NSNumber(value: highCutFrequency)
         let sampleRateObjC = NSNumber(value: sampleRate)
         
+        // TODO: Add order as a paramter
         let filteredSignal = ButterworthWrapper().butterworth(signalObjC, sampleRateObjC, lowCutObjC, highCutObjC)
         
         return filteredSignal as! [Double]
