@@ -10,6 +10,9 @@ final class PeakSwiftTests: XCTestCase {
     // Defines the accuracy, how much samples the algorithms may differ from the benchmarks
     // here if foundRPeaks is element of [actualPeak - threshold;actualPeak+threshold]
     let threshold: UInt = 5
+    
+    // The hypothesis is that different architectures lead to slightly different results due to big- and little-endian double representation.
+    // Use this accuracy parameter, if comparisions of doubles leads to significant deviations
     let doubleAccuracy: Double = 0.000000000000001
     
     
