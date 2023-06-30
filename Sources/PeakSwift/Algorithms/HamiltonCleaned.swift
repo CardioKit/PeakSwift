@@ -11,7 +11,7 @@ class HamiltonCleaned: Algorithm {
     
     
     func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
-        Butterworth().butterworth(signal: ecgSignal, order: 1, lowCutFrequency: 8, highCutFrequency: 16, sampleRate: samplingFrequency)
+        Butterworth().butterworth(signal: ecgSignal, order: .one, lowCutFrequency: 8, highCutFrequency: 16, sampleRate: samplingFrequency)
     }
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {

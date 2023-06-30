@@ -12,17 +12,19 @@
 
 @implementation ButterworthWrapper
 
+static const int MAX_ORDER = 5;
+
 - (NSMutableArray *) butterworth: (NSArray *) signal :(NSNumber *) order :(NSNumber*)samplingRate  :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency {
-    const int MAX_ORDER = 5;
     Iir::Butterworth::BandPass<MAX_ORDER> butterworthBandPass;
+    
     const double double_samplingRate = [samplingRate doubleValue]; // Hz
     const double double_lowCutFrequency = [lowCutFrequency doubleValue];
     const double double_highCutFrequency = [highCutFrequency doubleValue];
+    const int requestedOrder = [order intValue];
 
     const double centerFrequency = (double_highCutFrequency + double_lowCutFrequency) / 2;
     const double widthFrequency = double_highCutFrequency - double_lowCutFrequency;
     
-    const int requestedOrder = [order intValue];
     butterworthBandPass.setup(requestedOrder, double_samplingRate, centerFrequency, widthFrequency);
     
     NSMutableArray *filteredSignal = [NSMutableArray array];
@@ -34,4 +36,5 @@
     return filteredSignal;
     
 }
+
 @end
