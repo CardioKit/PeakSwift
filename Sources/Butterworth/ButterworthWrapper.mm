@@ -12,24 +12,29 @@
 
 @implementation ButterworthWrapper
 
-- (NSMutableArray *) butterworth: (NSArray *) signal :(NSNumber*)samplingRate  :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency {
-    const int order = 1;
-    Iir::Butterworth::BandPass<order> bf;
-    const double samplingrate = [samplingRate doubleValue]; // Hz
-    const double lowCut = [lowCutFrequency doubleValue];
-    const double highCut = [highCutFrequency doubleValue];
+static const int MAX_ORDER = 5;
 
-    const double centerFrequency = (highCut + lowCut) / 2;
-    const double widthFrequency = highCut - lowCut;
-    bf.setup(samplingrate, centerFrequency, widthFrequency);
+- (NSMutableArray *) butterworth: (NSArray *) signal :(NSNumber *) order :(NSNumber*)samplingRate  :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency {
+    Iir::Butterworth::BandPass<MAX_ORDER> butterworthBandPass;
+    
+    const double double_samplingRate = [samplingRate doubleValue]; // Hz
+    const double double_lowCutFrequency = [lowCutFrequency doubleValue];
+    const double double_highCutFrequency = [highCutFrequency doubleValue];
+    const int requestedOrder = [order intValue];
+
+    const double centerFrequency = (double_highCutFrequency + double_lowCutFrequency) / 2;
+    const double widthFrequency = double_highCutFrequency - double_lowCutFrequency;
+    
+    butterworthBandPass.setup(requestedOrder, double_samplingRate, centerFrequency, widthFrequency);
     
     NSMutableArray *filteredSignal = [NSMutableArray array];
     for(NSNumber *sampleRaw in signal) {
         const double sample = [sampleRaw doubleValue];
-        const double filteredSample = bf.filter(sample);
+        const double filteredSample = butterworthBandPass.filter(sample);
         [filteredSignal addObject:[NSNumber numberWithDouble:filteredSample]];
     }
     return filteredSignal;
     
 }
+
 @end

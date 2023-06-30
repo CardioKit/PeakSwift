@@ -143,10 +143,18 @@ final class PeakSwiftTests: XCTestCase {
         XCTAssertEqual(actualResult, exptectedResult)
     }
     
-    func testButterworth() {
+    func testButterworthOrder1() {
         let butterworth = Butterworth()
-        let actualResult = butterworth.butterworth(signal: [1,2,3], lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)
+        let actualResult = butterworth.butterworth(signal: [1,2,3], order: .one, lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)
         let expectedResult = [0.0245216092494657603, 0.0967629688502650159, 0.214027722567251055]
+  
+       AssertEqualWithThreshold(actualResult, expectedResult, threshold: doubleAccuracy)
+    }
+    
+    func testButterworthOrder3() {
+        let butterworth = Butterworth()
+        let actualResult = butterworth.butterworth(signal: [1,2,3], order: .three, lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)
+        let expectedResult = [1.51064223408530664e-05, 0.000119107750097953853, 0.000482703965553904588]
   
        AssertEqualWithThreshold(actualResult, expectedResult, threshold: doubleAccuracy)
     }
