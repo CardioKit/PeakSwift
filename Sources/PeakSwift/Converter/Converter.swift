@@ -9,5 +9,7 @@ import Foundation
 
 public protocol Converter {
     
-    func deserialize(toConvert: String) throws -> QRSResult
+    associatedtype T: Decodable
+    
+    func deserialize(toConvert: String) throws -> T
 }

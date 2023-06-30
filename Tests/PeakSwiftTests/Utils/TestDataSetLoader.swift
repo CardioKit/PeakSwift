@@ -11,9 +11,9 @@ import PeakSwift
 class TestDataSetLoader {
     
     let fileReader: FileReader = FileReader()
-    let converter: Converter = JSONConverter()
+    let converter = JSONConverter<QRSExpectedTestResult>()
     
-    func getTestData(testDataSet: TestDataSet) throws -> QRSResult {
+    func getTestData(testDataSet: TestDataSet) throws -> QRSExpectedTestResult {
         let fileContent = try fileReader.readFile(fileName: testDataSet.rawValue, fileExtension: .json)
         let qrsResult = try converter.deserialize(toConvert: fileContent)
         return qrsResult

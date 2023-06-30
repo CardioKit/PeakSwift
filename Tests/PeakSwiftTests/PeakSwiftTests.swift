@@ -10,6 +10,7 @@ final class PeakSwiftTests: XCTestCase {
     // Defines the accuracy, how much samples the algorithms may differ from the benchmarks
     // here if foundRPeaks is element of [actualPeak - threshold;actualPeak+threshold]
     let threshold: UInt = 5
+    let doubleAccuracy: Double = 0.000000000000001
     
     
     func testAristotlePeaks() {
@@ -123,7 +124,8 @@ final class PeakSwiftTests: XCTestCase {
         let butterworth = Butterworth()
         let actualResult = butterworth.butterworth(signal: [1,2,3], lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)
         let expectedResult = [0.0245216092494657603, 0.0967629688502650159, 0.214027722567251055]
-        XCTAssertEqual(actualResult, expectedResult)
+  
+       AssertEqualWithThreshold(actualResult, expectedResult, threshold: doubleAccuracy)
     }
     
 
