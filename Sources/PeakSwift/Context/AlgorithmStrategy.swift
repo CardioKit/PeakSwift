@@ -34,6 +34,8 @@ class AlgorithmStrategy {
             self.algorithm = TwoAverage()
         case .hamilton:
             self.algorithm = Hamilton()
+        case .hamiltonCleaned:
+            self.algorithm = HamiltonCleaned()
         }
     }
     

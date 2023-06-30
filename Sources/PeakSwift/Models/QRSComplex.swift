@@ -9,7 +9,7 @@ import Foundation
 
 public struct QRSComplex: Decodable {
     
-    let rPeak: UInt
+    public let rPeak: UInt
     let qWave: UInt?
     let sWave: UInt?
     
