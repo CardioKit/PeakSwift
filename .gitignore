@@ -9,3 +9,6 @@
 
 # ignore generated test data
 /Tests/PeakSwiftTests/Resources
+
+# ignore Mac specific generated binaries
+**/.DS_Store
