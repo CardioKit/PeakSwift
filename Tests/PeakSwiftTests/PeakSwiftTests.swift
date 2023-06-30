@@ -145,7 +145,7 @@ final class PeakSwiftTests: XCTestCase {
     
     func testButterworth() {
         let butterworth = Butterworth()
-        let actualResult = butterworth.butterworth(signal: [1,2,3], lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)
+        let actualResult = butterworth.butterworth(signal: [1,2,3], order: 1, lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)
         let expectedResult = [0.0245216092494657603, 0.0967629688502650159, 0.214027722567251055]
   
        AssertEqualWithThreshold(actualResult, expectedResult, threshold: doubleAccuracy)
