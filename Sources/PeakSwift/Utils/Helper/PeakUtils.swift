@@ -9,7 +9,7 @@ import Foundation
 
 class PeakUtils {
     
-    static func findLocalMaxima(signal: [Double]) -> [Int] {
+    private static func findLocalMaxima(signal: [Double]) -> [Int] {
         return signal.enumerated().filter {
             (index, voltage) in
             index > 0 && index < signal.count - 1
@@ -85,10 +85,6 @@ class PeakUtils {
             } else {
                 NPKI = 0.125 * peakValue + 0.875 * NPKI
             }
-            
-           
-            
-            
             
         }
         return signalPeaks
