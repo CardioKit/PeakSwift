@@ -39,4 +39,12 @@ class MathUtils {
     static func absolute(array: [Double]) -> [Double] {
         return vDSP.absolute(array)
     }
+    
+    static func square(array: [Double]) -> [Double] {
+        return vDSP.square(array)
+    }
+    
+    static func floorDevision(_ x: Double, _ y: Double) -> Double {
+        return floor(x / y)
+    }
 }

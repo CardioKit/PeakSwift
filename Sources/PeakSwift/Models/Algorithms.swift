@@ -17,5 +17,6 @@ public enum Algorithms {
     case hamilton
     case hamiltonCleaned
     case twoAverage
+    case panTompkins
     
 }
