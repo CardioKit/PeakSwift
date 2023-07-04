@@ -25,6 +25,13 @@ class PeakUtils {
                 peakAndProminence.prominence
             }
         }
+        
+        var mostProminentPeak: Peak? {
+            peaks.max {
+                (peak1, peak2) in
+                peak1.prominence < peak2.prominence
+            }
+        }
     }
     
     struct Peak {
