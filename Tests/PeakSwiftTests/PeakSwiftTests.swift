@@ -143,6 +143,46 @@ final class PeakSwiftTests: XCTestCase {
         XCTAssertEqual(actualResult, exptectedResult)
     }
     
+    func testGradient() {
+        let inputVector = [5, 9 , 9.5, 10, 30, 5, 3]
+        
+        let actualGradient = MathUtils.gradient(array: inputVector)
+        let expectedGradient =  [4, 2.25 ,  0.5,   10.25,  -2.5,  -13.5,   -2 ]
+        
+        XCTAssertEqual(actualGradient, expectedGradient)
+    }
+    
+    func testMovingWindowAverageOddWindow() {
+        let inputVector:[Double] = [1,2,3,4,5,6]
+        
+        let actualMovingAverage = MovingWindowAverage.movingWindowAverage(signal: inputVector, windowSize: 3)
+        let expectedMovingAverage:[Double] =  [1,2,3,4,5,5]
+        
+        let actualMovingAverageFloor = VectorUtils.floorVector(actualMovingAverage)
+        
+        XCTAssertEqual(actualMovingAverageFloor, expectedMovingAverage)
+    }
+    
+    func testMovingWindowAverageEvenWindow() {
+        let inputVector:[Double] = [1,2,3,4,5,6]
+        
+        let actualMovingAverage = MovingWindowAverage.movingWindowAverage(signal: inputVector, windowSize: 4)
+        let expectedMovingAverage:[Double] =  [1,1,2,3,4,5]
+        let actualMovingAverageFloor = VectorUtils.floorVector(actualMovingAverage)
+        
+        XCTAssertEqual(actualMovingAverageFloor, expectedMovingAverage)
+    }
+    
+    func testFindAllPeaks() {
+        let inputSignal: [Double] = [1, 1, 1, 5, 5, 5, 1, 4, 4, 4, 4, 3, 4, 3]
+        
+        let actualPeaks = PeakUtils.findAllLocalMaxima(signal: inputSignal)
+        let expectedPeaks = [4, 8, 12]
+        
+        XCTAssertEqual(actualPeaks, expectedPeaks)
+    }
+    
+    
     func testButterworthOrder1() {
         let butterworth = Butterworth()
         let actualResult = butterworth.butterworth(signal: [1,2,3], order: .one, lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)

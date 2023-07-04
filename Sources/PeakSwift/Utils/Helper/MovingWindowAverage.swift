@@ -31,4 +31,20 @@ class MovingWindowAverage {
         
         return runningSum
     }
+    
+    // TODO: check egde cases such as empty signal
+    static func movingWindowAverage(signal: [Double], windowSize: Int) -> [Double] {
+        
+        let paddingStartSize = Int(windowSize/2)
+        let paddingEndSize = windowSize % 2 == 0 ? Int(windowSize/2) - 1 : paddingStartSize
+        
+        let paddingFront = repeatElement(signal[0], count: paddingStartSize)
+        let paddingEnd = repeatElement(signal[elementFromEnd: -1], count: paddingEndSize)
+        
+        let signalWithPadding = paddingFront + signal + paddingEnd
+        
+        let windowSum = vDSP.slidingWindowSum(signalWithPadding, usingWindowLength: windowSize)
+        let windowAverage = vDSP.divide(windowSum, Double(windowSize))
+        return windowAverage
+    }
 }
