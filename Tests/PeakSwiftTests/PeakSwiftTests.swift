@@ -136,6 +136,16 @@ final class PeakSwiftTests: XCTestCase {
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
     }
     
+    func testNeuroKit() throws {
+        
+        let qrsDetector = QRSDetector()
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestNeuroKit)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .neurokit)
+        
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
+    }
+    
     func testDiff() {
         let actualResult = MathUtils.diff([1, 2, 4, 7, 0])
         let exptectedResult: [Double] = [ 1,  2,  3, -7]
