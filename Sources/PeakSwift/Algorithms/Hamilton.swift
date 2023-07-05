@@ -13,7 +13,7 @@ class Hamilton: Algorithm {
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
-        let difference = MathUtils.absolute(array: MathUtils.diff(ecgSignal))
+        let difference = MathUtils.absolute(MathUtils.diff(ecgSignal))
         var movingAverage = LinearFilter.applyLinearFilter(ecgSignal: difference, samplingFrequency: samplingFrequency, c: 0.08)
         let paddingSize = Int(0.08 * samplingFrequency * 2)
         
@@ -54,7 +54,7 @@ class Hamilton: Algorithm {
                         averageQRSPeakVoltage.remove(at: 0)
                     }
                     
-                    averageQRSPeaks = MathUtils.mean(array: averageQRSPeakVoltage)
+                    averageQRSPeaks = MathUtils.mean(averageQRSPeakVoltage)
                     
                     if averageRRInterval != 0, isAverageRRIntervalLarge(qrsComplexes: qrsComplexes, averageRRInterval: averageRRInterval) {
                         let missedPeaks = findMissedPeaks(peaks: peaks, idx: idx, movingAverage: movingAverage, detectionThreshold: detectionThreshold, samplingFrequency: samplingFrequency)
@@ -65,12 +65,12 @@ class Hamilton: Algorithm {
                     if qrsComplexes.count > 2 {
                         let rrInterval = qrsComplexes[elementFromEnd: -1] - qrsComplexes[elementFromEnd: -2]
                         rrIntervals.append(rrInterval)
-                        averageRRInterval = Int(MathUtils.mean(array: rrIntervals))
+                        averageRRInterval = Int(MathUtils.mean(rrIntervals))
                     }
  
                 } else {
                     noisePeaks.append(movingAverage[peak])
-                    averageNoisePeak = MathUtils.mean(array: noisePeaks.values)
+                    averageNoisePeak = MathUtils.mean(noisePeaks.values)
                 }
                 
               detectionThreshold = calculateThreshold(averageNoisePeak: averageNoisePeak, averageQRSPeaks: averageQRSPeaks)
