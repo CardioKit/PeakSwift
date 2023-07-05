@@ -9,10 +9,10 @@ import Foundation
 
 enum TestDataSet: String  {
     
-    case TestNabian = "Testnabian"
-    case TestWQRS = "Testwqrs"
-    case TestChristov = "Testchristov"
-    case TestTwoAverage = "Testelgendi"
-    case TestHamilton = "Testhamilton"
-    case TestPanTompkins = "TestpanTompkins"
+    case TestNabian = "TestNabian"
+    case TestWQRS = "TestWqrs"
+    case TestChristov = "TestChristov"
+    case TestTwoAverage = "TestElgendi"
+    case TestHamilton = "TestHamilton"
+    case TestPanTompkins = "TestPanTompkins"
 }

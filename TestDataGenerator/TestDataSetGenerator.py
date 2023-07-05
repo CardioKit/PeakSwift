@@ -18,7 +18,10 @@ class TestDataSetGenerator(ABC):
         r_peaks_positions = qrs_detector.find_peaks(sampling_rate=sampling_rate, ecg_signal=ecg_signal)
         algorithm = qrs_detector.get_algorithm()
 
-        converter.store_in_file(file_name=f"{file_name_prefix}{algorithm}", sampling_rate=sampling_rate,
+        # Capitalize the first letter to ensure camel case. (e.g. TestPanTompkins)
+        algorithm_file_name = algorithm[:1].upper() + algorithm[1:]
+
+        converter.store_in_file(file_name=f"{file_name_prefix}{algorithm_file_name}", sampling_rate=sampling_rate,
                                 signal=ecg_signal, r_peaks=r_peaks_positions)
 
     def _create_converter(self) -> QRSConverter:

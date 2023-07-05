@@ -23,7 +23,7 @@ class PanTompkins: Algorithm {
         var movingWindowAvereage = MovingWindowAverage.movingWindowAverageCumulative(signal: squared, windowSize: windowSize)
         
         let zeroPadding = Int(0.2 * samplingFrequency)
-        VectorUtils.setToZeroInRange(array: &movingWindowAvereage, end: zeroPadding)
+        VectorUtils.setToZeroInRange(&movingWindowAvereage, end: zeroPadding)
         
         let movingWindowAveragePeaks = PeakUtils.findPeaks(signal: movingWindowAvereage, samplingRate: samplingFrequency)
         
