@@ -144,8 +144,20 @@ final class PeakSwiftTests: XCTestCase {
         let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .neurokit)
         
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
+        
     }
     
+    func testPanTompkins() throws {
+        
+        let qrsDetector = QRSDetector()
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestPanTompkins)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .panTompkins)
+        
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
+    }
+    
+
     func testDiff() {
         let actualResult = MathUtils.diff([1, 2, 4, 7, 0])
         let exptectedResult: [Double] = [ 1,  2,  3, -7]
@@ -156,7 +168,7 @@ final class PeakSwiftTests: XCTestCase {
     func testGradient() {
         let inputVector = [5, 9 , 9.5, 10, 30, 5, 3]
         
-        let actualGradient = MathUtils.gradient(array: inputVector)
+        let actualGradient = MathUtils.gradient(inputVector)
         let expectedGradient =  [4, 2.25 ,  0.5,   10.25,  -2.5,  -13.5,   -2 ]
         
         XCTAssertEqual(actualGradient, expectedGradient)

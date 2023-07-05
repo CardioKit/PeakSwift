@@ -15,10 +15,14 @@ class NeuroKit: Algorithm {
     private let minLenWeight = 0.4
     private let minDelayInterval = 0.3
     
+//    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+//        let cleanedSignal = Butterworth().butterworth(signal: ecgSignal, order: .one, lowCutFrequency: 5, highCutFrequency: 15, sampleRate: samplingFrequency)
+//        return cleanedSignal
+//    }
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
-        let gradient = MathUtils.gradient(array: ecgSignal)
-        let gradientAbs = MathUtils.absolute(array: gradient)
+        let gradient = MathUtils.gradient(ecgSignal)
+        let gradientAbs = MathUtils.absolute(gradient)
         
         let smoothKernel = MathUtils.roundToInteger(smoothWindow * samplingFrequency)
         let averageKernel = MathUtils.roundToInteger(averageWindow * samplingFrequency)
@@ -52,7 +56,7 @@ class NeuroKit: Algorithm {
         }
         
         let numQRS = min(beginQRS.count, endQRS.count)
-        let minLength = MathUtils.mean(array: MathUtils.substractVectors(endQRS[0..<numQRS], beginQRS[0..<numQRS])) * minLenWeight
+        let minLength = MathUtils.mean(MathUtils.substractVectors(endQRS[0..<numQRS], beginQRS[0..<numQRS])) * minLenWeight
         
         var peaks = [0]
         

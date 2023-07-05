@@ -10,21 +10,21 @@ import Accelerate
 
 class MathUtils {
     
-    static func maxInRange(array: [Double], from: Int, to: Int) -> Double{
+    static func maxInRange(_ array: [Double], from: Int, to: Int) -> Double{
         let arraySlice = array[from...to-1]
         return vDSP.maximum(arraySlice)
     }
     
-    static func mean(array: [Double]) -> Double {
+    static func mean(_ array: [Double]) -> Double {
         return vDSP.mean(array)
     }
     
 
-    static func max(array: [Double]) -> Double {
+    static func max(_ array: [Double]) -> Double {
         return vDSP.maximum(array)
     }
 
-    static func mean(array: [Int]) -> Double {
+    static func mean(_ array: [Int]) -> Double {
         let sum = array.reduce(0, +)
         return Double(sum) / Double(array.count)
     }
@@ -36,12 +36,12 @@ class MathUtils {
         return vDSP.subtract(vectorSlice1, vectorSlice2)
     }
     
-    static func absolute(array: [Double]) -> [Double] {
+    static func absolute(_ array: [Double]) -> [Double] {
         return vDSP.absolute(array)
     }
     
     // TODO improve performance
-    static func gradient(array: [Double]) -> [Double] {
+    static func gradient(_ array: [Double]) -> [Double] {
         
         let startGradient = array[1] - array[0]
         let endGradient = array[elementFromEnd: -1] - array[elementFromEnd: -2]
@@ -84,5 +84,12 @@ class MathUtils {
         return vector.map {
             $0 * scalar
         }
+    }
+    static func square(_ array: [Double]) -> [Double] {
+        return vDSP.square(array)
+    }
+    
+    static func floorDevision(_ x: Double, _ y: Double) -> Double {
+        return floor(x / y)
     }
 }

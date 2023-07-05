@@ -67,13 +67,13 @@ class Christov: Algorithm {
            
             // M
             if Double(i) < (5 * samplingFrequency) {
-                M = 0.6 * MathUtils.maxInRange(array: MA3, from: 0, to: i + 1)
+                M = 0.6 * MathUtils.maxInRange(MA3, from: 0, to: i + 1)
                 MM.append(M)
                 if MM.count > 5 {
                     MM.remove(at: 0)
                 }
             } else if let lastRPeak = rPeaks.last, i < lastRPeak + ms200 {
-                newM5 = 0.6 *  MathUtils.maxInRange(array: MA3, from: lastRPeak, to: i)
+                newM5 = 0.6 *  MathUtils.maxInRange(MA3, from: lastRPeak, to: i)
                 if let MMLast = MM.last, newM5 > 1.5 * MMLast {
                     newM5 = 1.1 * MMLast
                 }
@@ -85,24 +85,24 @@ class Christov: Algorithm {
                 if MM.count > 5 {
                     MM.remove(at: 0)
                 }
-                M = MathUtils.mean(array: MM)
+                M = MathUtils.mean(MM)
             } else if let lastRPeak = rPeaks.last, i > lastRPeak + ms200, i < lastRPeak + ms1200 {
-                M = MathUtils.mean(array: MM) * MSlopes[i - (lastRPeak + ms200)]
+                M = MathUtils.mean(MM) * MSlopes[i - (lastRPeak + ms200)]
             } else {
-                M = 0.6 * MathUtils.mean(array: MM)
+                M = 0.6 * MathUtils.mean(MM)
             }
             
             
             // F
             if i > ms350 {
                 let FSection = Array(MA3[(i - ms350)...i])
-                let maxLatest = MathUtils.maxInRange(array: FSection, from: FSection.count-ms50, to: FSection.count)
-                let maxEarliest = MathUtils.maxInRange(array: FSection, from: 0, to: ms50)
+                let maxLatest = MathUtils.maxInRange(FSection, from: FSection.count-ms50, to: FSection.count)
+                let maxEarliest = MathUtils.maxInRange(FSection, from: 0, to: ms50)
                 F += (maxLatest - maxEarliest) / 150.0
             }
             
             if let lastRPeak = rPeaks.last, i < lastRPeak + Int(2.0 / 3.0 * Double(Rm)), i < lastRPeak + Rm {
-                let dec = (M - MathUtils.mean(array: MM)) / 1.4
+                let dec = (M - MathUtils.mean(MM)) / 1.4
                 R = dec
             }
             
@@ -121,7 +121,7 @@ class Christov: Algorithm {
                     if RR.count > 5 {
                         RR.remove(at: 0)
                     }
-                    Rm = Int(MathUtils.mean(array: RR))
+                    Rm = Int(MathUtils.mean(RR))
                 }
             }
             

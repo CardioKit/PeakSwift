@@ -38,6 +38,8 @@ class AlgorithmStrategy {
             self.algorithm = HamiltonCleaned()
         case .neurokit:
             self.algorithm = NeuroKit()
+        case .panTompkins:
+            self.algorithm = PanTompkins()
         }
     }
     
