@@ -44,7 +44,6 @@ class LinearFilter {
     static func applyLinearFilterBidirection(signal: [Double], b:[Double], a: Double) -> [Double] {
         let paddingSize = 3*b.count
         let signalWithPadding = oddExtention(signal: signal, n: paddingSize)
-        print(signalWithPadding)
         let forwardFilter = applyLinearFilter(signal: signalWithPadding, b: b, a: a)
         let backwardsFilter = applyLinearFilter(signal: forwardFilter.reversed(), b: b, a: a)
         

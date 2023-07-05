@@ -9,11 +9,13 @@ import Foundation
 
 struct Powerline {
     
-    func filter(signal: [Double], samplingFrequency: Double, powerline: Double = 50) {
+    func filter(signal: [Double], samplingFrequency: Double, powerline: Double = 50) -> [Double] {
         
         let bCoeffecientCount = samplingFrequency >= 100 ? Int(samplingFrequency / powerline) : 2
         
-        let b = repeatElement(1, count: bCoeffecientCount)
-        let a = [bCoeffecientCount]
+        let b = Array(repeatElement(1.0, count: bCoeffecientCount))
+        let a = Double(bCoeffecientCount)
+        
+        return LinearFilter.applyLinearFilterBidirection(signal: signal, b: b, a: a)
     }
 }
