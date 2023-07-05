@@ -13,8 +13,7 @@ class PeakUtils {
         return signal.enumerated().filter {
             (index, voltage) in
             index > 0 && index < signal.count - 1
-        }.filter {
-            (index, voltage) in
+        }.filter { (index, voltage) in
              signal[index-1] < voltage &&
              signal[index+1] < voltage
         }.map {
@@ -39,8 +38,7 @@ class PeakUtils {
         
         let peaks = findLocalMaxima(signal: signal)
         
-        peaks.enumerated().forEach {
-            (index, peak) in
+        peaks.enumerated().forEach { (index, peak) in
             let peakValue = signal[peak]
             
             let thresholdI1 = NPKI + 0.25 * (SPKI - NPKI)
@@ -54,7 +52,7 @@ class PeakUtils {
                     let averageRR = MathUtils.floorDevision(Double(signalPeaks[elementFromEnd: -2] - signalPeaks[elementFromEnd: -10]), 8)
                     let missedRR = Int(1.66 * averageRR)
                     
-                    if peak - lastPeak > missedRR {
+                    if (peak - lastPeak) > missedRR {
                         let missedPeaks = peaks[(lastIndex + 1)..<index].filter {
                             missedPeak in
                                 missedPeak > lastPeak + minMissedDsitance &&

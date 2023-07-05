@@ -10,21 +10,21 @@ import Accelerate
 
 class MathUtils {
     
-    static func maxInRange(array: [Double], from: Int, to: Int) -> Double{
+    static func maxInRange(_ array: [Double], from: Int, to: Int) -> Double{
         let arraySlice = array[from...to-1]
         return vDSP.maximum(arraySlice)
     }
     
-    static func mean(array: [Double]) -> Double {
+    static func mean(_ array: [Double]) -> Double {
         return vDSP.mean(array)
     }
     
 
-    static func max(array: [Double]) -> Double {
+    static func max(_ array: [Double]) -> Double {
         return vDSP.maximum(array)
     }
 
-    static func mean(array: [Int]) -> Double {
+    static func mean(_ array: [Int]) -> Double {
         let sum = array.reduce(0, +)
         return Double(sum) / Double(array.count)
     }
@@ -36,11 +36,11 @@ class MathUtils {
         return vDSP.subtract(vectorSlice1, vectorSlice2)
     }
     
-    static func absolute(array: [Double]) -> [Double] {
+    static func absolute(_ array: [Double]) -> [Double] {
         return vDSP.absolute(array)
     }
     
-    static func square(array: [Double]) -> [Double] {
+    static func square(_ array: [Double]) -> [Double] {
         return vDSP.square(array)
     }
     

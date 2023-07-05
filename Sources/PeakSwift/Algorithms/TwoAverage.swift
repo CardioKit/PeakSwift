@@ -16,12 +16,12 @@ class TwoAverage : Algorithm {
         let window1 = Int(0.12 * samplingFrequency)
         let window2 = Int(0.6 * samplingFrequency)
         
-        let absoluteEcgSignal = MathUtils.absolute(array: ecgSignal)
+        let absoluteEcgSignal = MathUtils.absolute(ecgSignal)
         
         let movingAverageQRS = MovingWindowAverage.movingWindowAverageCumulative(signal: absoluteEcgSignal, windowSize: window1)
         let movingAverageBeat = MovingWindowAverage.movingWindowAverageCumulative(signal: absoluteEcgSignal, windowSize: window2)
         
-        let blockHeight = MathUtils.max(array: ecgSignal)
+        let blockHeight = MathUtils.max(ecgSignal)
         
         let blockSize = Int(0.08 * samplingFrequency)
         let minRRInterval =  Int(0.3 * samplingFrequency)

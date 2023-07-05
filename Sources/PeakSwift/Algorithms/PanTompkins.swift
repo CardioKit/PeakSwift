@@ -17,7 +17,7 @@ class PanTompkins: Algorithm {
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         let diff = MathUtils.diff(ecgSignal)
-        let squared = MathUtils.square(array: diff)
+        let squared = MathUtils.square(diff)
         
         let windowSize = Int(0.12 * samplingFrequency)
         var movingWindowAvereage = MovingWindowAverage.movingWindowAverageCumulative(signal: squared, windowSize: windowSize)
