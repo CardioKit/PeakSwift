@@ -35,4 +35,39 @@ class LinearFilter {
         return impulseRespone
     }
     
+    static func applyLinearFilter(signal: [Double], b:[Double], a: Double) -> [Double] {
+        let impulseResponse = b.map { $0/a }
+        let filteredSignal = FIT().filter(impulseResponse: impulseResponse, signal: signal)
+        return filteredSignal
+    }
+    
+    static func applyLinearFilterBidirection(signal: [Double], b:[Double], a: Double) -> [Double] {
+        let paddingSize = 3*b.count
+        let signalWithPadding = oddExtention(signal: signal, n: paddingSize)
+        print(signalWithPadding)
+        let forwardFilter = applyLinearFilter(signal: signalWithPadding, b: b, a: a)
+        let backwardsFilter = applyLinearFilter(signal: forwardFilter.reversed(), b: b, a: a)
+        
+        let filteredWithPadding = Array(backwardsFilter.reversed())
+        let fileredWithoutPadding = Array(filteredWithPadding[paddingSize..<(filteredWithPadding.count-paddingSize)])
+        return fileredWithoutPadding
+    }
+    
+    static func oddExtention(signal: [Double], n: Int) -> [Double] {
+        let startValue = signal[0]
+        let paddingStart = signal[1...n].map { x in
+            let intervalSize = x - startValue
+            return startValue - intervalSize
+        }.reversed()
+        
+        let endValue = signal[elementFromEnd: -1]
+        let paddingEnd = signal[(signal.count-n-1)..<(signal.count-1)].map { x in
+            let intervalSize = endValue - x
+            return endValue + intervalSize
+        }.reversed()
+        
+        return paddingStart + signal + paddingEnd
+        
+    }
+    
 }

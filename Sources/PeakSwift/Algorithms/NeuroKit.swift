@@ -15,10 +15,10 @@ class NeuroKit: Algorithm {
     private let minLenWeight = 0.4
     private let minDelayInterval = 0.3
     
-//    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
-//        let cleanedSignal = Butterworth().butterworth(signal: ecgSignal, order: .one, lowCutFrequency: 5, highCutFrequency: 15, sampleRate: samplingFrequency)
-//        return cleanedSignal
-//    }
+    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        let cleanedSignal = Butterworth().butterworth(signal: ecgSignal, order: .five, lowCutFrequency: 0.5, sampleRate: samplingFrequency)
+        return cleanedSignal
+    }
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         let gradient = MathUtils.gradient(ecgSignal)
