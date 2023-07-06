@@ -32,8 +32,33 @@ class MovingWindowAverage {
         return runningSum
     }
     
-    // TODO: check egde cases such as empty signal
-    static func movingWindowAverage(signal: [Double], windowSize: Int) -> [Double] {
+    
+    /// Calculates moving window average with a basic approach but includes a padding at start and end of the signal
+    ///
+    /// Inspired by interface of scipy.ndimage.uniform_filter1d(...)
+    /// Source: https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.uniform_filter1d.html
+    ///
+    /// - Parameters:
+    ///     - signal: signal to calculate the average
+    ///     - windowSize: the size of the window to calculate the average
+    ///
+    /// - Returns:
+    ///     - [Double]: The moving average of the signal
+    ///
+    /// - Example:
+    ///    windowSize = 3 and signal = [1,2,3,4,5,6] 
+    ///    [1,2,3,4,5,6] # index 0, Reflect 1 : [1,1,2] -> average: 4/3 = 1 // Note the first 1 is added via padding
+    ///    [1,2,3,4,5,6] # index 1, [1,2,3] -> average: 6/3 = 2
+    ///    [1,2,3,4,5,6] # index 2, [2,3,4] -> average: 9/3 = 3
+    ///    [1,2,3,4,5,6] # index 3, [3,4,5] -> average: 12/3 = 4
+    ///    [1,2,3,4,5,6] # index 4, [4,5,6] -> average: 15/3 = 5
+    ///    [1,2,3,4,5,6] # index 5, Reflect 6 : [5,6,6] -> average: 17/3 = 5
+    ///
+    static func movingWindowAverageSimple(signal: [Double], windowSize: Int) -> [Double] {
+        
+        if signal.isEmpty {
+            return signal
+        }
         
         let paddingStartSize = Int(windowSize/2)
         let paddingEndSize = windowSize % 2 == 0 ? Int(windowSize/2) - 1 : paddingStartSize

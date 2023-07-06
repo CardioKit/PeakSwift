@@ -28,8 +28,8 @@ class NeuroKit: Algorithm {
         let smoothKernel = MathUtils.roundToInteger(smoothWindow * samplingFrequency)
         let averageKernel = MathUtils.roundToInteger(averageWindow * samplingFrequency)
         
-        let smoothGrad = MovingWindowAverage.movingWindowAverage(signal: gradientAbs, windowSize: smoothKernel)
-        let avgGrad = MovingWindowAverage.movingWindowAverage(signal: smoothGrad, windowSize: averageKernel)
+        let smoothGrad = MovingWindowAverage.movingWindowAverageSimple(signal: gradientAbs, windowSize: smoothKernel)
+        let avgGrad = MovingWindowAverage.movingWindowAverageSimple(signal: smoothGrad, windowSize: averageKernel)
         
         let gradThreshold = MathUtils.mulScalar(avgGrad, gradThreshWeight)
         

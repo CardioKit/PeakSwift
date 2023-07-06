@@ -13,10 +13,10 @@ import XCTest
 
 final class MovingWindowAverageUtilsTests: XCTestCase {
     
-    func testMovingWindowAverageOddWindow() {
+    func testMovingWindowAverageSimpleOddWindow() {
         let inputVector:[Double] = [1,2,3,4,5,6]
         
-        let actualMovingAverage = MovingWindowAverage.movingWindowAverage(signal: inputVector, windowSize: 3)
+        let actualMovingAverage = MovingWindowAverage.movingWindowAverageSimple(signal: inputVector, windowSize: 3)
         let expectedMovingAverage:[Double] =  [1,2,3,4,5,5]
         
         let actualMovingAverageFloor = VectorUtils.floorVector(actualMovingAverage)
@@ -24,11 +24,31 @@ final class MovingWindowAverageUtilsTests: XCTestCase {
         XCTAssertEqual(actualMovingAverageFloor, expectedMovingAverage)
     }
     
-    func testMovingWindowAverageEvenWindow() {
+    func testMovingWindowAverageSimpleEvenWindow() {
         let inputVector:[Double] = [1,2,3,4,5,6]
         
-        let actualMovingAverage = MovingWindowAverage.movingWindowAverage(signal: inputVector, windowSize: 4)
+        let actualMovingAverage = MovingWindowAverage.movingWindowAverageSimple(signal: inputVector, windowSize: 4)
         let expectedMovingAverage:[Double] =  [1,1,2,3,4,5]
+        let actualMovingAverageFloor = VectorUtils.floorVector(actualMovingAverage)
+        
+        XCTAssertEqual(actualMovingAverageFloor, expectedMovingAverage)
+    }
+    
+    func testMovingWindowAverageSimpleEmpty() {
+        let inputVector:[Double] = []
+        
+        let actualMovingAverage = MovingWindowAverage.movingWindowAverageSimple(signal: inputVector, windowSize: 4)
+        let expectedMovingAverage:[Double] =  []
+        let actualMovingAverageFloor = VectorUtils.floorVector(actualMovingAverage)
+        
+        XCTAssertEqual(actualMovingAverageFloor, expectedMovingAverage)
+    }
+    
+    func testMovingWindowAverageOneElement() {
+        let inputVector:[Double] = [12]
+        
+        let actualMovingAverage = MovingWindowAverage.movingWindowAverageSimple(signal: inputVector, windowSize: 4)
+        let expectedMovingAverage:[Double] =  [12]
         let actualMovingAverageFloor = VectorUtils.floorVector(actualMovingAverage)
         
         XCTAssertEqual(actualMovingAverageFloor, expectedMovingAverage)

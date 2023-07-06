@@ -40,9 +40,29 @@ class MathUtils {
         return vDSP.absolute(array)
     }
     
-    // TODO improve performance
+    /// Calculates the gradient of a 1 dimensional array
+    ///
+    /// Inspired by numpy.gradient(...), but restricted to 1 dimension
+    /// Source: https://numpy.org/doc/stable/reference/generated/numpy.gradient.html
+    /// - Parameters:
+    ///     - array: Input vector
+    /// - Returns:
+    ///     - Gradient of the vector
+    ///
+    /// - Example:
+    ///    Input:  array: [1, 2, 4, 7, 11, 16] (below named y)
+    ///
+    ///    out[0] = (y[1]-y[0])/1 = (2-1)/1  = 1
+    ///    out[1] = (y[2]-y[0])/2 = (4-1)/2  = 1.5
+    ///    out[2] = (y[3]-y[1])/2 = (7-2)/2  = 2.5
+    ///    out[3] = (y[4]-y[2])/2 = (11-4)/2 = 3.5
+    ///    out[4] = (y[5]-y[3])/2 = (16-7)/2 = 4.5
+    ///    out[5] = (y[5]-y[4])/1 = (16-11)/1 = 5
+    ///
+    ///    Output: out=[ 1. ,  1.5,  2.5,  3.5,  4.5,  5. ]
     static func gradient(_ array: [Double]) -> [Double] {
         
+        // TODO: Add error handling if array<2
         let startGradient = array[1] - array[0]
         let endGradient = array[elementFromEnd: -1] - array[elementFromEnd: -2]
         
@@ -64,22 +84,16 @@ class MathUtils {
         return vDSP.multiply(scalar, array)
     }
     
-//    static func substractVectors<C: Slice<Double>(_ v1: C, _ v2: C) where C.Element == Double {
-//        let test :[Double] = vDSP.subtract(v1, v2)
-//    }
-    
     static func substractVectors(_ v1: ArraySlice<Double>, _ v2: ArraySlice<Double>) -> [Double] {
         return vDSP.subtract(v1, v2)
     }
     
-    // TODO: consider to optimize
     static func substractVectors<C: RandomAccessCollection>(_ v1: C, _ v2: C) -> [Int] where C.Element == Int {
         return zip(v1,v2).map {
             (x,y) in x - y
         }
     }
     
-    // TODO: Consider to optimize
     static func mulScalar(_ vector: [Int], _ scalar: Int) -> [Int] {
         return vector.map {
             $0 * scalar

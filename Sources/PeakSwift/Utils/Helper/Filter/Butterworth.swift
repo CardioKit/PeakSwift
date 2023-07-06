@@ -38,6 +38,8 @@ public class Butterworth {
         return filteredSignal as! [Double]
     }
     
+    
+    // This butterworth filter applies the a HighPassFilter once forward and afterwards backwards
     public func butterworthForwardBackward(signal: [Double], order: Order, lowCutFrequency: Double, sampleRate: Double) -> [Double] {
         let signalObjC : [NSNumber] = signal as [NSNumber]
         let lowCutObjC = NSNumber(value: lowCutFrequency)
