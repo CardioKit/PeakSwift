@@ -49,7 +49,7 @@ static const int MAX_ORDER = 5;
     NSMutableArray *filteredSignal = [NSMutableArray array];
     for(NSNumber *sampleRaw in signal) {
         const double sample = [sampleRaw doubleValue];
-        const double filteredSample = butterworthHighPass.filter(sample);
+        const double filteredSample = butterworthHighPass.filter(sample) * -1;
         [filteredSignal addObject:[NSNumber numberWithDouble:filteredSample]];
     }
     return filteredSignal;
