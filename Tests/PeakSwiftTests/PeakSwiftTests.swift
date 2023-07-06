@@ -276,11 +276,5 @@ final class PeakSwiftTests: XCTestCase {
         
         XCTAssertEqual(actualOddExtension, expectedOddExtension)
     }
-    
-    func testButterWorthHighPass() {
-        
-        let test = Butterworth().butterworth(signal: [1,2,3,-5], order: .five, lowCutFrequency: 0.5, sampleRate: 1000)
-        print(test)
-    }
 
 }

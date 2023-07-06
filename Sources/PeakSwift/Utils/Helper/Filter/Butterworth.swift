@@ -38,13 +38,13 @@ public class Butterworth {
         return filteredSignal as! [Double]
     }
     
-    public func butterworth(signal: [Double], order: Order, lowCutFrequency: Double, sampleRate: Double) -> [Double] {
+    public func butterworthForwardBackward(signal: [Double], order: Order, lowCutFrequency: Double, sampleRate: Double) -> [Double] {
         let signalObjC : [NSNumber] = signal as [NSNumber]
         let lowCutObjC = NSNumber(value: lowCutFrequency)
         let sampleRateObjC = NSNumber(value: sampleRate)
         let orderObjC = NSNumber(value: order.rawValue)
         
-        let filteredSignal = butterworthWrapper.butterworthHighPass(signalObjC, orderObjC, sampleRateObjC, lowCutObjC)
+        let filteredSignal = butterworthWrapper.butterworthHighPassForwardBackward(signalObjC, orderObjC, sampleRateObjC, lowCutObjC)
         
         return filteredSignal as! [Double]
         
