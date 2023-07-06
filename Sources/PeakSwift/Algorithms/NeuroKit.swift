@@ -55,8 +55,6 @@ class NeuroKit: Algorithm {
             
             let potentialSegment = ecgSignal[currentBeginQRS..<currentEndQRS]
             
-            
-            // TODO optimiz, since Array(...) creates a copy that may be expenisive
             let peaksAndPromineces = PeakUtils.findAllPeaksAndProminences(signal: Array(potentialSegment))
             
             if let mostProminentPeak = peaksAndPromineces.mostProminentPeak {
