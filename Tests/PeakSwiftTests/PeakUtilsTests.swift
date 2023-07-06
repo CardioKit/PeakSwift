@@ -13,7 +13,7 @@ final class PeakUtilsTests: XCTestCase {
     func testFindAllPeaks() {
         let inputSignal: [Double] = [1, 1, 1, 5, 5, 5, 1, 4, 4, 4, 4, 3, 4, 3]
         
-        let actualPeaks = PeakUtils.findAllLocalMaxima(signal: inputSignal)
+        let actualPeaks = PeakUtils.findFlatLocalMaxima(signal: inputSignal)
         let expectedPeaks = [4, 8, 12]
         
         XCTAssertEqual(actualPeaks, expectedPeaks)

@@ -8,8 +8,9 @@ import Foundation
 
 class PeakUtils {
     
+    /// Wrapper function that calculates all (including flat) peaks and calculates their prominences in the signal
     static func findAllPeaksAndProminences(signal: [Double]) -> Peaks {
-        let localMaxima = findAllLocalMaxima(signal: signal)
+        let localMaxima = findFlatLocalMaxima(signal: signal)
         let prominences = findAllPeakProminences(signal: signal, peaks: localMaxima)
         let peakAndPromineces =  zip(localMaxima, prominences).map {
             (localmaximum, prominence) in
@@ -19,7 +20,9 @@ class PeakUtils {
     }
     
     
-    static func findAllLocalMaxima(signal: [Double]) -> [Int] {
+    /// Calculates all local maxima (including flat local maxima)
+    /// Compared to PeakUtils.findLocalMaxima(...) it includes also flat local
+    static func findFlatLocalMaxima(signal: [Double]) -> [Int] {
         
         var i = 1
         let maxRange = signal.count-1
@@ -51,6 +54,9 @@ class PeakUtils {
         return peaks
     }
     
+    
+    /// Calculates all prominences of all peaks
+    /// Good visual example: https://www.mathworks.com/help/signal/ug/prominence.html
     static func findAllPeakProminences(signal: [Double], peaks: [Int]) -> [Double] {
         var prominences: [Double] = []
         
