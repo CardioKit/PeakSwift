@@ -58,4 +58,15 @@ final class FilterTests: XCTestCase {
         
         XCTAssertEqual(actualOddExtension, expectedOddExtension)
     }
+    
+    func testPowerline() {
+        let inputVector: [Double] = [1,3,1,3,4,5,1,3,1,3,4,5]
+        let samplingFrequency: Double = 5
+        
+        let actualPowerlineFilter  = Powerline().filter(signal: inputVector, samplingFrequency: samplingFrequency)
+        let expectedPowerlineFilter = [1, 2, 2, 2.75, 4, 3.75, 2.5, 2, 2, 2.75, 4, 5]
+        
+        XCTAssertEqual(actualPowerlineFilter, expectedPowerlineFilter)
+    }
+    
 }
