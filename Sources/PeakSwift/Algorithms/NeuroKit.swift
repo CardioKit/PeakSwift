@@ -35,26 +35,8 @@ class NeuroKit: Algorithm {
         
         let minDelay = MathUtils.roundToInteger(samplingFrequency * minDelayInterval)
         
-        let qrs = zip(smoothGrad, gradThreshold).map {
-            (smoothGrad_, gradThreshold_) in
-            smoothGrad_ > gradThreshold_
-        }
         
-        let beginQRS = qrs.enumerated().filter {
-            (index, isOverThreshold) in
-            (index < qrs.count - 1) && !isOverThreshold && qrs[index + 1]
-        }.map {
-            (position, _) in position
-        }
-        let endQRS = qrs.enumerated().filter {
-            (index, isOverThreshold) in
-            (index < qrs.count - 1) && isOverThreshold && !qrs[index + 1]
-        }.map {
-            (position, _) in position
-        }.filter {
-            positon in
-            positon > beginQRS[0]
-        }
+        let (beginQRS,endQRS) = detectPotentialQRS(smoothGrad: smoothGrad, gradThreshold: gradThreshold)
         
         let numQRS = min(beginQRS.count, endQRS.count)
         let minLength = MathUtils.mean(MathUtils.substractVectors(endQRS[0..<numQRS], beginQRS[0..<numQRS])) * minLenWeight
@@ -81,7 +63,7 @@ class NeuroKit: Algorithm {
                 
                 let peak = currentBeginQRS + mostProminentPeak.peak
                 
-                if peak - peaks[elementFromEnd: -1] > minDelay {
+                if (peak - peaks[elementFromEnd: -1]) > minDelay {
                     peaks.append(peak)
                 }
             }
@@ -91,6 +73,31 @@ class NeuroKit: Algorithm {
         peaks.remove(at: 0)
         return peaks.map { UInt($0) }
         
+    }
+    
+    private func detectPotentialQRS(smoothGrad: [Double], gradThreshold: [Double]) -> ([Int], [Int]) {
+        let qrs = zip(smoothGrad, gradThreshold).map {
+            (smoothGrad_, gradThreshold_) in
+            smoothGrad_ > gradThreshold_
+        }
+        
+        let beginQRS = qrs.enumerated().filter {
+            (index, isOverThreshold) in
+            (index < qrs.count - 1) && !isOverThreshold && qrs[index + 1]
+        }.map {
+            (position, _) in position
+        }
+        let endQRS = qrs.enumerated().filter {
+            (index, isOverThreshold) in
+            (index < qrs.count - 1) && isOverThreshold && !qrs[index + 1]
+        }.map {
+            (position, _) in position
+        }.filter {
+            positon in
+            positon > beginQRS[0]
+        }
+        
+        return (beginQRS, endQRS)
     }
     
     
