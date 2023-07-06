@@ -16,11 +16,8 @@ class NeuroKit: Algorithm {
     private let minDelayInterval = 0.3
     
     func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
-        
-        //print(ecgSignal)
         let cleanedSignal = Butterworth().butterworthForwardBackward(signal: ecgSignal, order: .five, lowCutFrequency: 0.5, sampleRate: samplingFrequency)
         let powerlineCleanedSignal = Powerline().filter(signal: Array(cleanedSignal), samplingFrequency: samplingFrequency)
-        print(powerlineCleanedSignal)
         return powerlineCleanedSignal
     }
     
