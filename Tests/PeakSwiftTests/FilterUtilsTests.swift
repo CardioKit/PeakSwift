@@ -32,7 +32,7 @@ final class FilterTests: XCTestCase {
         let b: [Double] = [3 , 4]
         let a = 2.0
         
-        let actualResult = LinearFilter.applyLinearFilterBidirection(signal: inputVector, b: b, a: a)
+        let actualResult = LinearFilter.applyLinearFilterForwardBackwards(signal: inputVector, b: b, a: a)
         let expectedResult = [12.25, 12.25, 24.25, 49.25, 61.25, 49.25, 33.25, 40,  49, 49, 46, 42.75, 43, 36.75]
         
         XCTAssertEqual(actualResult, expectedResult)

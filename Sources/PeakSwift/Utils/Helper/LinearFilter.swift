@@ -66,7 +66,7 @@ class LinearFilter {
     ///
     /// Based on scipy.filtfilt(...)
     /// Source: https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html
-    static func applyLinearFilterBidirection(signal: [Double], b:[Double], a: Double) -> [Double] {
+    static func applyLinearFilterForwardBackwards(signal: [Double], b:[Double], a: Double) -> [Double] {
         let paddingSize = 3*b.count
         let signalWithPadding = oddExtention(signal: signal, n: paddingSize)
         let forwardFilter = applyLinearFilter(signal: signalWithPadding, b: b, a: a)

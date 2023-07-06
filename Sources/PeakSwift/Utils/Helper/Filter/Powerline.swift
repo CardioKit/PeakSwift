@@ -18,6 +18,6 @@ struct Powerline {
         let b = Array(repeatElement(1.0, count: bCoeffecientCount))
         let a = Double(bCoeffecientCount)
         
-        return LinearFilter.applyLinearFilterBidirection(signal: signal, b: b, a: a)
+        return LinearFilter.applyLinearFilterForwardBackwards(signal: signal, b: b, a: a)
     }
 }
