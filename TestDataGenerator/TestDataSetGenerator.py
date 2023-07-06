@@ -3,10 +3,15 @@ from abc import ABC, abstractmethod
 from converter import QRSConverter
 from converter.QRSJSONConverter import QRSJSONConverter
 from ecgsource import ECGSource
+from noisegenerator.NoiseGenerator import NoiseGenerator
 from qrsdetector import QRSDetector
 
 
 class TestDataSetGenerator(ABC):
+
+    def __init__(self, noise_frequency: int = None):
+        self.noise_frequency = noise_frequency
+
 
     def generate_test_dataset(self):
         file_name_prefix = "Test"
@@ -15,6 +20,10 @@ class TestDataSetGenerator(ABC):
         qrs_detector = self._create_qrs_detector()
 
         ecg_signal, sampling_rate = ecg_source.create_ecg_signal()
+
+        if self.noise_frequency:
+            ecg_signal = self._create_ecg_noise_generator().add_noise(signal=ecg_signal)
+
         r_peaks_positions = qrs_detector.find_peaks(sampling_rate=sampling_rate, ecg_signal=ecg_signal)
         algorithm = qrs_detector.get_algorithm()
 
@@ -33,4 +42,8 @@ class TestDataSetGenerator(ABC):
 
     @abstractmethod
     def _create_qrs_detector(self) -> QRSDetector:
+        pass
+
+    @abstractmethod
+    def _create_ecg_noise_generator(self) -> NoiseGenerator:
         pass
