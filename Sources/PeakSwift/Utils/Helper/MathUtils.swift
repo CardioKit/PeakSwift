@@ -8,7 +8,7 @@
 import Foundation
 import Accelerate
 
-class MathUtils {
+enum MathUtils {
     
     static func maxInRange(_ array: [Double], from: Int, to: Int) -> Double{
         let arraySlice = array[from...to-1]
@@ -45,9 +45,8 @@ class MathUtils {
     /// Inspired by numpy.gradient(...), but restricted to 1 dimension
     /// Source: https://numpy.org/doc/stable/reference/generated/numpy.gradient.html
     /// - Parameters:
-    ///     - array: Input vector
-    /// - Returns:
-    ///     - Gradient of the vector
+    ///    - array: Input vector
+    /// - Returns: Gradient of the vector
     ///
     /// - Example:
     ///    Input:  array: [1, 2, 4, 7, 11, 16] (below named y)
@@ -62,6 +61,7 @@ class MathUtils {
     ///    Output: out=[ 1. ,  1.5,  2.5,  3.5,  4.5,  5. ]
     static func gradient(_ array: [Double]) -> [Double] {
         
+        #warning("Add error handling")
         // TODO: Add error handling if array<2
         let startGradient = array[1] - array[0]
         let endGradient = array[elementFromEnd: -1] - array[elementFromEnd: -2]

@@ -17,7 +17,7 @@ class NeuroKit: Algorithm {
     
     func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
         let cleanedSignal = Butterworth().butterworthForwardBackward(signal: ecgSignal, order: .five, lowCutFrequency: 0.5, sampleRate: samplingFrequency)
-        let powerlineCleanedSignal = Powerline().filter(signal: Array(cleanedSignal), samplingFrequency: samplingFrequency)
+        let powerlineCleanedSignal = Powerline.filter(signal: Array(cleanedSignal), samplingFrequency: samplingFrequency)
         return powerlineCleanedSignal
     }
     

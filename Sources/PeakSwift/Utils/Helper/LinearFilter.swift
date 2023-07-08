@@ -7,16 +7,20 @@
 
 import Foundation
 
-class LinearFilter {
+enum LinearFilter {
     
     /// A common function to apply linear Filter on a given signal.
     /// Firstly, it generates an impules response and afterwards filters the signal with the FIT filter.
-    ///
+    /// 
     /// - Parameters:
     ///     - ecgSignal: signal to filter
     ///     - samplingFrequency: sampling rate of the signal
     ///     - c: coefficient to generate impule response
-    
+    /// - Parameters:
+    ///   - ecgSignal: signal to filter
+    ///   - samplingFrequency:  sampling rate of the signal
+    ///   - c: oefficient to generate impule response
+    /// - Returns: Filtered signal
     static func applyLinearFilter(ecgSignal: [Double], samplingFrequency: Double, c: Double) -> [Double] {
         
         let impulseRespone = createImpulseResponse(samplingFrequency: samplingFrequency, c: c)
@@ -35,24 +39,25 @@ class LinearFilter {
         return impulseRespone
     }
     
+    static func test() {}
+    
+    
+    
     /// Applies a FIR filter. The filter coeffecients are specified with the B/A method
     ///
     /// It is based on https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.lfilter.html
     ///
-    ///  A few paramters are restricted. For example, it's only possible to pass one denominator coeffecient.
+    /// A few paramters are restricted. For example, it's only possible to pass one denominator coeffecient.
     ///
     /// - Formula:
     ///
     ///   a*y[n] = b[0]*x[n] + b[1]*x[n-1] + ... + b[M]*x[n-M]
     ///   where M is the size of the numerator, x is the input signal and y is the output signal
-    ///
     /// - Parameters:
-    ///     - ecgSignal: signal to filter
-    ///     - b: numerator coefficients
-    ///     - a: denominator coefficient
-    ///
-    ///  - Returns:
-    ///     - filtered signal
+    ///   - signal: signal to filter
+    ///   - b: numeartor coefficients
+    ///   - a: denominator coefficient
+    /// - Returns: filtered signal
     static func applyLinearFilter(signal: [Double], b:[Double], a: Double) -> [Double] {
         let impulseResponse = b.map { $0/a }
         let filteredSignal = FIT().filter(impulseResponse: impulseResponse, signal: signal)
@@ -66,6 +71,11 @@ class LinearFilter {
     ///
     /// Based on scipy.filtfilt(...)
     /// Source: https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html
+    /// - Parameters:
+    ///   - signal: signal to filter
+    ///   - b: numeartor coefficients
+    ///   - a: denominator coefficient
+    /// - Returns: filtered signal
     static func applyLinearFilterForwardBackwards(signal: [Double], b:[Double], a: Double) -> [Double] {
         let paddingSize = 3*b.count
         let signalWithPadding = oddExtention(signal: signal, n: paddingSize)
@@ -83,16 +93,15 @@ class LinearFilter {
     ///
     /// Odd extension is a "180 degree rotation" at the endpoints of the original array.
     ///
+    /// - Example:
+    ///  - Input: signal= [0, 1, 4, 9, 16] and n=1
+    ///  - Output: [-4, -1,  0,  1,  4,  9, 16, 23, 28]
+    ///
     /// - Parameters:
     ///  - signal: array to extend
     ///  - n: extension size at edges
     ///
-    /// - Returns
-    ///  - Extended Array
-    ///
-    /// - Example:
-    ///  - Input: signal= [0, 1, 4, 9, 16] and n=1
-    ///  - Output: [-4, -1,  0,  1,  4,  9, 16, 23, 28]
+    /// - Returns: Extended Array
     static func oddExtention(signal: [Double], n: Int) -> [Double] {
         let startValue = signal[0]
         let paddingStart = signal[1...n].map { x in

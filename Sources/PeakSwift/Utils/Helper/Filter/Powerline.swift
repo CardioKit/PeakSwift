@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Powerline {
+enum Powerline {
     
     
     // Based on https://github.com/neuropsychology/NeuroKit/blob/3d5ecfca8e9c10a1f4150f8877aba8f34c0d0a22/neurokit2/signal/signal_filter.py
-    func filter(signal: [Double], samplingFrequency: Double, powerline: Double = 50) -> [Double] {
+    static func filter(signal: [Double], samplingFrequency: Double, powerline: Double = 50) -> [Double] {
         
         let bCoeffecientCount = samplingFrequency >= 100 ? Int(samplingFrequency / powerline) : 2
         
