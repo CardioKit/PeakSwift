@@ -74,24 +74,17 @@ class NeuroKit: Algorithm {
     }
     
     private func detectPotentialQRS(smoothGrad: [Double], gradThreshold: [Double]) -> ([Int], [Int]) {
-        let qrs = zip(smoothGrad, gradThreshold).map {
-            (smoothGrad_, gradThreshold_) in
-            smoothGrad_ > gradThreshold_
-        }
+        let qrs = zip(smoothGrad, gradThreshold).map { $0 > $1 }
         
-        let beginQRS = qrs.enumerated().filter {
-            (index, isOverThreshold) in
+        let beginQRS = qrs.enumerated().filter { (index, isOverThreshold) in
             (index < qrs.count - 1) && !isOverThreshold && qrs[index + 1]
         }.map {
             (position, _) in position
         }
-        let endQRS = qrs.enumerated().filter {
-            (index, isOverThreshold) in
+        let endQRS = qrs.enumerated().filter { (index, isOverThreshold) in
             (index < qrs.count - 1) && isOverThreshold && !qrs[index + 1]
-        }.map {
-            (position, _) in position
-        }.filter {
-            positon in
+        }.map { (position, _) in position
+        }.filter { positon in
             positon > beginQRS[0]
         }
         
