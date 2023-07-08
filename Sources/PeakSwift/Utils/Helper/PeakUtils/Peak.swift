@@ -11,17 +11,11 @@ struct Peaks {
     let peaks: [Peak]
     
     var peakPosition: [Int] {
-        peaks.map {
-            peakAndProminence in
-            peakAndProminence.peak
-        }
+        peaks.map(\.peak)
     }
     
     var peakProminences: [Double] {
-        peaks.map {
-            peakAndProminence in
-            peakAndProminence.prominence
-        }
+        peaks.map(\.prominence)
     }
     
     var mostProminentPeak: Peak? {

@@ -6,7 +6,7 @@
 
 import Foundation
 
-class PeakUtils {
+enum PeakUtils {
     
     /// Wrapper function that calculates all (including flat) peaks and calculates their prominences in the signal
     static func findAllPeaksAndProminences(signal: [Double]) -> Peaks {
