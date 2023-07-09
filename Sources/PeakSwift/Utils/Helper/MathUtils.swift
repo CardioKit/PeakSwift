@@ -42,7 +42,7 @@ enum MathUtils {
     
     /// Calculates the gradient of a 1 dimensional array
     ///
-    /// Inspired by numpy.gradient(...), but restricted to 1 dimension
+    /// Inspired by numpy.gradient(...), but restricted to 1 dimension and requires the data to be evenly spaced
     /// Source: https://numpy.org/doc/stable/reference/generated/numpy.gradient.html
     /// - Parameters:
     ///    - array: Input vector
@@ -84,11 +84,11 @@ enum MathUtils {
         return vDSP.multiply(scalar, array)
     }
     
-    static func substractVectors(_ v1: ArraySlice<Double>, _ v2: ArraySlice<Double>) -> [Double] {
+    static func subtractVectors(_ v1: ArraySlice<Double>, _ v2: ArraySlice<Double>) -> [Double] {
         return vDSP.subtract(v1, v2)
     }
     
-    static func substractVectors<C: RandomAccessCollection>(_ v1: C, _ v2: C) -> [Int] where C.Element == Int {
+    static func subtractVectors<C: RandomAccessCollection>(_ v1: C, _ v2: C) -> [Int] where C.Element == Int {
         return zip(v1,v2).map {
             (x,y) in x - y
         }

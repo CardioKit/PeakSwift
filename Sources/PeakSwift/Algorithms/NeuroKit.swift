@@ -39,7 +39,7 @@ class NeuroKit: Algorithm {
         let (beginQRS,endQRS) = detectPotentialQRS(smoothGrad: smoothGrad, gradThreshold: gradThreshold)
         
         let numQRS = min(beginQRS.count, endQRS.count)
-        let minLength = MathUtils.mean(MathUtils.substractVectors(endQRS[0..<numQRS], beginQRS[0..<numQRS])) * minLenWeight
+        let minLength = MathUtils.mean(MathUtils.subtractVectors(endQRS[0..<numQRS], beginQRS[0..<numQRS])) * minLenWeight
         
         var peaks = [0]
         
