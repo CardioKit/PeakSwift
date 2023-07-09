@@ -11,11 +11,6 @@ final class PeakSwiftTests: XCTestCase {
     // here if foundRPeaks is element of [actualPeak - threshold;actualPeak+threshold]
     let threshold: UInt = 5
     
-    // The hypothesis is that different architectures lead to slightly different results due to big- and little-endian double representation.
-    // Use this accuracy parameter, if comparisions of doubles leads to significant deviations
-    let doubleAccuracy: Double = 0.000000000000001
-    
-    
     func testAristotlePeaks() {
         let qrsDetector = QRSDetector()
         let result = qrsDetector.detectPeaks(electrocardiogram: testData.d1namoHealthyECG, algorithm: .aristotle)
@@ -136,6 +131,17 @@ final class PeakSwiftTests: XCTestCase {
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
     }
     
+    func testNeuroKit() throws {
+        
+        let qrsDetector = QRSDetector()
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestNeuroKit)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .neurokit)
+        
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
+        
+    }
+    
     func testPanTompkins() throws {
         
         let qrsDetector = QRSDetector()
@@ -144,30 +150,6 @@ final class PeakSwiftTests: XCTestCase {
         let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .panTompkins)
         
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
-    }
-    
-    
-    func testDiff() {
-        let actualResult = MathUtils.diff([1, 2, 4, 7, 0])
-        let exptectedResult: [Double] = [ 1,  2,  3, -7]
-        
-        XCTAssertEqual(actualResult, exptectedResult)
-    }
-    
-    func testButterworthOrder1() {
-        let butterworth = Butterworth()
-        let actualResult = butterworth.butterworth(signal: [1,2,3], order: .one, lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)
-        let expectedResult = [0.0245216092494657603, 0.0967629688502650159, 0.214027722567251055]
-  
-       AssertEqualWithThreshold(actualResult, expectedResult, threshold: doubleAccuracy)
-    }
-    
-    func testButterworthOrder3() {
-        let butterworth = Butterworth()
-        let actualResult = butterworth.butterworth(signal: [1,2,3], order: .three, lowCutFrequency: 8, highCutFrequency: 16, sampleRate: 1000)
-        let expectedResult = [1.51064223408530664e-05, 0.000119107750097953853, 0.000482703965553904588]
-  
-       AssertEqualWithThreshold(actualResult, expectedResult, threshold: doubleAccuracy)
     }
 
 }

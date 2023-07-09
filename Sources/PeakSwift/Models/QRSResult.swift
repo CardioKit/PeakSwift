@@ -15,7 +15,7 @@ public struct QRSResult: Decodable {
     
     
     public var rPeaks: [UInt] {
-        return qrsComplexes.map { $0.rPeak }
+        return qrsComplexes.map(\.rPeak)
     }
     
     public init(qrsComlexes: [QRSComplex], electrocardiogram: Electrocardiogram, cleanedElectrocardiogram: Electrocardiogram) {

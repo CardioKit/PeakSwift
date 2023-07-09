@@ -17,6 +17,7 @@ public enum Algorithms {
     case hamilton
     case hamiltonCleaned
     case twoAverage
+    case neurokit
     case panTompkins
     
 }
