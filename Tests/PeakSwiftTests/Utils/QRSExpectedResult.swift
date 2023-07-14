@@ -9,7 +9,7 @@ import Foundation
 import PeakSwift
 
 
-struct QRSExpectedTestResult: Decodable {
+struct QRSExpectedTestResult: Codable {
     public let qrsComplexes: [QRSComplex]
     public let electrocardiogram: Electrocardiogram
     

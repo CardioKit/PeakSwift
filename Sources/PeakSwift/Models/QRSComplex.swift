@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct QRSComplex: Decodable {
+public struct QRSComplex: Codable {
     
     public let rPeak: UInt
     let qWave: UInt?

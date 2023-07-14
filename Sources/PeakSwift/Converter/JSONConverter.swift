@@ -7,7 +7,8 @@
 
 import Foundation
 
-public class JSONConverter<T: Decodable>: Converter {
+public class JSONConverter<T: Codable>: Converter {
+    
     
     public init(){
         
@@ -22,6 +23,23 @@ public class JSONConverter<T: Decodable>: Converter {
         do {
             let qrsResult: T = try JSONDecoder().decode(T.self, from: jsonData)
             return qrsResult
+        } catch {
+            throw ConverterError.JSONConvertionError
+        }
+    }
+    
+    public func serialize(toConvert: T) throws -> String {
+        
+        do {
+            let jsonData = try JSONEncoder().encode(toConvert)
+            let jsonString = String(data: jsonData, encoding: String.Encoding.utf8)
+            
+            if let result = jsonString {
+                return result
+            } else {
+                throw ConverterError.JSONConvertionError
+            }
+            
         } catch {
             throw ConverterError.JSONConvertionError
         }
