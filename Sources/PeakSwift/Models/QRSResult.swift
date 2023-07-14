@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct QRSResult: Decodable {
+public struct QRSResult: Codable {
     public let qrsComplexes: [QRSComplex]
     public let electrocardiogram: Electrocardiogram
     public let cleanedElectrocardiogram: Electrocardiogram

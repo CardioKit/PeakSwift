@@ -9,7 +9,9 @@ import Foundation
 
 public protocol Converter {
     
-    associatedtype T: Decodable
+    associatedtype T: Codable
     
     func deserialize(toConvert: String) throws -> T
+    
+    func serialize(toConvert: T) throws -> String
 }
