@@ -67,4 +67,16 @@ public class Butterworth {
         return filteredSignal as! [Double]
         
     }
+    
+    func butterworthBandStop(signal: [Double], lowCutFrequency: Double, highCutFrequency: Double, sampleRate: Double) -> [Double] {
+        let signalObjC : [NSNumber] = signal as [NSNumber]
+        let lowCutObjC = NSNumber(value: lowCutFrequency)
+        let highCutObjC = NSNumber(value: highCutFrequency)
+        let sampleRateObjC = NSNumber(value: sampleRate)
+        let orderObjC = NSNumber(value: 4)
+        
+        let filteredSignal = butterworthWrapper.butterworthBandstop(signalObjC, orderObjC, sampleRateObjC, lowCutObjC, highCutObjC)
+        
+        return filteredSignal as! [Double]
+    }
 }
