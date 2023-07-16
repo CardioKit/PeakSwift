@@ -28,7 +28,7 @@ class Engzee: Algorithm {
             
             self.updateSteepSlopeThreshold(MM: MM, qrsTracker: qrsTracker, i: i, sampleIntervalCalc: sampleIntervalCalc)
             self.updateThiThreshold(qrsTracker: qrsTracker, i: i, voltage: voltage, MM: MM, engzeeThreshold: engzeeThreshold)
-                self.updateThfThreshold(i: i, lowPassFiltered: lowPassFiltered, voltage: voltage, MM: MM, engzeeThreshold: engzeeThreshold)
+            self.updateThfThreshold(i: i, lowPassFiltered: lowPassFiltered, voltage: voltage, MM: MM, engzeeThreshold: engzeeThreshold)
             let rPeak =  self.getRPeak(i: i, signal: ecgSignal, engzeeThreshold: engzeeThreshold, sampleIntervalCalc: sampleIntervalCalc)
             if let rPeak = rPeak {
                 rPeaks.append(rPeak)
