@@ -29,7 +29,10 @@ class Engzee: Algorithm {
             self.updateSteepSlopeThreshold(MM: MM, qrsTracker: qrsTracker, i: i, sampleIntervalCalc: sampleIntervalCalc)
             self.updateThiThreshold(qrsTracker: qrsTracker, i: i, voltage: voltage, MM: MM, engzeeThreshold: engzeeThreshold)
                 self.updateThfThreshold(i: i, lowPassFiltered: lowPassFiltered, voltage: voltage, MM: MM, engzeeThreshold: engzeeThreshold)
-            self.updateRPeaks(rPeaks: &rPeaks, i: i, signal: ecgSignal, engzeeThreshold: engzeeThreshold, sampleIntervalCalc: sampleIntervalCalc)
+            let rPeak =  self.getRPeak(i: i, signal: ecgSignal, engzeeThreshold: engzeeThreshold, sampleIntervalCalc: sampleIntervalCalc)
+            if let rPeak = rPeak {
+                rPeaks.append(rPeak)
+            }
                       
         }
         
@@ -102,20 +105,23 @@ class Engzee: Algorithm {
         }
     }
     
-    private func updateRPeaks(rPeaks: inout [Int], i: Int, signal: [Double], engzeeThreshold: EngzeeThreshold, sampleIntervalCalc: SampleIntervalCalculator) {
+    private func getRPeak(i: Int, signal: [Double], engzeeThreshold: EngzeeThreshold, sampleIntervalCalc: SampleIntervalCalculator) -> Int? {
+        
+        
         let negThreshold = sampleIntervalCalc.getSampleInterval(ms: 10)
         if engzeeThreshold.counter > negThreshold,
            let thiLast = engzeeThreshold.thiList.last {
             let start = thiLast - negThreshold
             let unfilteredSection = Array(signal[start..<i])
             
+            engzeeThreshold.reset()
             if let argMax = unfilteredSection.argmax() {
                 let rPeak = argMax + thiLast - negThreshold
-                rPeaks.append(rPeak)
+                return rPeak
             }
-            
-            engzeeThreshold.reset()
         }
+        
+        return nil
     }
     
 }
