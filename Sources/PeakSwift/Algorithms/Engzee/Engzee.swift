@@ -16,76 +16,20 @@ class Engzee: Algorithm {
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
-        let lowPassFiltered = self.filterSignal(ecgSignal: ecgSignal, samplingFrequency: samplingFrequency)
-        
         let sampleIntervalCalc = SampleIntervalCalculator(samplingFrequency: samplingFrequency)
         
+        let lowPassFiltered = self.filterSignal(ecgSignal: ecgSignal, samplingFrequency: samplingFrequency)
         let MM = SteepSlopeThreshold(signal: lowPassFiltered, samplingFrequency: samplingFrequency)
-        
         let qrsTracker = SampleTracker(samplingFrequency: samplingFrequency)
-        
         let engzeeThreshold = EngzeeThreshold(samplingFrequency: samplingFrequency)
         
         var rPeaks: [Int] = []
         lowPassFiltered.enumerated().forEach { (i, voltage) in
             
-            if Double(i) < 5 * samplingFrequency {
-                MM.initialize(sample: i)
-            } else if let lastQRS = qrsTracker.last {
-                if qrsTracker.inRange(sample: i, endMs: 200) {
-                    MM.trackBefore200ms(sample: i, lastQRS: lastQRS)
-                } else if qrsTracker.at(sample: i, ms: 200) {
-                    MM.trackAt200ms(sample: i)
-                } else if qrsTracker.inRange(sample: i, startMs: 200, endMs: 1200) {
-                    MM.trackBetween200msAnd1200ms(sample: i, lastQRS: lastQRS)
-                } else if qrsTracker.after(sample: i, ms: 1200) {
-                    MM.trackAfter1200ms()
-                }
-            }
-            
-            if qrsTracker.isEmpty,
-               MM.overThreshold(sample: voltage) {
-                qrsTracker.append(i)
-                engzeeThreshold.appendThiList(sample: i)
-            } else if qrsTracker.after(sample: i, ms: 200),
-                      MM.overThreshold(sample: voltage)  {
-                qrsTracker.append(i)
-                engzeeThreshold.appendThiList(sample: i)
-            }
-            
-            if engzeeThreshold.thiList.before(sample: i, ms: 160) {
-                if MM.belowThersholdNeg(sample: voltage),
-                   MM.overThersholdNeg(sample: lowPassFiltered[i-1]) {
-                    engzeeThreshold.thf = true
-                }
-                
-                if engzeeThreshold.thf,
-                   MM.belowThersholdNeg(sample: voltage) {
-                    engzeeThreshold.appendThfList(sample: i)
-                    
-                } else if MM.overThersholdNeg(sample: voltage),
-                          engzeeThreshold.thf {
-                    engzeeThreshold.reset()
-                }
-                
-            } else if engzeeThreshold.thi,
-                      engzeeThreshold.thiList.after(sample: i, ms: 160){
-                engzeeThreshold.reset()
-            }
-            
-            let negThreshold = sampleIntervalCalc.getSampleInterval(ms: 10)
-            if engzeeThreshold.counter > negThreshold,
-               let thiLast = engzeeThreshold.thiList.last {
-                let start = thiLast - Int(0.01 * samplingFrequency)
-                let unfilteredSection = Array(ecgSignal[start..<i])
-                
-                if let argMax = unfilteredSection.argmax() {
-                    let rPeak = argMax + thiLast - Int(0.01 * samplingFrequency)
-                    rPeaks.append(rPeak)
-                }
-                
-                engzeeThreshold.reset()
-            }
+            self.updateSteepSlopeThreshold(MM: MM, qrsTracker: qrsTracker, i: i, sampleIntervalCalc: sampleIntervalCalc)
+            self.updateThiThreshold(qrsTracker: qrsTracker, i: i, voltage: voltage, MM: MM, engzeeThreshold: engzeeThreshold)
+                self.updateThfThreshold(i: i, lowPassFiltered: lowPassFiltered, voltage: voltage, MM: MM, engzeeThreshold: engzeeThreshold)
+            self.updateRPeaks(rPeaks: &rPeaks, i: i, signal: ecgSignal, engzeeThreshold: engzeeThreshold, sampleIntervalCalc: sampleIntervalCalc)
                       
         }
         
@@ -103,6 +47,75 @@ class Engzee: Algorithm {
         let zeroPaddingRange = Int(0.2 * samplingFrequency)
         VectorUtils.setToZeroInRange(&lowPassFiltered, end: zeroPaddingRange)
         return lowPassFiltered
+    }
+    
+    private func updateSteepSlopeThreshold(MM: SteepSlopeThreshold, qrsTracker: SampleTracker, i: Int, sampleIntervalCalc: SampleIntervalCalculator) {
+        
+        let ms5000 = sampleIntervalCalc.getSampleIntervalDouble(ms: 5000)
+        
+        if Double(i) < ms5000 {
+            MM.initialize(sample: i)
+        } else if let lastQRS = qrsTracker.last {
+            if qrsTracker.inRange(sample: i, endMs: 200) {
+                MM.trackBefore200ms(sample: i, lastQRS: lastQRS)
+            } else if qrsTracker.at(sample: i, ms: 200) {
+                MM.trackAt200ms(sample: i)
+            } else if qrsTracker.inRange(sample: i, startMs: 200, endMs: 1200) {
+                MM.trackBetween200msAnd1200ms(sample: i, lastQRS: lastQRS)
+            } else if qrsTracker.after(sample: i, ms: 1200) {
+                MM.trackAfter1200ms()
+            }
+        }
+    }
+    
+    private func updateThiThreshold(qrsTracker: SampleTracker, i: Int, voltage: Double, MM: SteepSlopeThreshold, engzeeThreshold: EngzeeThreshold) {
+        if qrsTracker.isEmpty,
+           MM.overThreshold(sample: voltage) {
+            qrsTracker.append(i)
+            engzeeThreshold.appendThiList(sample: i)
+        } else if qrsTracker.after(sample: i, ms: 200),
+                  MM.overThreshold(sample: voltage)  {
+            qrsTracker.append(i)
+            engzeeThreshold.appendThiList(sample: i)
+        }
+    }
+    
+    private func updateThfThreshold(i: Int, lowPassFiltered: [Double], voltage: Double, MM: SteepSlopeThreshold, engzeeThreshold: EngzeeThreshold) {
+        if engzeeThreshold.thiList.before(sample: i, ms: 160) {
+            if MM.belowThersholdNeg(sample: voltage),
+               MM.overThersholdNeg(sample: lowPassFiltered[i-1]) {
+                engzeeThreshold.thf = true
+            }
+            
+            if engzeeThreshold.thf,
+               MM.belowThersholdNeg(sample: voltage) {
+                engzeeThreshold.appendThfList(sample: i)
+                
+            } else if MM.overThersholdNeg(sample: voltage),
+                      engzeeThreshold.thf {
+                engzeeThreshold.reset()
+            }
+            
+        } else if engzeeThreshold.thi,
+                  engzeeThreshold.thiList.after(sample: i, ms: 160){
+            engzeeThreshold.reset()
+        }
+    }
+    
+    private func updateRPeaks(rPeaks: inout [Int], i: Int, signal: [Double], engzeeThreshold: EngzeeThreshold, sampleIntervalCalc: SampleIntervalCalculator) {
+        let negThreshold = sampleIntervalCalc.getSampleInterval(ms: 10)
+        if engzeeThreshold.counter > negThreshold,
+           let thiLast = engzeeThreshold.thiList.last {
+            let start = thiLast - negThreshold
+            let unfilteredSection = Array(signal[start..<i])
+            
+            if let argMax = unfilteredSection.argmax() {
+                let rPeak = argMax + thiLast - negThreshold
+                rPeaks.append(rPeak)
+            }
+            
+            engzeeThreshold.reset()
+        }
     }
     
 }
