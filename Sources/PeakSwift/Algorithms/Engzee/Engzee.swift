@@ -24,17 +24,15 @@ class Engzee: Algorithm {
         let zeroPaddingRange = Int(0.2 * samplingFrequency)
         VectorUtils.setToZeroInRange(&lowPassFiltered, end: zeroPaddingRange)
         
-        let ms200 = Int(0.2 * samplingFrequency)
-        let ms1200 = Int(1.2 * samplingFrequency)
-        let ms160 = Int(0.16 * samplingFrequency)
-        let negThreshold = Int(0.01 * samplingFrequency)
+        let sampleIntervalCalc = SampleIntervalCalculator(samplingFrequency: samplingFrequency)
         
+        let ms200 = sampleIntervalCalc.getSampleInterval(ms: 200)
+        let ms160 =  sampleIntervalCalc.getSampleInterval(ms: 160)
+        let negThreshold = sampleIntervalCalc.getSampleInterval(ms: 10)
         
-        var M = 0.0
-        let MM = FixSizedQueue<Double>(size: 5)
-        let MSlope = MathUtils.linespace(start: 1.0, end: 0.6, numberElements: ms1200 - ms200)
+        let MM_ = SteepSlopeThreshold(signal: lowPassFiltered, samplingFrequency: samplingFrequency)
         
-        var qrs: [Int] = []
+        let qrsTracker = QRSTracker(samplingFrequency: samplingFrequency)
         var rPeaks: [Int] = []
         
         var counter = 0
@@ -44,58 +42,49 @@ class Engzee: Algorithm {
         
         var thfList: [Int] = []
         var thf = false
-        var newM5: Double?
         
         lowPassFiltered.enumerated().forEach { (i, voltage) in
             
             if Double(i) < 5 * samplingFrequency {
-                M = 0.6 * MathUtils.maxInRange(lowPassFiltered, from: 0, to: i+1)
-                MM.append(M)
-            } else if let lastQRS = qrs.last {
-                if i < (lastQRS + ms200) {
-                    newM5 = 0.6 * MathUtils.maxInRange(lowPassFiltered, from: lastQRS, to: i)
-                    
-                    if newM5! > 1.5 * MM.values[elementFromEnd: -1] {
-                        newM5 = 1.1 * MM.values[elementFromEnd: -1]
-                    }
-                } else if let newM5 = newM5,
-                          i == (lastQRS + ms200) {
-                    MM.append(newM5)
-                    M = MathUtils.mean(MM.values)
-                } else if i > (lastQRS + ms200),
-                          i < (lastQRS + ms1200) {
-                    M = MathUtils.mean(MM.values) * MSlope[i - (lastQRS + ms200)]
-                } else if  i > (lastQRS + ms1200) {
-                    M = 0.6 * MathUtils.mean(MM.values)
+                MM_.initialize(sample: i)
+            } else if let lastQRS = qrsTracker.last {
+                if qrsTracker.inRange(sample: i, endMs: 200) {
+                    MM_.trackBefore200ms(sample: i, lastQRS: lastQRS)
+                } else if qrsTracker.at(sample: i, ms: 200) {
+                    MM_.trackAt200ms(sample: i)
+                } else if qrsTracker.inRange(sample: i, startMs: 200, endMs: 1200) {
+                    MM_.trackBetween200msAnd1200ms(sample: i, lastQRS: lastQRS)
+                } else if qrsTracker.after(sample: i, ms: 1200) {
+                    MM_.trackAfter1200ms()
                 }
             }
             
-            if qrs.isEmpty,
-               lowPassFiltered[i] > M {
-                qrs.append(i)
+            if qrsTracker.isEmpty,
+               lowPassFiltered[i] > MM_.M {
+                qrsTracker.append(i)
                 thiList.append(i)
                 thi = true
-            } else if let lastQRS = qrs.last,
+            } else if let lastQRS = qrsTracker.last,
                       i > (lastQRS + ms200),
-                      voltage > M {
-                qrs.append(i)
+                      voltage > MM_.M {
+                qrsTracker.append(i)
                 thiList.append(i)
                 thi = true
             }
             
             if let lastThi = thiList.last,
                i < (lastThi + ms160) {
-                if voltage < -M,
-                   lowPassFiltered[i-1] > -M {
+                if voltage < -MM_.M,
+                   lowPassFiltered[i-1] > -MM_.M {
                     thf = true
                 }
                 
                 if thf,
-                   voltage < -M {
+                   voltage < -MM_.M {
                     thfList.append(i)
                     counter += 1
                     
-                } else if voltage > -M,
+                } else if voltage > -MM_.M,
                           thf {
                     counter = 0
                     thi = false
