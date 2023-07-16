@@ -16,8 +16,6 @@ class Engzee: Algorithm {
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
-        let engzeeFakeDelay = 0
-        
         let diff = [0,0,0,0] + MathUtils.diff(ecgSignal, order: 4)
         
         let ci: [Double] = [1, 4, 6, 4, 1]
@@ -33,8 +31,6 @@ class Engzee: Algorithm {
         
         
         var M = 0.0
-        var MList: [Double] = []
-        var negM: [Double] = []
         let MM = FixSizedQueue<Double>(size: 5)
         let MSlope = MathUtils.linespace(start: 1.0, end: 0.6, numberElements: ms1200 - ms200)
         
@@ -73,9 +69,6 @@ class Engzee: Algorithm {
                     M = 0.6 * MathUtils.mean(MM.values)
                 }
             }
-            
-            MList.append(M)
-            negM.append(-M)
             
             if qrs.isEmpty,
                lowPassFiltered[i] > M {
@@ -119,7 +112,7 @@ class Engzee: Algorithm {
             if counter > negThreshold {
                 let start = thiList[elementFromEnd: -1] - Int(0.01 * samplingFrequency)
                 let unfilteredSection = Array(ecgSignal[start..<i])
-                let rPeak = engzeeFakeDelay + unfilteredSection.argmax()! + thiList[elementFromEnd: -1] - Int(0.01 * samplingFrequency)
+                let rPeak = unfilteredSection.argmax()! + thiList[elementFromEnd: -1] - Int(0.01 * samplingFrequency)
                 rPeaks.append(rPeak)
                 
                 counter = 0
