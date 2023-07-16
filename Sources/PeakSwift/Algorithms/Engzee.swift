@@ -52,27 +52,26 @@ class Engzee: Algorithm {
         
         lowPassFiltered.enumerated().forEach { (i, voltage) in
             
-            if Double(i) < 5*samplingFrequency {
+            if Double(i) < 5 * samplingFrequency {
                 M = 0.6 * MathUtils.maxInRange(lowPassFiltered, from: 0, to: i+1)
                 MM.append(M)
-            } else if let lastQRS = qrs.last,
-                      i < (lastQRS + ms200) {
-                newM5 = 0.6 * MathUtils.maxInRange(lowPassFiltered, from: lastQRS, to: i)
-                
-                if newM5! > 1.5 * MM.values[elementFromEnd: -1] {
-                    newM5 = 1.1 * MM.values[elementFromEnd: -1]
+            } else if let lastQRS = qrs.last {
+                if i < (lastQRS + ms200) {
+                    newM5 = 0.6 * MathUtils.maxInRange(lowPassFiltered, from: lastQRS, to: i)
+                    
+                    if newM5! > 1.5 * MM.values[elementFromEnd: -1] {
+                        newM5 = 1.1 * MM.values[elementFromEnd: -1]
+                    }
+                } else if let newM5 = newM5,
+                          i == (lastQRS + ms200) {
+                    MM.append(newM5)
+                    M = MathUtils.mean(MM.values)
+                } else if i > (lastQRS + ms200),
+                          i < (lastQRS + ms1200) {
+                    M = MathUtils.mean(MM.values) * MSlope[i - (lastQRS + ms200)]
+                } else if  i > (lastQRS + ms1200) {
+                    M = 0.6 * MathUtils.mean(MM.values)
                 }
-            } else if let newM5 = newM5, let lastQRS = qrs.last,
-                      i == (lastQRS + ms200) {
-                MM.append(newM5)
-                M = MathUtils.mean(MM.values)
-            } else if let lastQRS = qrs.last,
-                        i > (lastQRS + ms200),
-                      i < (lastQRS + ms1200) {
-                M = MathUtils.mean(MM.values) * MSlope[i - (lastQRS + ms200)]
-            } else if let lastQRS = qrs.last,
-                      i > (lastQRS + ms1200) {
-                M = 0.6 * MathUtils.mean(MM.values)
             }
             
             MList.append(M)
