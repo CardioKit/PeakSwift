@@ -9,7 +9,7 @@ import Foundation
 
 class SteepSlopeThreshold {
     
-    var M = 0.0
+    var mean = 0.0
     let MM = FixSizedQueue<Double>(size: 5)
     let MSlope: [Double]
     let signal: [Double]
@@ -25,8 +25,8 @@ class SteepSlopeThreshold {
     }
     
     func initialize(sample: Int) {
-        M = 0.6 * MathUtils.maxInRange(signal, from: 0, to: sample+1)
-        MM.append(M)
+        mean = 0.6 * MathUtils.maxInRange(signal, from: 0, to: sample+1)
+        MM.append(mean)
     }
     
     func trackBefore200ms(sample: Int, lastQRS: Int) {
@@ -44,16 +44,32 @@ class SteepSlopeThreshold {
         }
         
         MM.append(newM5)
-        M = MathUtils.mean(MM.values)
+        mean = MathUtils.mean(MM.values)
     }
     
     func trackBetween200msAnd1200ms(sample: Int, lastQRS: Int) {
         let ms200 = self.sampleIntervalCalculator.getSampleInterval(ms: 200)
-        self.M = MathUtils.mean(MM.values) * MSlope[sample - (lastQRS + ms200)]
+        self.mean = MathUtils.mean(MM.values) * MSlope[sample - (lastQRS + ms200)]
     }
     
     func trackAfter1200ms() {
-        M = 0.6 * MathUtils.mean(MM.values)
+        mean = 0.6 * MathUtils.mean(MM.values)
     }
     
+    
+    func overThreshold(sample: Double) -> Bool {
+        return sample > self.mean
+    }
+    
+    func overThersholdNeg(sample: Double) -> Bool {
+        return sample > -self.mean
+    }
+    
+    func belowThreshold(sample: Double) -> Bool {
+        return sample < self.mean
+    }
+    
+    func belowThersholdNeg(sample: Double) -> Bool {
+        return sample < -self.mean
+    }
 }

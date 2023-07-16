@@ -16,75 +16,63 @@ class Engzee: Algorithm {
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
-        let diff = [0,0,0,0] + MathUtils.diff(ecgSignal, order: 4)
-        
-        let ci: [Double] = [1, 4, 6, 4, 1]
-        var lowPassFiltered = LinearFilter.applyLinearFilter(signal: diff, b: ci, a: 1)
-        
-        let zeroPaddingRange = Int(0.2 * samplingFrequency)
-        VectorUtils.setToZeroInRange(&lowPassFiltered, end: zeroPaddingRange)
+        let lowPassFiltered = self.filterSignal(ecgSignal: ecgSignal, samplingFrequency: samplingFrequency)
         
         let sampleIntervalCalc = SampleIntervalCalculator(samplingFrequency: samplingFrequency)
         
-        let ms200 = sampleIntervalCalc.getSampleInterval(ms: 200)
-        let ms160 =  sampleIntervalCalc.getSampleInterval(ms: 160)
-        let negThreshold = sampleIntervalCalc.getSampleInterval(ms: 10)
+        let MM = SteepSlopeThreshold(signal: lowPassFiltered, samplingFrequency: samplingFrequency)
         
-        let MM_ = SteepSlopeThreshold(signal: lowPassFiltered, samplingFrequency: samplingFrequency)
-        
-        let qrsTracker = QRSTracker(samplingFrequency: samplingFrequency)
-        var rPeaks: [Int] = []
+        let qrsTracker = SampleTracker(samplingFrequency: samplingFrequency)
         
         var counter = 0
         
-        var thiList: [Int] = []
+        let thiList = SampleTracker(samplingFrequency: samplingFrequency)
         var thi = false
         
         var thfList: [Int] = []
         var thf = false
         
+        var rPeaks: [Int] = []
         lowPassFiltered.enumerated().forEach { (i, voltage) in
             
             if Double(i) < 5 * samplingFrequency {
-                MM_.initialize(sample: i)
+                MM.initialize(sample: i)
             } else if let lastQRS = qrsTracker.last {
                 if qrsTracker.inRange(sample: i, endMs: 200) {
-                    MM_.trackBefore200ms(sample: i, lastQRS: lastQRS)
+                    MM.trackBefore200ms(sample: i, lastQRS: lastQRS)
                 } else if qrsTracker.at(sample: i, ms: 200) {
-                    MM_.trackAt200ms(sample: i)
+                    MM.trackAt200ms(sample: i)
                 } else if qrsTracker.inRange(sample: i, startMs: 200, endMs: 1200) {
-                    MM_.trackBetween200msAnd1200ms(sample: i, lastQRS: lastQRS)
+                    MM.trackBetween200msAnd1200ms(sample: i, lastQRS: lastQRS)
                 } else if qrsTracker.after(sample: i, ms: 1200) {
-                    MM_.trackAfter1200ms()
+                    MM.trackAfter1200ms()
                 }
             }
             
             if qrsTracker.isEmpty,
-               lowPassFiltered[i] > MM_.M {
+               MM.overThreshold(sample: voltage) {
                 qrsTracker.append(i)
                 thiList.append(i)
                 thi = true
-            } else if let lastQRS = qrsTracker.last,
-                      i > (lastQRS + ms200),
-                      voltage > MM_.M {
+            } else if qrsTracker.after(sample: i, ms: 200),
+                      MM.overThreshold(sample: voltage)  {
                 qrsTracker.append(i)
                 thiList.append(i)
                 thi = true
             }
             
-            if let lastThi = thiList.last,
-               i < (lastThi + ms160) {
-                if voltage < -MM_.M,
-                   lowPassFiltered[i-1] > -MM_.M {
+            if thiList.before(sample: i, ms: 160) {
+                if MM.belowThersholdNeg(sample: voltage),
+                   MM.overThersholdNeg(sample: lowPassFiltered[i-1]) {
                     thf = true
                 }
                 
                 if thf,
-                   voltage < -MM_.M {
+                   MM.belowThersholdNeg(sample: voltage) {
                     thfList.append(i)
                     counter += 1
                     
-                } else if voltage > -MM_.M,
+                } else if MM.overThersholdNeg(sample: voltage),
                           thf {
                     counter = 0
                     thi = false
@@ -92,16 +80,17 @@ class Engzee: Algorithm {
                 }
                 
             } else if thi,
-                      i > (thiList[elementFromEnd: -1] + ms160) {
+                      thiList.after(sample: i, ms: 160){
                 counter = 0
                 thi = false
                 thf = false
             }
             
+            let negThreshold = sampleIntervalCalc.getSampleInterval(ms: 10)
             if counter > negThreshold {
-                let start = thiList[elementFromEnd: -1] - Int(0.01 * samplingFrequency)
+                let start = thiList.last! - Int(0.01 * samplingFrequency)
                 let unfilteredSection = Array(ecgSignal[start..<i])
-                let rPeak = unfilteredSection.argmax()! + thiList[elementFromEnd: -1] - Int(0.01 * samplingFrequency)
+                let rPeak = unfilteredSection.argmax()! + thiList.last! - Int(0.01 * samplingFrequency)
                 rPeaks.append(rPeak)
                 
                 counter = 0
@@ -116,5 +105,15 @@ class Engzee: Algorithm {
         return rPeaks.map { UInt($0) }
     }
     
+    private func filterSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        let diff = [0,0,0,0] + MathUtils.diff(ecgSignal, order: 4)
+        
+        let ci: [Double] = [1, 4, 6, 4, 1]
+        var lowPassFiltered = LinearFilter.applyLinearFilter(signal: diff, b: ci, a: 1)
+        
+        let zeroPaddingRange = Int(0.2 * samplingFrequency)
+        VectorUtils.setToZeroInRange(&lowPassFiltered, end: zeroPaddingRange)
+        return lowPassFiltered
+    }
     
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class QRSTracker {
+class SampleTracker {
     
     var qrs: [Int] = []
     var isEmpty: Bool {
