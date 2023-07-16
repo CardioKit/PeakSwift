@@ -24,13 +24,7 @@ class Engzee: Algorithm {
         
         let qrsTracker = SampleTracker(samplingFrequency: samplingFrequency)
         
-        var counter = 0
-        
-        let thiList = SampleTracker(samplingFrequency: samplingFrequency)
-        var thi = false
-        
-        var thfList: [Int] = []
-        var thf = false
+        let engzeeThreshold = EngzeeThreshold(samplingFrequency: samplingFrequency)
         
         var rPeaks: [Int] = []
         lowPassFiltered.enumerated().forEach { (i, voltage) in
@@ -52,50 +46,45 @@ class Engzee: Algorithm {
             if qrsTracker.isEmpty,
                MM.overThreshold(sample: voltage) {
                 qrsTracker.append(i)
-                thiList.append(i)
-                thi = true
+                engzeeThreshold.appendThiList(sample: i)
             } else if qrsTracker.after(sample: i, ms: 200),
                       MM.overThreshold(sample: voltage)  {
                 qrsTracker.append(i)
-                thiList.append(i)
-                thi = true
+                engzeeThreshold.appendThiList(sample: i)
             }
             
-            if thiList.before(sample: i, ms: 160) {
+            if engzeeThreshold.thiList.before(sample: i, ms: 160) {
                 if MM.belowThersholdNeg(sample: voltage),
                    MM.overThersholdNeg(sample: lowPassFiltered[i-1]) {
-                    thf = true
+                    engzeeThreshold.thf = true
                 }
                 
-                if thf,
+                if engzeeThreshold.thf,
                    MM.belowThersholdNeg(sample: voltage) {
-                    thfList.append(i)
-                    counter += 1
+                    engzeeThreshold.appendThfList(sample: i)
                     
                 } else if MM.overThersholdNeg(sample: voltage),
-                          thf {
-                    counter = 0
-                    thi = false
-                    thf = false
+                          engzeeThreshold.thf {
+                    engzeeThreshold.reset()
                 }
                 
-            } else if thi,
-                      thiList.after(sample: i, ms: 160){
-                counter = 0
-                thi = false
-                thf = false
+            } else if engzeeThreshold.thi,
+                      engzeeThreshold.thiList.after(sample: i, ms: 160){
+                engzeeThreshold.reset()
             }
             
             let negThreshold = sampleIntervalCalc.getSampleInterval(ms: 10)
-            if counter > negThreshold {
-                let start = thiList.last! - Int(0.01 * samplingFrequency)
+            if engzeeThreshold.counter > negThreshold,
+               let thiLast = engzeeThreshold.thiList.last {
+                let start = thiLast - Int(0.01 * samplingFrequency)
                 let unfilteredSection = Array(ecgSignal[start..<i])
-                let rPeak = unfilteredSection.argmax()! + thiList.last! - Int(0.01 * samplingFrequency)
-                rPeaks.append(rPeak)
                 
-                counter = 0
-                thi = false
-                thf = false
+                if let argMax = unfilteredSection.argmax() {
+                    let rPeak = argMax + thiLast - Int(0.01 * samplingFrequency)
+                    rPeaks.append(rPeak)
+                }
+                
+                engzeeThreshold.reset()
             }
                       
         }
