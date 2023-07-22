@@ -31,8 +31,11 @@ enum MathUtils {
     
     static func diff(_ input: [Double], order: Int = 1) -> [Double] {
         
-        let vectorSlice1 = input[order...input.count-1]
-        let vectorSlice2 = input[0...(input.count-1-order)]
+        // Ensure that order is not out of bounds 
+        let orderInRange = Swift.max(0, min(order, input.count-1))
+        
+        let vectorSlice1 = input[orderInRange...input.count-1]
+        let vectorSlice2 = input[0...(input.count-1-orderInRange)]
         return vDSP.subtract(vectorSlice1, vectorSlice2)
     }
     

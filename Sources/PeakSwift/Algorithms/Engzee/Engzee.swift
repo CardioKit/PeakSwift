@@ -101,12 +101,12 @@ class Engzee: Algorithm {
                 
             } else if MM.overThersholdNeg(sample: voltage),
                       engzeeThreshold.thf {
-                engzeeThreshold.reset()
+                engzeeThreshold.resetCounters()
             }
             
         } else if engzeeThreshold.thi,
                   engzeeThreshold.thiList.after(sample: index, ms: 160){
-            engzeeThreshold.reset()
+            engzeeThreshold.resetCounters()
         }
     }
     
@@ -119,7 +119,7 @@ class Engzee: Algorithm {
             let start = thiLast - negThreshold
             let unfilteredSection = Array(signal[start..<index])
             
-            engzeeThreshold.reset()
+            engzeeThreshold.resetCounters()
             if let argMax = unfilteredSection.argmax() {
                 let rPeak = argMax + thiLast - negThreshold
                 return rPeak

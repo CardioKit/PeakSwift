@@ -31,7 +31,7 @@ class EngzeeThreshold {
         counter += 1
     }
     
-    func reset() {
+    func resetCounters() {
         counter = 0
         thi = false
         thf = false
