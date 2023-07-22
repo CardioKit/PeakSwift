@@ -69,4 +69,15 @@ final class FilterTests: XCTestCase {
         XCTAssertEqual(actualPowerlineFilter, expectedPowerlineFilter)
     }
     
+    func testBaseline() {
+        let inputSignal: [Double] = [1,2,3,5,6]
+        
+        
+        let actualDetrend = Baseline.detrend(signal: inputSignal)
+        let expectedDetrend: [Double] = [0.2, -0.1, -0.4, 0.3, 0]
+        
+        
+        AssertEqualWithThreshold(actualDetrend, expectedDetrend, threshold: Constants.doubleAccuracy)
+    }
+    
 }
