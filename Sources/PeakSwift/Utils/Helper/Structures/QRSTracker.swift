@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SampleTracker {
+class QRSTracker {
     
     var qrs: [Int] = []
     var isEmpty: Bool {
@@ -27,8 +27,8 @@ class SampleTracker {
         self.qrs.append(x)
     }
     
-    func inRange(sample: Int, startMs: Double = 0, endMs: Double = 0) -> Bool {
-        guard let lastQRS = qrs.last else {
+    func isInRangeRelativeToLastQRS(sample: Int, startMs: Double = 0, endMs: Double = 0) -> Bool {
+        guard let lastQRS = last else {
             return false
         }
         
@@ -38,8 +38,8 @@ class SampleTracker {
         return lastQRS + msSampleStart < sample && sample < lastQRS + msSampleEnd
     }
     
-    func at(sample: Int, ms: Double = 0) -> Bool {
-        guard let lastQRS = qrs.last else {
+    func isAtRelativeToLastQRS(sample: Int, ms: Double = 0) -> Bool {
+        guard let lastQRS = last else {
             return false
         }
         
@@ -48,8 +48,8 @@ class SampleTracker {
         return sample == lastQRS + msSample
     }
     
-    func before(sample: Int, ms: Double = 0) -> Bool {
-        guard let lastQRS = qrs.last else {
+    func isBeforeRelativeToLastQRS(sample: Int, ms: Double = 0) -> Bool {
+        guard let lastQRS = last else {
             return false
         }
         
@@ -58,8 +58,8 @@ class SampleTracker {
         return sample < lastQRS + msSample
     }
     
-    func after(sample: Int, ms: Double = 0) -> Bool {
-        guard let lastQRS = qrs.last else {
+    func isAfterRelativeToLastQRS(sample: Int, ms: Double = 0) -> Bool {
+        guard let lastQRS = last else {
             return false
         }
         

@@ -20,7 +20,7 @@ class Engzee: Algorithm {
         
         let lowPassFiltered = self.filterSignal(ecgSignal: ecgSignal, samplingFrequency: samplingFrequency)
         let MM = SteepSlopeThreshold(signal: lowPassFiltered, samplingFrequency: samplingFrequency)
-        let qrsTracker = SampleTracker(samplingFrequency: samplingFrequency)
+        let qrsTracker = QRSTracker(samplingFrequency: samplingFrequency)
         let engzeeThreshold = EngzeeThreshold(samplingFrequency: samplingFrequency)
         
         var rPeaks: [Int] = []
@@ -52,7 +52,7 @@ class Engzee: Algorithm {
         return lowPassFiltered
     }
     
-    private func updateSteepSlopeThreshold(MM: SteepSlopeThreshold, qrsTracker: SampleTracker, index: Int, sampleIntervalCalc: SampleIntervalCalculator) {
+    private func updateSteepSlopeThreshold(MM: SteepSlopeThreshold, qrsTracker: QRSTracker, index: Int, sampleIntervalCalc: SampleIntervalCalculator) {
         
         let ms5000 = sampleIntervalCalc.getSampleIntervalDouble(ms: 5000)
         
@@ -64,24 +64,24 @@ class Engzee: Algorithm {
                 return
             }
             
-            if qrsTracker.inRange(sample: index, endMs: 200) {
+            if qrsTracker.isInRangeRelativeToLastQRS(sample: index, endMs: 200) {
                 MM.trackBefore200ms(sample: index, lastQRS: lastQRS)
-            } else if qrsTracker.at(sample: index, ms: 200) {
+            } else if qrsTracker.isAtRelativeToLastQRS(sample: index, ms: 200) {
                 MM.trackAt200ms(sample: index)
-            } else if qrsTracker.inRange(sample: index, startMs: 200, endMs: 1200) {
+            } else if qrsTracker.isInRangeRelativeToLastQRS(sample: index, startMs: 200, endMs: 1200) {
                 MM.trackBetween200msAnd1200ms(sample: index, lastQRS: lastQRS)
-            } else if qrsTracker.after(sample: index, ms: 1200) {
+            } else if qrsTracker.isAfterRelativeToLastQRS(sample: index, ms: 1200) {
                 MM.trackAfter1200ms()
             }
         }
     }
     
-    private func updateThiThreshold(qrsTracker: SampleTracker, index: Int, voltage: Double, MM: SteepSlopeThreshold, engzeeThreshold: EngzeeThreshold) {
+    private func updateThiThreshold(qrsTracker: QRSTracker, index: Int, voltage: Double, MM: SteepSlopeThreshold, engzeeThreshold: EngzeeThreshold) {
         if qrsTracker.isEmpty,
            MM.overThreshold(sample: voltage) {
             qrsTracker.append(index)
             engzeeThreshold.appendThiList(sample: index)
-        } else if qrsTracker.after(sample: index, ms: 200),
+        } else if qrsTracker.isAfterRelativeToLastQRS(sample: index, ms: 200),
                   MM.overThreshold(sample: voltage)  {
             qrsTracker.append(index)
             engzeeThreshold.appendThiList(sample: index)
@@ -89,7 +89,7 @@ class Engzee: Algorithm {
     }
     
     private func updateThfThreshold(index: Int, lowPassFiltered: [Double], voltage: Double, MM: SteepSlopeThreshold, engzeeThreshold: EngzeeThreshold) {
-        if engzeeThreshold.thiList.before(sample: index, ms: 160) {
+        if engzeeThreshold.thiList.isBeforeRelativeToLastQRS(sample: index, ms: 160) {
             if MM.belowThersholdNeg(sample: voltage),
                MM.overThersholdNeg(sample: lowPassFiltered[index-1]) {
                 engzeeThreshold.thf = true
@@ -105,7 +105,7 @@ class Engzee: Algorithm {
             }
             
         } else if engzeeThreshold.thi,
-                  engzeeThreshold.thiList.after(sample: index, ms: 160){
+                  engzeeThreshold.thiList.isAfterRelativeToLastQRS(sample: index, ms: 160){
             engzeeThreshold.resetCounters()
         }
     }

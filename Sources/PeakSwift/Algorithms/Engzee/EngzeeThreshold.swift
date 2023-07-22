@@ -9,7 +9,7 @@ import Foundation
 
 class EngzeeThreshold {
     
-    let thiList: SampleTracker
+    let thiList: QRSTracker
     var thi = false
     
     var thfList: [Int] = []
@@ -18,7 +18,7 @@ class EngzeeThreshold {
     var counter = 0
     
     init(samplingFrequency: Double) {
-        self.thiList = SampleTracker(samplingFrequency: samplingFrequency)
+        self.thiList = QRSTracker(samplingFrequency: samplingFrequency)
     }
     
     func appendThiList(sample: Int) {
