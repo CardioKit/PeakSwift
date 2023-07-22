@@ -13,7 +13,7 @@ struct SampleIntervalCalculator {
     let samplingFrequency: Double
     
     func getSampleInterval(ms: Double) -> Int {
-        return Int(ms/1000 * samplingFrequency)
+        return Int(getSampleIntervalDouble(ms: ms))
     }
     
     func getSampleIntervalDouble(ms: Double) -> Double {
