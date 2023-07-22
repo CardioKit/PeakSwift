@@ -26,8 +26,10 @@ final class FFTTests: XCTestCase {
             sin(2*Double.pi*120*t)
         }
         
-        let resultFFT = FFT.applyFFT(signal: signal)
+        let resultFFT = FFT.applyFFT(signal: signal, transformLength: 2 << 13)
         let expectedFFT: [Double] = []
+        
+        let exact = resultFFT[829]
         
         XCTAssertEqual(resultFFT, expectedFFT)
         
@@ -66,8 +68,8 @@ final class FFTTests: XCTestCase {
     
     func testFFTNoPowOf2() {
         
-        let signal: [Double] = [1,1,0,0,0,0,0,]
-        let resultFFT = FFT.applyFFT(signal: signal)
+        let signal: [Double] = [1,1,0,0,0,0,0]
+        let resultFFT = FFT.applyFFT(signal: signal, transformLength: 16)
         let expectedFFT: [Double] = []
         
         XCTAssertEqual(resultFFT, expectedFFT)
