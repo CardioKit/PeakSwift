@@ -13,6 +13,8 @@ enum Hamming {
     // Creates symmetric window as Matlab hamming(...)
     static func createHammingWindow(windowSize: Int) -> [Double] {
         #warning("Error if window size 0")
+        // MatLab's implementation generates the same window but reduced by one positon
+        // Afterwards the first value is mirrored at the end
         let actualWindowSize = windowSize - 1
         
         let size = vDSP_Length(actualWindowSize)
@@ -22,6 +24,7 @@ enum Hamming {
         
         vDSP_hamm_windowD(&hammingWindow, size, fullWindow)
         
+        // mirroring the first element at the end as Matlab's implementation
         return hammingWindow + [hammingWindow[0]]
     }
 }
