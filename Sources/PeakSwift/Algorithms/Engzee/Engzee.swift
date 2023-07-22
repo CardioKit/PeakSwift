@@ -58,7 +58,12 @@ class Engzee: Algorithm {
         
         if Double(index) < ms5000 {
             MM.initialize(sample: index)
-        } else if let lastQRS = qrsTracker.last {
+        } else {
+            
+            guard let lastQRS = qrsTracker.last else {
+                return
+            }
+            
             if qrsTracker.inRange(sample: index, endMs: 200) {
                 MM.trackBefore200ms(sample: index, lastQRS: lastQRS)
             } else if qrsTracker.at(sample: index, ms: 200) {
