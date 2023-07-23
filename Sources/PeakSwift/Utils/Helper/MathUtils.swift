@@ -112,4 +112,9 @@ enum MathUtils {
     static func powerBase2(exponent: Int) -> Int {
         return 2 << (exponent - 1)
     }
+    
+    static func isEven(_ number: Int) -> Bool {
+        return number % 2 == 0
+    }
+    
 }

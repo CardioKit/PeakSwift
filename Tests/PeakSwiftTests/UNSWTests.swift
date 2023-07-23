@@ -23,4 +23,24 @@ final class UNSWTests: XCTestCase {
         
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
     }
+    
+    func testStandardSortFilt1OddWindow() {
+        
+        let inputVector: [Double] = [1,2,3,4,5,6]
+    
+        let expectedFilteredResult: [Double] = [1,1,2,3,4,5]
+        let actualFilteredResult = Sortfilt1.applyStandardSortFilt1(signal: inputVector, windowSize: 3, percentage: 20)
+        
+        XCTAssertEqual(expectedFilteredResult, actualFilteredResult)
+    }
+    
+    func testStandardSortFilt1EvenWindow() {
+        
+        let inputVector: [Double] = [1,2,3,4,5,6]
+    
+        let expectedFilteredResult: [Double] = [1,2,3,4,4,5]
+        let actualFilteredResult = Sortfilt1.applyStandardSortFilt1(signal: inputVector, windowSize: 4, percentage: 20)
+        
+        XCTAssertEqual(expectedFilteredResult, actualFilteredResult)
+    }
 }
