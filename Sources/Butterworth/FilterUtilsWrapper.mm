@@ -8,15 +8,10 @@
 #import "FilterUtilsWrapper.h"
 #import <Foundation/Foundation.h>
 
-#include "foo.hpp"
 #include "minmaxfilter.h"
 #include "medianfilter.h"
 
 @implementation FilterUtilsWrapper
-
-- hello {
-    test();
-}
 
 - maxFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize {
     maxfilter(result, signal, windowSize, vectorLength);

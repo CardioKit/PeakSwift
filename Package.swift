@@ -29,7 +29,7 @@ let package = Package(
                 path: "Sources/FilterUtils"
         ),
         .target(
-            name: "Butterworth",
+            name: "Butterworth", // TODO rename it to something meaningful: FilterWrapper
             dependencies: ["IIR", "FilterUtils"],
             path: "Sources/Butterworth",
             cxxSettings: [
