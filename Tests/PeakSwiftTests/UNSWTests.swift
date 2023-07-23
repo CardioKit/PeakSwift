@@ -43,4 +43,10 @@ final class UNSWTests: XCTestCase {
         
         XCTAssertEqual(expectedFilteredResult, actualFilteredResult)
     }
+    
+    func testMinMaxFilter() {
+        let minMaxFilter = MinMaxFilter()
+        
+        minMaxFilter.applyFilter()
+    }
 }

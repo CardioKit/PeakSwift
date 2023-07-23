@@ -25,9 +25,12 @@ let package = Package(
         .target(name: "IIR",
                 path: "Sources/IIR/iir"
          ),
+        .target(name: "FilterUtils",
+                path: "Sources/FilterUtils"
+        ),
         .target(
             name: "Butterworth",
-            dependencies: ["IIR"],
+            dependencies: ["IIR", "FilterUtils"],
             path: "Sources/Butterworth",
             cxxSettings: [
                  .headerSearchPath("../IIR/iir/")
