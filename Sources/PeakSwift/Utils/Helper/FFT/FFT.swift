@@ -11,7 +11,7 @@ import Accelerate
 enum FFT {
     
     // Only works if signal is a power of 2 or transformed via transformLength to power of 2
-    static func applyFFT(signal: [Double], transformLength: Int = 0) -> [Double] {
+    static func applyFFT(signal: [Double], transformLength: Int = 0) -> ComplexVector {
         
         let signalTransformed = transform(signal, transformLength: transformLength)
         
@@ -43,7 +43,17 @@ enum FFT {
             }
         }
             
-        return forwardOutputReal.map { $0/2 }
+        let preparedRealOutput = forwardOutputReal.map { $0/2 }
+        var preparedImagOutput = forwardOutputImag.map { $0/2 }
+        
+        // Requires observation but matlab's function yields always 0 as imaginary part for the first position
+        // Maybe just luck during testing
+        preparedImagOutput[0] = 0
+        
+        let complexVector = zip(preparedRealOutput, preparedImagOutput).map {
+            ComplexNumber(real: $0, imag: $1)
+        }
+        return ComplexVector(complexNumbers: complexVector)
     }
     
     

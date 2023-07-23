@@ -29,7 +29,10 @@ final class FFTTests: XCTestCase {
         let resultFFT = FFT.applyFFT(signal: signal, transformLength: MathUtils.powerBase2(exponent: 14))
         let expectedFFT: [Double] = []
         
-        XCTAssertEqual(resultFFT, expectedFFT)
+        let imagPart = resultFFT.imagPart
+
+        
+        XCTAssertEqual(resultFFT.realPart, expectedFFT)
         
     }
     
@@ -38,9 +41,12 @@ final class FFTTests: XCTestCase {
         
         let signal: [Double] = [1,0,0,0]
         let resultFFT = FFT.applyFFT(signal: signal)
-        let expectedFFT: [Double] = [1,1,1,1]
         
-        XCTAssertEqual(resultFFT, expectedFFT)
+        let expectedFFTRealPart: [Double] = [1,1,1,1]
+        let expectedFFTImagPart: [Double] = [0,0,0,0]
+        
+        XCTAssertEqual(resultFFT.realPart, expectedFFTRealPart)
+        XCTAssertEqual(resultFFT.imagPart, expectedFFTImagPart)
         
     }
     
@@ -48,9 +54,11 @@ final class FFTTests: XCTestCase {
         
         let signal: [Double] = [1,0,0,0,0,0,0,0]
         let resultFFT = FFT.applyFFT(signal: signal)
-        let expectedFFT: [Double] = [1,1,1,1,1,1,1,1]
+        let expectedFFTRealPart: [Double] = [1,1,1,1,1,1,1,1]
+        let expectedFFTImagPart: [Double] = [Double](repeating: 0.0, count: expectedFFTRealPart.count)
         
-        XCTAssertEqual(resultFFT, expectedFFT)
+        XCTAssertEqual(resultFFT.realPart, expectedFFTRealPart)
+        XCTAssertEqual(resultFFT.imagPart, expectedFFTImagPart)
         
     }
     
@@ -58,10 +66,12 @@ final class FFTTests: XCTestCase {
         
         let signal: [Double] = [1,1,0,0,0,0,0,0]
         let resultFFT = FFT.applyFFT(signal: signal)
-        let expectedFFT: [Double] = [2, 1.7071, 1, 0.2929, 0, 0.2929, 1, 1.7071]
+        let expectedFFTRealPart: [Double] = [2, 1.7071, 1, 0.2929, 0, 0.2929, 1, 1.7071]
+        let expectedFFTImagPart: [Double] = [0, -0.7071, -1, -0.7071, 0, 0.7071, 1, 0.7071]
         
         // MatLab rounds at 4 positions after comma
-        AssertEqualWithThreshold(resultFFT, expectedFFT, threshold: 0.0001)
+        AssertEqualWithThreshold(resultFFT.realPart, expectedFFTRealPart, threshold: 0.0001)
+        AssertEqualWithThreshold(resultFFT.imagPart, expectedFFTImagPart, threshold: 0.0001)
     }
     
     func testFFTNoPowOf2() {
@@ -72,7 +82,7 @@ final class FFTTests: XCTestCase {
         
         
         // MatLab rounds at 4 positions after comma
-        AssertEqualWithThreshold(resultFFT, expectedFFT, threshold: 0.0001)
+        AssertEqualWithThreshold(resultFFT.realPart, expectedFFT, threshold: 0.0001)
         
     }
 }
