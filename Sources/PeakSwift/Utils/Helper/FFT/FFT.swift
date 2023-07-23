@@ -68,29 +68,6 @@ enum FFT {
         }
     }
     
-    func calculateTwoSidedSpectrum(fftOutput: ComplexVector, signalLength: Int) -> [Double] {
-        
-        var inputReal = [Double](fftOutput.realPart)
-        var inputImag = [Double](fftOutput.imagPart)
-        
-        var divident = [Double](repeating: Double(signalLength), count: fftOutput.realPart.count)
-        
-        
-        inputReal.withUnsafeMutableBufferPointer {inputRealPtr in
-            inputImag.withUnsafeMutableBufferPointer { inputImagPtr in
-                let dspComplex = DSPDoubleSplitComplex(realp: inputRealPtr.baseAddress!, imagp: inputImagPtr.baseAddress!)
-                //var divisionResult = DSPDoubleSplitComplex(real: &divident, imag: &divident)
-                
-               // vDSP.divide(dspComplex, by:divident, result: &divisionResult)
-                
-            }
-        }
-        
-     
-        
-        return []
-    }
-    
     
     static func computeFrequencyComponets(fftOutput: ComplexVector, signalLength: Int) -> [Double] {
         let autospectrum = [Double](unsafeUninitializedCapacity: signalLength) { autospectrumBuffer, initializedCount in

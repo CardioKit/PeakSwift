@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GenerateSignal {
+struct SignalGenerator {
     
     let signalComponents: [SinusComponent]
     
@@ -16,7 +16,7 @@ struct GenerateSignal {
     }
     
     
-    func generateSignal(samplingFrequency: Double, signalLength: Int) -> [Double] {
+    func synthesizeSignal(samplingFrequency: Double, signalLength: Int) -> [Double] {
         
         let samplingPeriod = 1.0 / samplingFrequency
         let signalLength = 2048

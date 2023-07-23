@@ -18,15 +18,21 @@ final class FFTTests: XCTestCase {
         
         let sin50Hz = SinusComponent(amplitude: 0.7, frequency: 50)
         let sin120Hz = SinusComponent(amplitude: 1, frequency: 120)
-        let signalGenerator = GenerateSignal(signalComponents: [sin50Hz, sin120Hz])
-        let signal = signalGenerator.generateSignal(samplingFrequency: 1000, signalLength: 2048)
+        let signalGenerator = SignalGenerator(signalComponents: [sin50Hz, sin120Hz])
+        let signal = signalGenerator.synthesizeSignal(samplingFrequency: 1000, signalLength: 2048)
         
         let resultFFT = FFT.applyFFT(signal: signal)
-        #warning("TODO add a test")
-        let frequencyDomian = FFT.computeFrequencyComponets(fftOutput: resultFFT, signalLength: signal.count)
-        //let expectedFFT: [Double] = []
+        let frequencyDomain = FFT.computeFrequencyComponets(fftOutput: resultFFT, signalLength: signal.count)
+        
+        // Expect frequency peaks in this range in the frequency domain
+        let max50Hz = frequencyDomain[0...150].argmax()!
+        let max120Hz = frequencyDomain[150...].argmax()!
+        
+        let expectedMax50Hz = 102
+        let expectedMax120Hz = 246
 
-        //XCTAssertEqual(resultFFT.realPart, expectedFFT)
+        XCTAssertEqual(max50Hz, expectedMax50Hz)
+        XCTAssertEqual(max120Hz, expectedMax120Hz)
         
     }
     
