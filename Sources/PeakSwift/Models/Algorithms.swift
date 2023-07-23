@@ -19,5 +19,6 @@ public enum Algorithms {
     case twoAverage
     case neurokit
     case panTompkins
+    case unsw
     
 }
