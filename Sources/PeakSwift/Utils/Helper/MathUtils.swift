@@ -106,4 +106,10 @@ enum MathUtils {
     static func floorDevision(_ x: Double, _ y: Double) -> Double {
         return floor(x / y)
     }
+    
+    // Swift doesn't have a good in-build function to power Integer
+    // For sake not loosing precision provide a special function for powering with base 2
+    static func powerBase2(exponent: Int) -> Int {
+        return 2 << (exponent - 1)
+    }
 }

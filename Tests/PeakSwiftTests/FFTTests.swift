@@ -26,10 +26,8 @@ final class FFTTests: XCTestCase {
             sin(2*Double.pi*120*t)
         }
         
-        let resultFFT = FFT.applyFFT(signal: signal, transformLength: 2 << 13)
+        let resultFFT = FFT.applyFFT(signal: signal, transformLength: MathUtils.powerBase2(exponent: 14))
         let expectedFFT: [Double] = []
-        
-        let exact = resultFFT[830]
         
         XCTAssertEqual(resultFFT, expectedFFT)
         
