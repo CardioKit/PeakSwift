@@ -8,36 +8,27 @@
 import Foundation
 import Butterworth
 
-class MinMaxFilter {
+class MinMaxMedianFilter {
     
     let filterUtilsWrapper = FilterUtilsWrapper()
     
-    func applyMaxFilter(signal: [Double], windowSize: Int) -> [Double] {
-        return self.applyMinMaxFilter(signal: signal, windowSize: windowSize, isMaxFilter: true)
-    }
-    
-    func applyMinFilter(signal: [Double], windowSize: Int) -> [Double] {
-        return self.applyMinMaxFilter(signal: signal, windowSize: windowSize, isMaxFilter: false)
-    }
-    
-    private func applyMinMaxFilter(signal: [Double], windowSize: Int, isMaxFilter: Bool) -> [Double] {
+    func applyFilter(signal: [Double], windowSize: Int, filterType: SortFiltType) -> [Double] {
         let length = signal.count
         
         var inputSignal = [Double](signal)
         var filteredResult = [Double](repeating: 0, count: length)
         
-        self.filterUtilsWrapper.minMaxFilterWrapper(&inputSignal, &filteredResult, Int32(length), Int32(windowSize), isMaxFilter)
-        return filteredResult
-
-    }
-    
-    func applyMedianFilter(signal: [Double], windowSize: Int) -> [Double] {
-        let length = signal.count
+        let lengthInt32 = Int32(length)
+        let windowInt32 = Int32(windowSize)
         
-        var inputSignal = [Double](signal)
-        var filteredResult = [Double](repeating: 0, count: length)
-        
-        self.filterUtilsWrapper.medianFilterWrapper(&inputSignal, &filteredResult, Int32(length), Int32(windowSize))
+        switch filterType {
+            case .min:
+                self.filterUtilsWrapper.minFilterWrapper(&inputSignal, &filteredResult, lengthInt32, windowInt32)
+            case .max:
+                self.filterUtilsWrapper.maxFilterWrapper(&inputSignal, &filteredResult, lengthInt32, windowInt32)
+            case .median:
+                self.filterUtilsWrapper.medianFilterWrapper(&inputSignal, &filteredResult, lengthInt32, windowInt32)
+        }
         return filteredResult
 
     }

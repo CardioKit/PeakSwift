@@ -12,7 +12,8 @@
 @interface FilterUtilsWrapper : NSObject
 
 - hello;
-- minMaxFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize :(bool) isMax;
+- minFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize;
+- maxFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize;
 - medianFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize;
 
 @end

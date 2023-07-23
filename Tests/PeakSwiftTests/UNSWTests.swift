@@ -29,7 +29,7 @@ final class UNSWTests: XCTestCase {
         let inputVector: [Double] = [1,2,3,4,5,6]
     
         let expectedFilteredResult: [Double] = [1,1,2,3,4,5]
-        let actualFilteredResult = Sortfilt1.applyStandardSortFilt1(signal: inputVector, windowSize: 3, percentage: 20)
+        let actualFilteredResult = Sortfilt1.applySortFilt1(signal: inputVector, windowSize: 3, percentage: 20)
         
         XCTAssertEqual(expectedFilteredResult, actualFilteredResult)
     }
@@ -39,7 +39,7 @@ final class UNSWTests: XCTestCase {
         let inputVector: [Double] = [1,2,3,4,5,6]
     
         let expectedFilteredResult: [Double] = [1,2,3,4,4,5]
-        let actualFilteredResult = Sortfilt1.applyStandardSortFilt1(signal: inputVector, windowSize: 4, percentage: 20)
+        let actualFilteredResult = Sortfilt1.applySortFilt1(signal: inputVector, windowSize: 4, percentage: 20)
         
         XCTAssertEqual(expectedFilteredResult, actualFilteredResult)
     }
@@ -47,9 +47,9 @@ final class UNSWTests: XCTestCase {
     func testMaxFilter() {
         
         let inputVector: [Double] = [1,2,3,4,5,6]
-        let minMaxFilter = MinMaxFilter()
+        let minMaxFilter = MinMaxMedianFilter()
         
-        let actualFilteredSignal = minMaxFilter.applyMaxFilter(signal: inputVector, windowSize: 4)
+        let actualFilteredSignal = minMaxFilter.applyFilter(signal: inputVector, windowSize: 4, filterType: .max)
         let expectedFilteredSignal: [Double] = [3, 4, 5, 6, 6, 6]
 
         XCTAssertEqual(actualFilteredSignal, expectedFilteredSignal)
@@ -58,9 +58,9 @@ final class UNSWTests: XCTestCase {
     func testMinFilter() {
         
         let inputVector: [Double] = [1,2,3,4,5,6]
-        let minMaxFilter = MinMaxFilter()
+        let minMaxFilter = MinMaxMedianFilter()
         
-        let actualFilteredSignal = minMaxFilter.applyMinFilter(signal: inputVector, windowSize: 4)
+        let actualFilteredSignal = minMaxFilter.applyFilter(signal: inputVector, windowSize: 4, filterType: .min)
         let expectedFilteredSignal: [Double] = [1, 1, 2, 3, 4, 5]
 
         XCTAssertEqual(actualFilteredSignal, expectedFilteredSignal)
@@ -69,9 +69,9 @@ final class UNSWTests: XCTestCase {
     func testMedianFilter() {
         
         let inputVector: [Double] = [1,2,3,4,5,6]
-        let minMaxFilter = MinMaxFilter()
+        let minMaxFilter = MinMaxMedianFilter()
         
-        let actualFilteredSignal = minMaxFilter.applyMedianFilter(signal: inputVector, windowSize: 4)
+        let actualFilteredSignal = minMaxFilter.applyFilter(signal: inputVector, windowSize: 4, filterType: .median)
         let expectedFilteredSignal: [Double] = [2, 3, 4, 5, 5, 6]
 
         XCTAssertEqual(actualFilteredSignal, expectedFilteredSignal)

@@ -18,9 +18,14 @@
     test();
 }
 
-- minMaxFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize :(bool) isMax {
-    minmaxfilter(result, signal, windowSize, vectorLength, isMax);
+- maxFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize {
+    maxfilter(result, signal, windowSize, vectorLength);
 }
+
+- minFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize {
+    minfilter(result, signal, windowSize, vectorLength);
+}
+
 
 - medianFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize {
     medianfilter(result, signal, windowSize, vectorLength);
