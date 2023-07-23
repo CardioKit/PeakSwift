@@ -45,8 +45,13 @@ final class UNSWTests: XCTestCase {
     }
     
     func testMinMaxFilter() {
+        
+        let inputVector: [Double] = [1,2,3,4,5,6]
         let minMaxFilter = MinMaxFilter()
         
-        minMaxFilter.applyFilter()
+        let actualFilteredSignal = minMaxFilter.applyFilter(signal: inputVector, windowSize: 4)
+        let expectedFilteredSignal: [Double] = [3, 4, 5, 6, 6, 6]
+
+        XCTAssertEqual(actualFilteredSignal, expectedFilteredSignal)
     }
 }

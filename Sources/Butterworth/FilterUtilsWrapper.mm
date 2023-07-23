@@ -9,11 +9,16 @@
 #import <Foundation/Foundation.h>
 
 #include "foo.hpp"
+#include "minmaxfilter.h"
 
 @implementation FilterUtilsWrapper
 
 - hello {
     test();
+}
+
+- minMaxFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize :(bool) isMax {
+    minmaxfilter(result, signal, windowSize, vectorLength, isMax);
 }
 
 
