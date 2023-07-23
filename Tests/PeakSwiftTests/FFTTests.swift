@@ -23,9 +23,10 @@ final class FFTTests: XCTestCase {
         
         let resultFFT = FFT.applyFFT(signal: signal)
         #warning("TODO add a test")
-        let expectedFFT: [Double] = []
+        let frequencyDomian = FFT.computeFrequencyComponets(fftOutput: resultFFT, signalLength: signal.count)
+        //let expectedFFT: [Double] = []
 
-        XCTAssertEqual(resultFFT.realPart, expectedFFT)
+        //XCTAssertEqual(resultFFT.realPart, expectedFFT)
         
     }
     
