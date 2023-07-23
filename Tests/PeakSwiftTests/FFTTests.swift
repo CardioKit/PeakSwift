@@ -29,7 +29,7 @@ final class FFTTests: XCTestCase {
         let resultFFT = FFT.applyFFT(signal: signal, transformLength: 2 << 13)
         let expectedFFT: [Double] = []
         
-        let exact = resultFFT[829]
+        let exact = resultFFT[830]
         
         XCTAssertEqual(resultFFT, expectedFFT)
         
@@ -40,7 +40,7 @@ final class FFTTests: XCTestCase {
         
         let signal: [Double] = [1,0,0,0]
         let resultFFT = FFT.applyFFT(signal: signal)
-        let expectedFFT: [Double] = []
+        let expectedFFT: [Double] = [1,1,1,1]
         
         XCTAssertEqual(resultFFT, expectedFFT)
         
@@ -50,7 +50,7 @@ final class FFTTests: XCTestCase {
         
         let signal: [Double] = [1,0,0,0,0,0,0,0]
         let resultFFT = FFT.applyFFT(signal: signal)
-        let expectedFFT: [Double] = []
+        let expectedFFT: [Double] = [1,1,1,1,1,1,1,1]
         
         XCTAssertEqual(resultFFT, expectedFFT)
         
@@ -60,19 +60,21 @@ final class FFTTests: XCTestCase {
         
         let signal: [Double] = [1,1,0,0,0,0,0,0]
         let resultFFT = FFT.applyFFT(signal: signal)
-        let expectedFFT: [Double] = []
+        let expectedFFT: [Double] = [2, 1.7071, 1, 0.2929, 0, 0.2929, 1, 1.7071]
         
-        XCTAssertEqual(resultFFT, expectedFFT)
-        
+        // MatLab rounds at 4 positions after comma
+        AssertEqualWithThreshold(resultFFT, expectedFFT, threshold: 0.0001)
     }
     
     func testFFTNoPowOf2() {
         
-        let signal: [Double] = [1,1,0,0,0,0,0]
-        let resultFFT = FFT.applyFFT(signal: signal, transformLength: 16)
-        let expectedFFT: [Double] = []
+        let signal: [Double] = [1,1]
+        let resultFFT = FFT.applyFFT(signal: signal, transformLength: 8)
+        let expectedFFT: [Double] = [2, 1.7071, 1, 0.2929, 0, 0.2929, 1, 1.7071]
         
-        XCTAssertEqual(resultFFT, expectedFFT)
+        
+        // MatLab rounds at 4 positions after comma
+        AssertEqualWithThreshold(resultFFT, expectedFFT, threshold: 0.0001)
         
     }
 }
