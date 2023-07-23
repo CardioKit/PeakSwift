@@ -13,4 +13,6 @@
 
 - hello;
 - minMaxFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize :(bool) isMax;
+- medianFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize;
+
 @end

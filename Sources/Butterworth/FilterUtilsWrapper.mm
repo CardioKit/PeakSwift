@@ -10,6 +10,7 @@
 
 #include "foo.hpp"
 #include "minmaxfilter.h"
+#include "medianfilter.h"
 
 @implementation FilterUtilsWrapper
 
@@ -19,6 +20,10 @@
 
 - minMaxFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize :(bool) isMax {
     minmaxfilter(result, signal, windowSize, vectorLength, isMax);
+}
+
+- medianFilterWrapper: (double[]) signal :(double[]) result :(int) vectorLength :(int) windowSize {
+    medianfilter(result, signal, windowSize, vectorLength);
 }
 
 

@@ -30,4 +30,15 @@ class MinMaxFilter {
         return filteredResult
 
     }
+    
+    func applyMedianFilter(signal: [Double], windowSize: Int) -> [Double] {
+        let length = signal.count
+        
+        var inputSignal = [Double](signal)
+        var filteredResult = [Double](repeating: 0, count: length)
+        
+        self.filterUtilsWrapper.medianFilterWrapper(&inputSignal, &filteredResult, Int32(length), Int32(windowSize))
+        return filteredResult
+
+    }
 }
