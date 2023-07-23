@@ -16,22 +16,15 @@ final class FFTTests: XCTestCase {
     
     func testFFT() {
         
-        let samplingFrequency = 1000.0
-        let samplingPeriod = 1.0 / samplingFrequency
-        let signalLength = 64
-        let timeVector = (0..<signalLength).map { Double($0) * samplingPeriod }
+        let sin50Hz = SinusComponent(amplitude: 0.7, frequency: 50)
+        let sin120Hz = SinusComponent(amplitude: 1, frequency: 120)
+        let signalGenerator = GenerateSignal(signalComponents: [sin50Hz, sin120Hz])
+        let signal = signalGenerator.generateSignal(samplingFrequency: 1000, signalLength: 2048)
         
-        let signal = timeVector.map { t in
-            0.7*sin(2*Double.pi*50*t) +
-            sin(2*Double.pi*120*t)
-        }
-        
-        let resultFFT = FFT.applyFFT(signal: signal, transformLength: MathUtils.powerBase2(exponent: 14))
+        let resultFFT = FFT.applyFFT(signal: signal)
+        #warning("TODO add a test")
         let expectedFFT: [Double] = []
-        
-        let imagPart = resultFFT.imagPart
 
-        
         XCTAssertEqual(resultFFT.realPart, expectedFFT)
         
     }

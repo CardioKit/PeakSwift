@@ -35,7 +35,6 @@ enum FFT {
                         var forwardOutput = DSPDoubleSplitComplex(realp: forwardOutputRealPtr.baseAddress!, imagp: forwardOutputImagPtr.baseAddress!)
                         
                         fftSetup.transform(input: forwardInput, output: &forwardOutput, direction: .forward)
-                        
                     }
                     
                 }
@@ -53,6 +52,7 @@ enum FFT {
         let complexVector = zip(preparedRealOutput, preparedImagOutput).map {
             ComplexNumber(real: $0, imag: $1)
         }
+   
         return ComplexVector(complexNumbers: complexVector)
     }
     
