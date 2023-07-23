@@ -9,7 +9,11 @@ import Foundation
 
 enum UNSWCleaner {
     
-    func cleanSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+    static func cleanSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        
+        let signalWithoutLinearTrend = Baseline.detrend(signal: ecgSignal)
+        
+        
         return []
     }
 }
