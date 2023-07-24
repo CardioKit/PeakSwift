@@ -88,6 +88,11 @@ enum MathUtils {
         return vDSP.divide(array, scalar)
     }
     
+    static func subtractScalar(_ array: [Double], _ scalar: Double) -> [Double] {
+        // vDSP doesn't have a anolog for substarct
+        return vDSP.add(-scalar, array)
+    }
+    
     static func subtractVectors(_ v1: ArraySlice<Double>, _ v2: ArraySlice<Double>) -> [Double] {
         return vDSP.subtract(v1, v2)
     }
