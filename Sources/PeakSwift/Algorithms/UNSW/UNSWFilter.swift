@@ -9,7 +9,7 @@ import Foundation
 
 enum UNSWFilter {
     
-    static func applyLinearFilter(bCoeff: [Double], aCoeff: Double, signal: [Double]) -> [Double] {
+    static func applyLinearFilterForwardBackward(bCoeff: [Double], aCoeff: Double, signal: [Double]) -> [Double] {
         
         // Assumes aCoeff.count == 1, otherwise add condition 3*max(bCoeff-1, aCoeff-1)
         if signal.count <= 3 * (bCoeff.count - 1) {

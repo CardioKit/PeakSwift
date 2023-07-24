@@ -25,7 +25,7 @@ enum UNSWCleaner {
         if startFrequency <= samplingFrequency && samplingFrequency <= endFrequency {
             
             
-            let highPassFilteredSignal = UNSWFilter.applyLinearFilter(bCoeff: HighPassFilterCoeff.bCoeff,
+            let highPassFilteredSignal = UNSWFilter.applyLinearFilterForwardBackward(bCoeff: HighPassFilterCoeff.bCoeff,
                                                                       aCoeff: HighPassFilterCoeff.aCoeff,
                                                                       signal: medianData)
             

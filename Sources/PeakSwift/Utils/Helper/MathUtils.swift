@@ -84,6 +84,10 @@ enum MathUtils {
         return vDSP.multiply(scalar, array)
     }
     
+    static func divideScalar(_ array: [Double], _ scalar: Double) -> [Double] {
+        return vDSP.divide(array, scalar)
+    }
+    
     static func subtractVectors(_ v1: ArraySlice<Double>, _ v2: ArraySlice<Double>) -> [Double] {
         return vDSP.subtract(v1, v2)
     }
@@ -97,6 +101,11 @@ enum MathUtils {
         return zip(v1,v2).map {
             (x,y) in x - y
         }
+    }
+    
+    #warning("Make proper random access collection interface collection")
+    static func mulVectors(_ v1: [Double], _ v2: [Double]) -> [Double] {
+        return vDSP.multiply(v1, v2)
     }
     
     static func mulScalar(_ vector: [Int], _ scalar: Int) -> [Int] {
