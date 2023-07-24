@@ -29,9 +29,8 @@ enum UNSWCleaner {
                                                                       aCoeff: HighPassFilterCoeff.aCoeff,
                                                                       signal: medianData)
             
-            let cutOffFrequency = 20.0/(samplingFrequency/2)
-            let lowPassFilteredSignal = Butterworth().butterworthLowPassForwardBackward(signal: highPassFilteredSignal, order: .eight, normalizedHighCutFrequency: cutOffFrequency, sampleRate: samplingFrequency)
-
+            let lowPassFilteredSignal = Butterworth().butterworthLowPassForwardBackward(signal: highPassFilteredSignal, order: .eight, highCutFrequency: 20, sampleRate: samplingFrequency)
+            print(lowPassFilteredSignal)
             return lowPassFilteredSignal
             
         } else {
