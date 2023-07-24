@@ -88,6 +88,11 @@ enum MathUtils {
         return vDSP.subtract(v1, v2)
     }
     
+    #warning("Make proper random access collection interface collection")
+    static func subtractVectors(_ v1: [Double], _ v2: [Double]) -> [Double] {
+        return vDSP.subtract(v1, v2)
+    }
+    
     static func subtractVectors<C: RandomAccessCollection>(_ v1: C, _ v2: C) -> [Int] where C.Element == Int {
         return zip(v1,v2).map {
             (x,y) in x - y

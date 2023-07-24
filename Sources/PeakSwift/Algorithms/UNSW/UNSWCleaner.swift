@@ -9,9 +9,35 @@ import Foundation
 
 enum UNSWCleaner {
     
+    static let startFrequency: Double = 400
+    static let endFrequency: Double = 600
+    
+    static let windowSizeRange: Double = 0.5
+    
     static func cleanSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
-        
+        //print(ecgSignal)
         let signalWithoutLinearTrend = Baseline.detrend(signal: ecgSignal)
+        let windowSize = MathUtils.roundToInteger(windowSizeRange * samplingFrequency)
+        let baseline = Sortfilt1.applySortFilt1(signal: signalWithoutLinearTrend, windowSize: windowSize, filtType: .median)
+        
+        let medianData = MathUtils.subtractVectors(signalWithoutLinearTrend, baseline)
+        
+        if startFrequency <= samplingFrequency && samplingFrequency <= endFrequency {
+            
+            
+            let highPassFilteredSignal = UNSWFilter.applyLinearFilter(bCoeff: HighPassFilterCoeff.bCoeff,
+                                                                      aCoeff: HighPassFilterCoeff.aCoeff,
+                                                                      signal: medianData)
+            
+            let cutOffFrequency = 20.0/(samplingFrequency/2)
+            let lowPassFilteredSignal = Butterworth().butterworthLowPassForwardBackward(signal: highPassFilteredSignal, order: .eight, normalizedHighCutFrequency: cutOffFrequency, sampleRate: samplingFrequency)
+
+            return lowPassFilteredSignal
+            
+        } else {
+            #warning("TODO add butterworth filter")
+            
+        }
         
         
         return []

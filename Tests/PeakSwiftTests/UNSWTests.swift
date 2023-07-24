@@ -76,4 +76,46 @@ final class UNSWTests: XCTestCase {
 
         XCTAssertEqual(actualFilteredSignal, expectedFilteredSignal)
     }
+    
+    func testLowPassFilter() {
+        
+        let inputVector: [Double] = [1,1,1,1]
+        
+        let sin50Hz = SinusComponent(amplitude: 0.1, frequency: 50)
+        let sin120Hz = SinusComponent(amplitude: 0.05, frequency: 120)
+        let sin10Hz = SinusComponent(amplitude: 0.05, frequency: 10)
+        let signalGenerator = SignalGenerator(signalComponents: [sin50Hz, sin120Hz, sin10Hz])
+        let signal = signalGenerator.synthesizeSignal(samplingFrequency: 1000, signalLength: 2048)
+        
+        let cutoffFrequeny = 0.3//50.0/(1000.0/2.0)
+        
+        let filteredResult = Butterworth().butterworthLowPassForwardBackward(signal: signal, order: .one, normalizedHighCutFrequency: cutoffFrequeny, sampleRate: 1000)
+        
+        XCTAssertTrue(true)
+    }
+    
+    func testLowPassFilter2() {
+        let inputVector: [Double] = [1,0,0,0]
+        let anotherVector : [Double] = [1,1,1,1]
+        
+        let cutoffFrequeny = 0.3//50.0/(1000.0/2.0)
+        
+        let filteredResult = Butterworth().butterworthLowPassForwardBackward(signal: inputVector, order: .one, normalizedHighCutFrequency: cutoffFrequeny, sampleRate: 1000)
+        let filteredResult2 = Butterworth().butterworthLowPass(signal: inputVector, order: .one, normalizedHighCutFrequency: cutoffFrequeny, sampleRate: 1000)
+        
+        //let anotherVector = Array([0.029261017141500444, 0.18754654363414547,   0.46002873455844617, 0.47125250271381103].reversed())
+
+       // let filteredRes3 = Butterworth().butterworthLowPass(signal: inputVector, order: .one, highCutFrequency: cutoffFrequeny, sampleRate: 1000)
+        XCTAssertTrue(true)
+    }
+    
+    func testLowPassFilter3() {
+        
+        let anotherVector = Array([0.029261017141500444, 0.18754654363414547,   0.46002873455844617, 0.47125250271381103].reversed())
+
+        let filteredRes3 = Butterworth().butterworthLowPass(signal: anotherVector, order: .one, normalizedHighCutFrequency: 0.3, sampleRate: 1000).reversed()
+        
+        XCTAssertTrue(true)
+        
+    }
 }

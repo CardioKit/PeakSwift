@@ -12,7 +12,7 @@
 
 @implementation ButterworthWrapper
 
-static const int MAX_ORDER = 5;
+static const int MAX_ORDER = 8;
 
 - (NSMutableArray *) butterworth: (NSArray *) signal :(NSNumber *) order :(NSNumber*)samplingRate  :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency {
     Iir::Butterworth::BandPass<MAX_ORDER> butterworthBandPass;
@@ -71,6 +71,42 @@ static const int MAX_ORDER = 5;
     }
     
     return filteredSignal;
+}
+
+#warning("Review types and const")
+- butterworthLowPassForwardBackward: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(int) order :(double) samplingRate {
+    Iir::Butterworth::LowPass<MAX_ORDER> butterworthforwardLowPass;
+    butterworthforwardLowPass.setupN(order,lowCutFrequency);
+    
+    double forwardFiltered[vectorLength];
+    
+    for (int i = 0; i < vectorLength; ++i) {
+        const double filteredSample =  butterworthforwardLowPass.filter(signal[i]);
+        forwardFiltered[i] = filteredSample;
+    }
+
+    Iir::Butterworth::LowPass<MAX_ORDER> butterworthbackwardLowPass;
+    butterworthbackwardLowPass.setupN(order,lowCutFrequency);
+    
+    for (int i = vectorLength - 1; i >= 0; --i) {
+        const double filteredSample =  butterworthbackwardLowPass.filter(forwardFiltered[i]);
+        filteredResult[i] = filteredSample;
+    }
+}
+
+// [0.029261017141500444, 0.18754654363414547,   0.46002873455844617, 0.47125250271381103]
+- butterworthLowPass: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(int) order :(double) samplingRate {
+    Iir::Butterworth::LowPass<MAX_ORDER> butterworthforwardLowPass;
+    butterworthforwardLowPass.setupN(order,lowCutFrequency);
+    
+    //double forwardFiltered[vectorLength];
+    
+    for (int i = 0; i < vectorLength; ++i) {
+        const double sample = signal[i];
+        const double filteredSample =  butterworthforwardLowPass.filter(sample);
+        filteredResult[i] = filteredSample;
+    }
+
 }
 
 @end

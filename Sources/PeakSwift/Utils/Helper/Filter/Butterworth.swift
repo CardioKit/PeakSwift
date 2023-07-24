@@ -16,6 +16,9 @@ public class Butterworth {
         case three
         case four
         case five
+        case six
+        case seven
+        case eight
         // ButterworthWrapper is internally restricted to only order 5 filtering
         // Can be increased if necessary in the ButterworthWrapper.mm implementation
     }
@@ -66,5 +69,19 @@ public class Butterworth {
         
         return filteredSignal as! [Double]
         
+    }
+    
+    func butterworthLowPassForwardBackward(signal: [Double], order: Order, normalizedHighCutFrequency: Double, sampleRate: Double) -> [Double] {
+        var signalToFilter = [Double](signal)
+        var lowPassFilteredSignal = [Double](repeating: 0.0, count: signal.count)
+        butterworthWrapper.butterworthLowPassForwardBackward(&signalToFilter, &lowPassFilteredSignal, Int32(signal.count), normalizedHighCutFrequency, Int32(order.rawValue), sampleRate)
+        return lowPassFilteredSignal
+    }
+    
+    func butterworthLowPass(signal: [Double], order: Order, normalizedHighCutFrequency: Double, sampleRate: Double) -> [Double] {
+        var signalToFilter = [Double](signal)
+        var lowPassFilteredSignal = [Double](repeating: 0.0, count: signal.count)
+        butterworthWrapper.butterworthLowPass(&signalToFilter, &lowPassFilteredSignal, Int32(signal.count), normalizedHighCutFrequency, Int32(order.rawValue), sampleRate)
+        return lowPassFilteredSignal
     }
 }
