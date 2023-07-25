@@ -9,10 +9,14 @@ import Foundation
 
 struct UNSWFFT {
     
-    let transformLength: Int // = MathUtils.powerBase2(exponent: 14)
+    let transformExpontent: Int
+    var transformLength: Int {
+        MathUtils.powerBase2(exponent: transformExpontent)
+    }
+    let samplingRate: Double
     
     
-    func applyFFTOnTwoSecondWindow(signal: [Double], samplingRate: Double) -> [Double] {
+    func applyFFTOnTwoSecondWindow(signal: [Double]) -> [Double] {
         
         #warning("Change to SampleIntervalMapper from another PR")
         let twoSecondWindow = 2.0 * samplingRate
@@ -52,6 +56,29 @@ struct UNSWFFT {
         } else {
             return [Double](repeating: 0.0, count: fft.count)
         }
+    }
+    
+    func getHeartRateFrequency(fft: [Double]) -> Double {
+        let maxFrequency = MathUtils.powerBase2(exponent: transformExpontent - 1)
+        let frequencies = (0..<maxFrequency).map { frequencyBase in
+            samplingRate / Double(transformLength)
+        }
+        
+        #warning("Reconsider if force unwarp is good option here")
+        let heartRateFrequencyRangeStart = 0.1
+        let heartRateFrequencyRangeEnd = 4.0
+        let indexHeartRateFrequencyRangeStart = frequencies.firstIndex { frequency in
+            heartRateFrequencyRangeStart <= frequency
+        }!
+        let indexHeartRateFrequencyRangeEnd = frequencies.lastIndex { frequency in
+            frequency < heartRateFrequencyRangeEnd
+        }!
+    
+        // Note argmax doesn't return the argmax in range but the whole array
+        let indexMaxAmplitude = fft[indexHeartRateFrequencyRangeStart..<indexHeartRateFrequencyRangeEnd].argmax()!
+        let heartRateFrequency = frequencies[indexMaxAmplitude]
+        
+        return heartRateFrequency
     }
     
     

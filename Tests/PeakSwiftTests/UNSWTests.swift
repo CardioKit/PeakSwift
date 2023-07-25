@@ -123,10 +123,10 @@ final class UNSWTests: XCTestCase {
         
         let signal: [Double] = [1, 0, 0, 0, 0, 0, 0, 0]
         let samplingRate = 1.0
-        let transformLength = 8
+        let transformExpontent = 3
         
-        let fftSetup = UNSWFFT(transformLength: transformLength)
-        let actualFFTRes = fftSetup.applyFFTOnTwoSecondWindow(signal: signal, samplingRate: samplingRate)
+        let fftSetup = UNSWFFT(transformExpontent: transformExpontent, samplingRate: samplingRate)
+        let actualFFTRes = fftSetup.applyFFTOnTwoSecondWindow(signal: signal)
         let exepectedFFTRes =  [0, 0.0190, 0.0352, 0.0459, 0.0497, 0.0459, 0.0352, 0.0190]
 
         AssertEqualWithThreshold(actualFFTRes, exepectedFFTRes, threshold: 0.0001)
@@ -137,10 +137,10 @@ final class UNSWTests: XCTestCase {
         
         let signal: [Double] = [1, 0, 1, 1, 3, 1, -4, 1]
         let samplingRate = 1.0
-        let transformLength = 8
+        let transformExpontent = 3
         
-        let fftSetup = UNSWFFT(transformLength: transformLength)
-        let actualFFTRes = fftSetup.applyFFTOnTwoSecondWindow(signal: signal, samplingRate: samplingRate)
+        let fftSetup = UNSWFFT(transformExpontent: transformExpontent, samplingRate: samplingRate)
+        let actualFFTRes = fftSetup.applyFFTOnTwoSecondWindow(signal: signal)
         let exepectedFFTRes = [0, 0.0570903506165349,   0.105489212877019, 0.137828298739074,    0.149184275534743, 0.137828298739074,    0.105489212877019,    0.0570903506165349]
 
         AssertEqualWithThreshold(actualFFTRes, exepectedFFTRes, threshold: Constants.doubleAccuracy)

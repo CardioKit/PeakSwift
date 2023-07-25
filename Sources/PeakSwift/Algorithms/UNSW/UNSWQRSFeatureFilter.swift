@@ -14,6 +14,9 @@ enum UNSWQRSFeatureFilter {
         
         let diffPower = self.applyHammingFilter(signal: signal, samplingRate: samplingRate)
         
+        let fftSetup = UNSWFFT(transformExpontent: 14, samplingRate: samplingRate)
+        let fft = fftSetup.applyFFTOnTwoSecondWindow(signal: signal)
+        let heartRateFrequency = fftSetup.getHeartRateFrequency(fft: fft)
         
       
     }
@@ -26,7 +29,7 @@ enum UNSWQRSFeatureFilter {
         
         let hammingFilteredAbs =  MathUtils.absolute(hammingFiltered)
         
-        return MathUtils.sqrt(hammingFiltered)
+        return MathUtils.sqrt(hammingFilteredAbs)
         
         
     }
