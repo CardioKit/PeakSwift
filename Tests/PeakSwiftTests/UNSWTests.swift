@@ -118,4 +118,31 @@ final class UNSWTests: XCTestCase {
         XCTAssertTrue(true)
         
     }
+    
+    func testUNSWFFT() {
+        
+        let signal: [Double] = [1, 0, 0, 0, 0, 0, 0, 0]
+        let samplingRate = 1.0
+        let transformLength = 8
+        
+        let fftSetup = UNSWFFT(transformLength: transformLength)
+        let actualFFTRes = fftSetup.applyFFTOnTwoSecondWindow(signal: signal, samplingRate: samplingRate)
+        let exepectedFFTRes =  [0, 0.0190, 0.0352, 0.0459, 0.0497, 0.0459, 0.0352, 0.0190]
+
+        AssertEqualWithThreshold(actualFFTRes, exepectedFFTRes, threshold: 0.0001)
+        
+    }
+    
+    func testUNSWFFTMoreComplicatedVector() {
+        
+        let signal: [Double] = [1, 0, 1, 1, 3, 1, -4, 1]
+        let samplingRate = 1.0
+        let transformLength = 8
+        
+        let fftSetup = UNSWFFT(transformLength: transformLength)
+        let actualFFTRes = fftSetup.applyFFTOnTwoSecondWindow(signal: signal, samplingRate: samplingRate)
+        let exepectedFFTRes = [0, 0.0570903506165349,   0.105489212877019, 0.137828298739074,    0.149184275534743, 0.137828298739074,    0.105489212877019,    0.0570903506165349]
+
+        AssertEqualWithThreshold(actualFFTRes, exepectedFFTRes, threshold: Constants.doubleAccuracy)
+    }
 }

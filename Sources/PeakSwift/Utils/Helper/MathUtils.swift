@@ -136,4 +136,16 @@ enum MathUtils {
         return number % 2 == 0
     }
     
+    static func sum(_ vector: [Double]) -> Double {
+        return vDSP.sum(vector)
+    }
+    
+    
+    static func addVectors(_ v1: [Double], _ v2: [Double]) -> [Double] {
+        return vDSP.add(v1, v2)
+    }
+    
+    static func sqrt(_ vector: [Double]) -> [Double] {
+        return vForce.sqrt(vector)
+    }
 }
