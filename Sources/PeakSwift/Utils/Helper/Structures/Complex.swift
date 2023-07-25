@@ -47,6 +47,16 @@ struct ComplexVector {
         return unaryOperation(operation: conjugate)
     }
    
+    func multiply(rhs: ComplexVector) -> ComplexVector{
+        let mul = {
+            (lhs: DSPDoubleSplitComplex, rhs: DSPDoubleSplitComplex, output: inout DSPDoubleSplitComplex, size: Int) in
+            
+            // Try to discover useConjugate -> maybe it's possible to do something like conj().mul() in one call
+            vDSP.multiply(lhs, by: rhs, count: size, useConjugate: false, result: &output)
+        }
+        
+        return binaryOperation(rhs: rhs, operation: mul)
+    }
     
     
     private func unaryOperation(operation: (DSPDoubleSplitComplex, inout DSPDoubleSplitComplex, Int) -> Void) -> ComplexVector {
@@ -66,8 +76,7 @@ struct ComplexVector {
                         let inputComplexVDSPVector = DSPDoubleSplitComplex(realp: realPartPtr.baseAddress!, imagp: imagPartPtr.baseAddress!)
                         var outputComplexVDSPVector = DSPDoubleSplitComplex(realp: outputRealPtr.baseAddress!, imagp: outputImagPtr.baseAddress!)
                       
-                        //operation(inputComplexVDSPVector, &outputComplexVDSPVector, size)
-                        vDSP.conjugate(inputComplexVDSPVector, count: size, result: &outputComplexVDSPVector)
+                        operation(inputComplexVDSPVector, &outputComplexVDSPVector, size)
                     }
                     
                 }
@@ -79,6 +88,26 @@ struct ComplexVector {
         }
    
         return ComplexVector(complexNumbers: complexVector)
+    }
+    
+    private func binaryOperation(rhs: ComplexVector, operation: (DSPDoubleSplitComplex, DSPDoubleSplitComplex, inout DSPDoubleSplitComplex, Int) -> Void) -> ComplexVector {
+        let binOp = {
+            (input: DSPDoubleSplitComplex, output: inout DSPDoubleSplitComplex, size: Int) in
+             
+            var rhsInputReal = [Double](rhs.realPart)
+            var rhsInputImag = [Double](rhs.imagPart)
+            
+            rhsInputReal.withUnsafeMutableBufferPointer { realPartPtr in
+                rhsInputImag.withUnsafeMutableBufferPointer {imagPartPtr in
+                    let rhsInputComplexVDSPVector = DSPDoubleSplitComplex(realp: realPartPtr.baseAddress!, imagp: imagPartPtr.baseAddress!)
+                    operation(input, rhsInputComplexVDSPVector, &output, size)
+                }
+            }
+            
+            
+        }
+        
+        return unaryOperation(operation: binOp)
     }
       
 }
