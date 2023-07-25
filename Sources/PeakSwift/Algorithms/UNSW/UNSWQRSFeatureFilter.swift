@@ -12,7 +12,7 @@ enum UNSWQRSFeatureFilter {
     
     static func applyQRSFeatureFilter(signal: [Double], samplingRate: Double) {
         
-        let hammingFiltered = self.applyHammingFilter(signal: signal, samplingRate: samplingRate)
+        let diffPower = self.applyHammingFilter(signal: signal, samplingRate: samplingRate)
         
         
       
@@ -22,7 +22,11 @@ enum UNSWQRSFeatureFilter {
         let hammingWindowHeuristic = self.calculateHammingWindowHeuristic(samplingRate: samplingRate)
         let (bCoeff, aCoeff) = self.calcHammingFilterCoeff(hammingWindowHeuristic: hammingWindowHeuristic)
         
-        return UNSWFilter.applyLinearFilterForwardBackward(bCoeff: bCoeff, aCoeff: aCoeff, signal: signal)
+        let hammingFiltered = UNSWFilter.applyLinearFilterForwardBackward(bCoeff: bCoeff, aCoeff: aCoeff, signal: signal)
+        
+        let hammingFilteredAbs =  MathUtils.absolute(hammingFiltered)
+        
+        return MathUtils.sqrt(hammingFiltered)
         
         
     }
