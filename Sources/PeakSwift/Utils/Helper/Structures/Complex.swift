@@ -47,7 +47,7 @@ struct ComplexVector {
         return unaryOperation(operation: conjugate)
     }
    
-    func multiply(rhs: ComplexVector) -> ComplexVector{
+    func multiply(rhs: ComplexVector) -> ComplexVector {
         let mul = {
             (lhs: DSPDoubleSplitComplex, rhs: DSPDoubleSplitComplex, output: inout DSPDoubleSplitComplex, size: Int) in
             
@@ -56,6 +56,10 @@ struct ComplexVector {
         }
         
         return binaryOperation(rhs: rhs, operation: mul)
+    }
+    
+    func square() -> ComplexVector {
+        return multiply(rhs: self)
     }
     
     

@@ -42,4 +42,18 @@ final class ComplexTests: XCTestCase {
         
         
     }
+    
+    func testSquare() {
+        let number = ComplexVector(realPart: [2, -3], imagPart: [1, 4])
+        
+        let actualSquare = number.square()
+        
+        let expectedRealPart: [Double] = [3, -7]
+        let expectedImagPart: [Double] = [4, -24]
+        
+        XCTAssertEqual(actualSquare.realPart, expectedRealPart)
+        XCTAssertEqual(actualSquare.imagPart, expectedImagPart)
+        
+        
+    }
 }
