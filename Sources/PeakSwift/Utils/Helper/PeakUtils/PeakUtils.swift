@@ -9,13 +9,21 @@ import Foundation
 enum PeakUtils {
     
     /// Wrapper function that calculates all (including flat) peaks and calculates their prominences in the signal
-    static func findAllPeaksAndProminences(signal: [Double]) -> Peaks {
+    static func findAllPeaksAndProminences(signal: [Double], minProminence: Double? = nil) -> Peaks {
         let localMaxima = findFlatLocalMaxima(signal: signal)
         let prominences = findAllPeakProminences(signal: signal, peaks: localMaxima)
-        let peakAndPromineces =  zip(localMaxima, prominences).map {
+        var peakAndPromineces =  zip(localMaxima, prominences).map {
             (localmaximum, prominence) in
             Peak(peak: localmaximum, prominence: prominence)
         }
+    
+        
+        if let minProminence = minProminence {
+            peakAndPromineces =  peakAndPromineces.filter { peak in
+                peak.prominence > minProminence
+            }
+        }
+        
         return Peaks(peaks: peakAndPromineces)
     }
     
