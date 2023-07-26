@@ -46,7 +46,7 @@ class RPeak {
     }
     
     func append(newPeaks: [Int]) {
-        self.rPeaksSet = self.rPeaksSet.intersection(newPeaks)
+        self.rPeaksSet = self.rPeaksSet.union(newPeaks)
     }
     
     func removePeaksInIntervals(intervals: [(Int,Int)]) {
