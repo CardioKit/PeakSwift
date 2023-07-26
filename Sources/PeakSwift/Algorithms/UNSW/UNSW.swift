@@ -21,6 +21,7 @@ class UNSW: Algorithm {
         let rPeaks: [UInt] = []
         
         let qrsFeatures = UNSWQRSFeatureGenerator.doFeatureGeneration(lowPassFiltered: ecgSignal, samplingRate: samplingFrequency)
+        let filteredQESFeatures = UNSWQRSFeatureFilter.applyQRSFeatureFilter(feature: qrsFeatures, samplingRate: samplingFrequency)
         
         return rPeaks
     }
