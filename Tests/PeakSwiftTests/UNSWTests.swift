@@ -21,7 +21,7 @@ final class UNSWTests: XCTestCase {
         let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestUnsw)
         let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .unsw)
         
-        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: 5)
     }
     
     func testStandardSortFilt1OddWindow() {

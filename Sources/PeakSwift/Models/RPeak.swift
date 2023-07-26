@@ -51,7 +51,7 @@ class RPeak {
     
     func removePeaksInIntervals(intervals: [(Int,Int)]) {
         self.rPeaksSet = self.rPeaksSet.filter { peak in
-            intervals.contains { (start, end) in
+            !intervals.contains { (start, end) in
                 start < peak && peak < end
             }
         }
