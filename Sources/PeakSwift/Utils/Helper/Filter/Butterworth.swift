@@ -98,4 +98,5 @@ public class Butterworth {
     private func normalize(cutoffFrequency: Double, samplingFrequency: Double) -> Double {
         return cutoffFrequency / (samplingFrequency / 2)
     }
+
 }

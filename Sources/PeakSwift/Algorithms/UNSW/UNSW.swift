@@ -18,7 +18,6 @@ class UNSW: Algorithm {
     
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
-        let rPeaks: [UInt] = []
         
         let qrsFeatures = UNSWQRSFeatureGenerator.doFeatureGeneration(lowPassFiltered: ecgSignal, samplingRate: samplingFrequency)
         let (filteredQRSFeatures, heartRateFrequency) = UNSWQRSFeatureFilter.applyQRSFeatureFilter(feature: qrsFeatures, samplingRate: samplingFrequency)

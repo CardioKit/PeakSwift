@@ -61,7 +61,7 @@ struct UNSWFFT {
     func getHeartRateFrequency(fft: [Double]) -> Double {
         let maxFrequency = MathUtils.powerBase2(exponent: transformExpontent - 1)
         let frequencies = (0..<maxFrequency).map { frequencyBase in
-            samplingRate / Double(transformLength)
+            Double(frequencyBase) * samplingRate / Double(transformLength)
         }
         
         #warning("Reconsider if force unwarp is good option here")

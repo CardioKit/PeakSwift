@@ -89,7 +89,9 @@ final class UNSWTests: XCTestCase {
         
         let cutoffFrequeny = 0.3//50.0/(1000.0/2.0)
         
-        let filteredResult = Butterworth().butterworthLowPassForwardBackward(signal: signal, order: .one, normalizedHighCutFrequency: cutoffFrequeny, sampleRate: 1000)
+        let butterworth = Butterworth()
+        
+        let filteredResult = butterworth.butterworthLowPassForwardBackward(signal: signal, order: .one, normalizedHighCutFrequency: cutoffFrequeny, sampleRate: 1000)
         
         XCTAssertTrue(true)
     }
@@ -145,4 +147,5 @@ final class UNSWTests: XCTestCase {
 
         AssertEqualWithThreshold(actualFFTRes, exepectedFFTRes, threshold: Constants.doubleAccuracy)
     }
+    
 }

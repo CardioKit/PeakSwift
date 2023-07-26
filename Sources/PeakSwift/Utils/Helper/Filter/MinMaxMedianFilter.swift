@@ -21,14 +21,14 @@ class MinMaxMedianFilter {
         let lengthInt32 = Int32(length)
         let windowInt32 = Int32(windowSize)
         
-        switch filterType {
-            case .min:
-                self.filterUtilsWrapper.minFilterWrapper(&inputSignal, &filteredResult, lengthInt32, windowInt32)
-            case .max:
-                self.filterUtilsWrapper.maxFilterWrapper(&inputSignal, &filteredResult, lengthInt32, windowInt32)
-            case .median:
-                self.filterUtilsWrapper.medianFilterWrapper(&inputSignal, &filteredResult, lengthInt32, windowInt32)
-        }
+//        switch filterType {
+//            case .min:
+//                self.filterUtilsWrapper.minFilterWrapper(&inputSignal, &filteredResult, lengthInt32, windowInt32)
+//            case .max:
+//                self.filterUtilsWrapper.maxFilterWrapper(&inputSignal, &filteredResult, lengthInt32, windowInt32)
+//            case .median:
+//                self.filterUtilsWrapper.medianFilterWrapper(&inputSignal, &filteredResult, lengthInt32, windowInt32)
+//        }
         return filteredResult
 
     }
