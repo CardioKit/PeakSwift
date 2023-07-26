@@ -10,7 +10,7 @@ import Foundation
 enum UNSWQRSFeatureFilter {
     
     
-    static func applyQRSFeatureFilter(feature: [Double], samplingRate: Double) -> [Double] {
+    static func applyQRSFeatureFilter(feature: [Double], samplingRate: Double) -> ([Double], Double) {
         
         let diffPower = self.applyHammingFilter(signal: feature, samplingRate: samplingRate, cutoffFrequency: 6)
         
@@ -24,7 +24,7 @@ enum UNSWQRSFeatureFilter {
         
         let diffPowerSmoothed = self.applyHammingFilter(signal: feature, samplingRate: samplingRate, cutoffFrequency: cutfoffFrequency)
         
-        return diffPowerSmoothed
+        return (diffPowerSmoothed, heartRateFrequency)
     }
     
     static func applyHammingFilter(signal: [Double], samplingRate: Double, cutoffFrequency: Double) -> [Double] {
