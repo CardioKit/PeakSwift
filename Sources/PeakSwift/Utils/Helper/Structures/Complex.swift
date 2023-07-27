@@ -15,6 +15,10 @@ struct ComplexNumber {
     
 }
 
+
+/// This class is meant as a wrapper class for operations on vectors of complex numbers
+/// It is using vDSP under the hood, but vDSP has a complicated interface since it's necessray to operate with pointers
+/// Therefore a more intuitive and extensible interface was designed to work with complex numbers
 struct ComplexVector {
     
     let complexNumbers: [ComplexNumber]
