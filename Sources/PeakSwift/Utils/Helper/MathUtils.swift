@@ -29,10 +29,13 @@ enum MathUtils {
         return Double(sum) / Double(array.count)
     }
     
-    static func diff(_ input: [Double]) -> [Double] {
+    static func diff(_ input: [Double], order: Int = 1) -> [Double] {
         
-        let vectorSlice1 = input[1...input.count-1]
-        let vectorSlice2 = input[0...(input.count-2)]
+        // Ensure that order is not out of bounds 
+        let orderInRange = Swift.max(0, min(order, input.count-1))
+        
+        let vectorSlice1 = input[orderInRange...input.count-1]
+        let vectorSlice2 = input[0...(input.count-1-orderInRange)]
         return vDSP.subtract(vectorSlice1, vectorSlice2)
     }
     
@@ -105,5 +108,10 @@ enum MathUtils {
     
     static func floorDevision(_ x: Double, _ y: Double) -> Double {
         return floor(x / y)
+    }
+    
+    static func linespace(start: Double, end: Double, numberElements: Int) -> [Double] {
+        let stepInterval = (end-start) / Double(numberElements - 1)
+        return  Array(stride(from: start, through: end, by: stepInterval))
     }
 }

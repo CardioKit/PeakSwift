@@ -40,6 +40,8 @@ class AlgorithmStrategy {
             self.algorithm = NeuroKit()
         case .panTompkins:
             self.algorithm = PanTompkins()
+        case .engzee:
+            self.algorithm = Engzee()
         }
     }
     

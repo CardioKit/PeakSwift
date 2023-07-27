@@ -8,7 +8,8 @@ test_data_set_generators: [TestDataSetGenerator] = [
     SyntheticNeuroKitTDGenerator(algorithm="elgendi", seed=1),
     SyntheticNeuroKitTDGenerator(algorithm="hamilton", seed=1),
     SyntheticNeuroKitTDGenerator(algorithm="panTompkins", seed=1, clean_signal=True),
-    SyntheticNeuroKitTDGenerator(algorithm="nk", duration=10, seed=15, clean_signal=True, noise_frequency=0.3)
+    SyntheticNeuroKitTDGenerator(algorithm="nk", duration=10, seed=15, clean_signal=True, noise_frequency=0.3),
+    SyntheticNeuroKitTDGenerator(algorithm="engzee", seed=1, clean_signal=True, noise_frequency=50),
 ]
 
 
