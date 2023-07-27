@@ -15,13 +15,13 @@ enum UNSWCleaner {
     static let windowSizeRange: Double = 0.5
     
     static func cleanSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
-        //print(ecgSignal)
         let signalWithoutLinearTrend = Baseline.detrend(signal: ecgSignal)
         let windowSize = MathUtils.roundToInteger(windowSizeRange * samplingFrequency)
         let baseline = Sortfilt1.applySortFilt1(signal: signalWithoutLinearTrend, windowSize: windowSize, filtType: .median)
         
         let medianData = MathUtils.subtractVectors(signalWithoutLinearTrend, baseline)
         
+        // UNSW uses hardcoded b/a coeff for filtering the signal in this samplingFrequency range
         if startFrequency <= samplingFrequency && samplingFrequency <= endFrequency {
             
             
@@ -30,7 +30,6 @@ enum UNSWCleaner {
                                                                       signal: medianData)
             
             let lowPassFilteredSignal = Butterworth().butterworthLowPassForwardBackward(signal: highPassFilteredSignal, order: .eight, highCutFrequency: 20, sampleRate: samplingFrequency)
-            print(lowPassFilteredSignal)
             return lowPassFilteredSignal
             
         } else {

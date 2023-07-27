@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UNSWQRSDetection {
+class UNSWQRSDetector {
     
     let filteredFeatures: [Double]
     let samplingRate: Double
@@ -70,7 +70,7 @@ class UNSWQRSDetection {
     
     
     private func calculateQRSEnevelop(filteredFeatures: [Double], samplingRate: Double, heartRateFrequency: Double) -> [Double] {
-        let heartRateMax = 4.0
+        let heartRateMax = UNSWHeartRateFrequency.max.rawValue
         let morphologicalClosing = MathUtils.roundToInteger([samplingRate, samplingRate / heartRateFrequency, heartRateMax].map { 2.0 * $0 }.median())
         
         let upperEnvelopOpen = Sortfilt1.applySortFilt1(signal: filteredFeatures, windowSize: morphologicalClosing, filtType: .max)

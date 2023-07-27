@@ -21,7 +21,7 @@ class UNSW: Algorithm {
         
         let qrsFeatures = UNSWQRSFeatureGenerator.doFeatureGeneration(lowPassFiltered: ecgSignal, samplingRate: samplingFrequency)
         let (filteredQRSFeatures, heartRateFrequency) = UNSWQRSFeatureFilter.applyQRSFeatureFilter(feature: qrsFeatures, samplingRate: samplingFrequency)
-        let qrsDetector = UNSWQRSDetection(filteredFeatures: filteredQRSFeatures, samplingRate: samplingFrequency, heartRateFrequency: heartRateFrequency)
+        let qrsDetector = UNSWQRSDetector(filteredFeatures: filteredQRSFeatures, samplingRate: samplingFrequency, heartRateFrequency: heartRateFrequency)
         let peaks = qrsDetector.detectQRS(sensitivity: 1.0)
         let peaksWithMissedPeaks = qrsDetector.backtrackMissingPeaks(rPeaks: peaks)
         let allPeaksWithoutFalseBeats = qrsDetector.backtrackErroneouslyPeaks(rPeaks: peaksWithMissedPeaks)

@@ -73,7 +73,7 @@ static const int MAX_ORDER = 8;
     return filteredSignal;
 }
 
-#warning("Review types and const")
+#warning("Review  if signal can be passed as a const pointer")
 - (void)butterworthLowPassForwardBackward: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(int) order :(double) samplingRate {
     Iir::Butterworth::LowPass<MAX_ORDER> butterworthforwardLowPass;
     butterworthforwardLowPass.setupN(order,lowCutFrequency);
@@ -94,12 +94,9 @@ static const int MAX_ORDER = 8;
     }
 }
 
-// [0.029261017141500444, 0.18754654363414547,   0.46002873455844617, 0.47125250271381103]
 - (void)butterworthLowPass: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(int) order :(double) samplingRate {
     Iir::Butterworth::LowPass<MAX_ORDER> butterworthforwardLowPass;
     butterworthforwardLowPass.setupN(order,lowCutFrequency);
-    
-    //double forwardFiltered[vectorLength];
     
     for (int i = 0; i < vectorLength; ++i) {
         const double sample = signal[i];

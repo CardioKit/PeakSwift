@@ -19,7 +19,7 @@ enum UNSWQRSFeatureFilter {
         let heartRateFrequency = fftSetup.getHeartRateFrequency(fft: fft)
         
         let heartRateMin = 1.5
-        let heartRateMax = 4.0
+        let heartRateMax = UNSWHeartRateFrequency.max.rawValue
         let cutfoffFrequency = [heartRateMin, heartRateFrequency, heartRateMax].map { $0 * 2.0 }.median()
         
         let diffPowerSmoothed = self.applyHammingFilter(signal: feature, samplingRate: samplingRate, cutoffFrequency: cutfoffFrequency)

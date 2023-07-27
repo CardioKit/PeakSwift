@@ -16,6 +16,9 @@ struct UNSWFFT {
     let samplingRate: Double
     
     
+    /// Splits the signal by two second section and applies to each sections FFT
+    /// - Parameter signal: signal to apply the FFT
+    /// - Returns: normalized FFT output
     func applyFFTOnTwoSecondWindow(signal: [Double]) -> [Double] {
         
         #warning("Change to SampleIntervalMapper from another PR")
@@ -39,6 +42,33 @@ struct UNSWFFT {
         
     }
     
+    
+    /// Returns heartRateFrequency
+    /// - Parameter fft: a fft result of a signal (can be calculated with applyFFTOnTwoSecondWindow(...))
+    /// - Returns: The frequency of the heart rate
+    func getHeartRateFrequency(fft: [Double]) -> Double {
+        let maxFrequency = MathUtils.powerBase2(exponent: transformExpontent - 1)
+        let frequencies = (0..<maxFrequency).map { frequencyBase in
+            Double(frequencyBase) * samplingRate / Double(transformLength)
+        }
+        
+        #warning("Reconsider if force unwarp is good option here")
+        let heartRateFrequencyRangeStart = UNSWHeartRateFrequency.min.rawValue
+        let heartRateFrequencyRangeEnd = UNSWHeartRateFrequency.max.rawValue
+        let indexHeartRateFrequencyRangeStart = frequencies.firstIndex { frequency in
+            heartRateFrequencyRangeStart <= frequency
+        }!
+        let indexHeartRateFrequencyRangeEnd = frequencies.lastIndex { frequency in
+            frequency < heartRateFrequencyRangeEnd
+        }!
+    
+        // Note argmax doesn't return the argmax in range but the whole array
+        let indexMaxAmplitude = fft[indexHeartRateFrequencyRangeStart..<indexHeartRateFrequencyRangeEnd].argmax()!
+        let heartRateFrequency = frequencies[indexMaxAmplitude]
+        
+        return heartRateFrequency
+    }
+    
     private func substractMeanFrom(splittedSignal: [[Double]]) -> [[Double]] {
         let meanPerWindow = splittedSignal.map { signalPerWindow in
             MathUtils.mean(signalPerWindow)
@@ -57,30 +87,6 @@ struct UNSWFFT {
             return [Double](repeating: 0.0, count: fft.count)
         }
     }
-    
-    func getHeartRateFrequency(fft: [Double]) -> Double {
-        let maxFrequency = MathUtils.powerBase2(exponent: transformExpontent - 1)
-        let frequencies = (0..<maxFrequency).map { frequencyBase in
-            Double(frequencyBase) * samplingRate / Double(transformLength)
-        }
-        
-        #warning("Reconsider if force unwarp is good option here")
-        let heartRateFrequencyRangeStart = 0.1
-        let heartRateFrequencyRangeEnd = 4.0
-        let indexHeartRateFrequencyRangeStart = frequencies.firstIndex { frequency in
-            heartRateFrequencyRangeStart <= frequency
-        }!
-        let indexHeartRateFrequencyRangeEnd = frequencies.lastIndex { frequency in
-            frequency < heartRateFrequencyRangeEnd
-        }!
-    
-        // Note argmax doesn't return the argmax in range but the whole array
-        let indexMaxAmplitude = fft[indexHeartRateFrequencyRangeStart..<indexHeartRateFrequencyRangeEnd].argmax()!
-        let heartRateFrequency = frequencies[indexMaxAmplitude]
-        
-        return heartRateFrequency
-    }
-    
     
 
 }

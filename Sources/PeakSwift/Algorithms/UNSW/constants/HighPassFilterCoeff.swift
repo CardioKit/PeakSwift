@@ -7,6 +7,8 @@
 
 import Foundation
 
+// The implementation of UNSW uses fine-tuned (and hardcoded) coefficients if the sampling rate of a signal is between 400 and 600
+// Since these were hardcoded, they were also hardcoded here
 enum HighPassFilterCoeff {
     
     static let aCoeff: Double = 1
