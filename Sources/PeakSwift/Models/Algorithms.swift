@@ -20,5 +20,6 @@ public enum Algorithms {
     case neurokit
     case panTompkins
     case unsw
+    case engzee
     
 }

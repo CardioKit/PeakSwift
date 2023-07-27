@@ -37,6 +37,29 @@ static const int MAX_ORDER = 8;
     
 }
 
+- (NSMutableArray *) butterworthBandstop: (NSArray *) signal :(NSNumber *) order :(NSNumber*)samplingRate  :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency {
+    Iir::Butterworth::BandStop<MAX_ORDER> butterworthBandStop;
+    
+    const double double_samplingRate = [samplingRate doubleValue]; // Hz
+    const double double_lowCutFrequency = [lowCutFrequency doubleValue];
+    const double double_highCutFrequency = [highCutFrequency doubleValue];
+    const int requestedOrder = [order intValue];
+
+    const double centerFrequency = (double_highCutFrequency + double_lowCutFrequency) / 2;
+    const double widthFrequency = double_highCutFrequency - double_lowCutFrequency;
+    
+    butterworthBandStop.setupN(requestedOrder, double_samplingRate, centerFrequency, widthFrequency);
+    
+    NSMutableArray *filteredSignal = [NSMutableArray array];
+    for(NSNumber *sampleRaw in signal) {
+        const double sample = [sampleRaw doubleValue];
+        const double filteredSample = butterworthBandStop.filter(sample);
+        [filteredSignal addObject:[NSNumber numberWithDouble:filteredSample]];
+    }
+    return filteredSignal;
+    
+}
+
 - (NSMutableArray<NSNumber *> *) butterworthHighPassForwardBackward: (NSArray<NSNumber *> *) signal :(NSNumber *) order :(NSNumber*)samplingRate :(NSNumber*) lowCutFrequency {
     
     const double double_samplingRate = [samplingRate doubleValue]; // Hz

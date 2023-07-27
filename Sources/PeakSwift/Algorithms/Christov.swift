@@ -44,8 +44,7 @@ class Christov: Algorithm {
         var MList: [Double] = []
         var MM: [Double] = []
         
-        let stepInterval = (0.6-1) / Double(ms1200 - ms200 - 1)
-        let MSlopes = Array(stride(from: 1, through: 0.6, by: stepInterval))
+        let MSlopes = MathUtils.linespace(start: 1.0, end: 0.6, numberElements: ms1200 - ms200)
         
         var F = 0.0
         var FList: [Double] = []

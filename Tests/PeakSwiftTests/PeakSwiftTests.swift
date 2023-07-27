@@ -151,5 +151,15 @@ final class PeakSwiftTests: XCTestCase {
         
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
     }
+    
+    func testEngzee() throws {
+        
+        let qrsDetector = QRSDetector()
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestEngzee)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .engzee)
+        
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
+    }
 
 }

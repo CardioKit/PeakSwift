@@ -71,6 +71,18 @@ public class Butterworth {
         
     }
     
+    func butterworthBandStop(signal: [Double], order: Order, lowCutFrequency: Double, highCutFrequency: Double, sampleRate: Double) -> [Double] {
+        let signalObjC : [NSNumber] = signal as [NSNumber]
+        let lowCutObjC = NSNumber(value: lowCutFrequency)
+        let highCutObjC = NSNumber(value: highCutFrequency)
+        let sampleRateObjC = NSNumber(value: sampleRate)
+        let orderObjC = NSNumber(value: order.rawValue)
+        
+        let filteredSignal = butterworthWrapper.butterworthBandstop(signalObjC, orderObjC, sampleRateObjC, lowCutObjC, highCutObjC)
+        
+        return filteredSignal as! [Double]
+    }
+    
     func butterworthLowPassForwardBackward(signal: [Double], order: Order, normalizedHighCutFrequency: Double, sampleRate: Double) -> [Double] {
         var signalToFilter = [Double](signal)
         var lowPassFilteredSignal = [Double](repeating: 0.0, count: signal.count)
@@ -98,5 +110,4 @@ public class Butterworth {
     private func normalize(cutoffFrequency: Double, samplingFrequency: Double) -> Double {
         return cutoffFrequency / (samplingFrequency / 2)
     }
-
 }
