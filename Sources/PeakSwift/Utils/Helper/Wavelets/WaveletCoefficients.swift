@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Wavelet {
+struct WaveletCoefficients {
     
     let approximationCoefficient: [Double]
     private let detailCoefficients: [[Double]]
@@ -17,7 +17,7 @@ struct Wavelet {
         self.detailCoefficients = detailCoefficients
     }
     
-    func getDeteailCoefficientAt(level: Int) -> [Double] {
+    func getDetailCoefficientAt(level: Int) -> [Double] {
         detailCoefficients[level-1]
     }
     

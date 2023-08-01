@@ -16,12 +16,13 @@
     wave_object wave_obj;
     wt_object wavelet_obj;
     
-    const char* waveletName = "swt";
-    const char *name = "db3";
+    const char* waveletType = "swt";
+    const char* method = "direct";
+    const char *name = [wavelet UTF8String];
     
     wave_obj = wave_init(name);
-    wavelet_obj = wt_init(wave_obj, waveletName, signalSize, level);
-    setWTConv(wavelet_obj, "direct");
+    wavelet_obj = wt_init(wave_obj, waveletType, signalSize, level);
+    setWTConv(wavelet_obj, method);
     
     swt(wavelet_obj, signal);
     

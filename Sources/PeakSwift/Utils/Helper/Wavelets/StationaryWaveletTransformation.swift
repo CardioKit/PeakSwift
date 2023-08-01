@@ -13,20 +13,20 @@ class StationaryWaveletTransformation {
     
     let waveletsWrapper = WaveletsWrapper()
     
-    func applyStationaryWaveletsTransformation(signal: [Double], wavelet: String, level: Int) -> Wavelet {
+    func applyStationaryWaveletsTransformation(signal: [Double], wavelet: Wavelets, level: Int) -> WaveletCoefficients {
         
         let signalSize = signal.count
         
         var inputSignal = [Double](signal)
         
-        let outputWaveletTransformationRaw = waveletsWrapper.stationaryWaveletTransformation(&inputSignal, Int32(signalSize), "db3", Int32(level))
+        let outputWaveletTransformationRaw = waveletsWrapper.stationaryWaveletTransformation(&inputSignal, Int32(signalSize), wavelet.rawValue, Int32(level))
         
         let outputWaveletTransformation = outputWaveletTransformationRaw as! [Double]
         
         return extractCoefficients(waveletOutput: outputWaveletTransformation, level: level)
     }
     
-    private func extractCoefficients(waveletOutput: [Double], level: Int) -> Wavelet {
+    private func extractCoefficients(waveletOutput: [Double], level: Int) -> WaveletCoefficients {
         let coeffcientsSize = waveletOutput.count / (level + 1)
         let approximationCoefficients = Array(waveletOutput[0..<coeffcientsSize])
         
@@ -40,6 +40,6 @@ class StationaryWaveletTransformation {
         
         detailCoefficients = detailCoefficients.reversed()
         
-        return Wavelet(approximationCoefficient: approximationCoefficients, detailCoefficients: detailCoefficients)
+        return WaveletCoefficients(approximationCoefficient: approximationCoefficients, detailCoefficients: detailCoefficients)
     }
 }
