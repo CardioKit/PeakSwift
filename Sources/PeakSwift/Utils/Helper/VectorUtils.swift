@@ -22,4 +22,17 @@ class VectorUtils {
     static func setToZeroTilEnd(_ array: inout [Double], start: Int = 0) {
             setToZeroInRange(&array, start: start, end: array.count)
     }
+    
+    static func addPadding(_ array: [Double], startPaddingSize: Int, endPaddingSize: Int, paddingType: Padding) -> [Double] {
+        switch paddingType {
+            case .edge:
+            let startValue = array.first!
+            let endValue = array.last!
+            let startPadding = [Double](repeating: startValue, count: startPaddingSize)
+            let endPadding = [Double](repeating: endValue, count: endPaddingSize)
+            return startPadding + array + endPadding
+
+            
+        }
+    }
 }
