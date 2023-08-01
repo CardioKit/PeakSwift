@@ -25,12 +25,16 @@ let package = Package(
         .target(name: "IIR",
                 path: "Sources/IIR/iir"
          ),
+        .target(name: "wavelib",
+                path: "Sources/wavelib/src"
+         ),
         .target(
             name: "Butterworth",
-            dependencies: ["IIR"],
+            dependencies: ["IIR", "wavelib"],
             path: "Sources/Butterworth",
             cxxSettings: [
-                 .headerSearchPath("../IIR/iir/")
+                 .headerSearchPath("../IIR/iir/"),
+                 .headerSearchPath("../wavelib/header/")
             ]
         ),
         .target(
