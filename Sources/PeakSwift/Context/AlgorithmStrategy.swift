@@ -42,6 +42,8 @@ class AlgorithmStrategy {
             self.algorithm = PanTompkins()
         case .engzee:
             self.algorithm = Engzee()
+        case .kalidas:
+            self.algorithm = Kalidas()
         }
     }
     
