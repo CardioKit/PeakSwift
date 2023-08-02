@@ -17,6 +17,7 @@ class Kalidas: Algorithm {
     private let highcutFrequency = 10.0
     
     func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        
         let signalSize = ecgSignal.count
     
         let padding = (0...).first { index in
@@ -35,14 +36,18 @@ class Kalidas: Algorithm {
         let filteredSignal = butterworth.butterworth(signal: signalSquared, order: .three, lowCutFrequency: lowcutFrequency, highCutFrequency: highcutFrequency, sampleRate: samplingFrequency)
         
         let filteredSignalWithoutPadding = Array(filteredSignal[..<signalSize])
+        
         return filteredSignalWithoutPadding
+        
     }
     
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
+        
         let rPeaks = PeakUtils.findPeaks(signal: ecgSignal, samplingRate: samplingFrequency)
         
         return rPeaks.map { UInt($0) }
+        
     }
     
     
