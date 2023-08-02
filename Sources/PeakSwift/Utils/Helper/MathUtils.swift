@@ -114,4 +114,10 @@ enum MathUtils {
         let stepInterval = (end-start) / Double(numberElements - 1)
         return  Array(stride(from: start, through: end, by: stepInterval))
     }
+    
+    // Swift doesn't have a good in-build function to power Integer
+        // For sake not loosing precision provide a special function for powering with base 2
+    static func powerBase2(exponent: Int) -> Int {
+            return 2 << (exponent - 1)
+    }
 }
