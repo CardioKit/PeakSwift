@@ -26,8 +26,11 @@ class VectorUtils {
     static func addPadding(_ array: [Double], startPaddingSize: Int, endPaddingSize: Int, paddingType: Padding) -> [Double] {
         switch paddingType {
             case .edge:
-            let startValue = array.first!
-            let endValue = array.last!
+            
+            guard let startValue = array.first, let endValue = array.last else {
+                // no padding added to an empty array
+                return array
+            }
             let startPadding = [Double](repeating: startValue, count: startPaddingSize)
             let endPadding = [Double](repeating: endValue, count: endPaddingSize)
             return startPadding + array + endPadding
