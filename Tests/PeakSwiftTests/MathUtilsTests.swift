@@ -26,4 +26,24 @@ final class MathUtilsTests: XCTestCase {
         
         XCTAssertEqual(actualGradient, expectedGradient)
     }
+    
+    func testPowerBase2WithZeroExponent() {
+        
+        let inputExponent = 0
+        
+        let actualPowerBase2 = MathUtils.powerBase2(exponent: inputExponent)
+        let expectedPowerBase2 = 1
+        
+        XCTAssertEqual(actualPowerBase2, expectedPowerBase2)
+    }
+    
+    func testPowerBase2() {
+        let inputExponent = 4
+        
+        let actualPowerBase2 = MathUtils.powerBase2(exponent: inputExponent)
+        let expectedPowerBase2 = 16
+        
+        XCTAssertEqual(actualPowerBase2, expectedPowerBase2)
+        
+    }
 }

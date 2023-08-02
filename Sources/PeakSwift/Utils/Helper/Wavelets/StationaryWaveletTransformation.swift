@@ -39,14 +39,14 @@ class StationaryWaveletTransformation {
     ///   - level: decomposition steps
     /// - Returns: An object wrapping the approximation coeffecients of the last decomposition step and detail coeffecients of all decomposition steps
     private func extractCoefficients(waveletOutput: [Double], level: Int) -> WaveletCoefficients {
-        let coeffcientsSize = waveletOutput.count / (level + 1)
-        let approximationCoefficients = Array(waveletOutput[0..<coeffcientsSize])
+        let coefficientsSize = waveletOutput.count / (level + 1)
+        let approximationCoefficients = Array(waveletOutput[0..<coefficientsSize])
         
         var detailCoefficients: [[Double]] = []
         
         for index in 1...level {
-            let start = index * coeffcientsSize
-            let detailCoefficient = Array(waveletOutput[start..<(start + coeffcientsSize)])
+            let start = index * coefficientsSize
+            let detailCoefficient = Array(waveletOutput[start..<(start + coefficientsSize)])
             detailCoefficients.append(detailCoefficient)
         }
         
