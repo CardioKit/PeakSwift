@@ -7,6 +7,11 @@
 
 import Foundation
 
+/// - Vignesh Kalidas and Lakshman Tamil (2017). Real-time QRS detector using Stationary Wavelet Transform
+///      for Automated ECG Analysis. In: 2017 IEEE 17th International Conference on Bioinformatics and
+///      Bioengineering (BIBE). Uses the Pan and Tompkins thresolding.
+///
+/// Reference implementation: https://github.com/neuropsychology/NeuroKit
 class Kalidas: Algorithm {
     
     private let swtLevel = 3
