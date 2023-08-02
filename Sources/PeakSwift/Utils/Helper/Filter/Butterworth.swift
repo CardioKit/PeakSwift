@@ -48,7 +48,6 @@ public class Butterworth {
     }
     
     
-    
     /// This butterworth filter applies the a HighPassFilter once forward and afterwards backwards
     /// - Parameters:
     ///   - signal: The signal to filter
@@ -79,4 +78,8 @@ public class Butterworth {
         
         return filteredSignal as! [Double]
     }
+    
+    private func normalize(cutoffFrequency: Double, samplingFrequency: Double) -> Double {
+         return cutoffFrequency / (samplingFrequency / 2)
+     }
 }

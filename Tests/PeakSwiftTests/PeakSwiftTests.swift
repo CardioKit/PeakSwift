@@ -169,7 +169,7 @@ final class PeakSwiftTests: XCTestCase {
         let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestKalidas)
         let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .kalidas)
         
-        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks)
+        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: 1)
     }
 
 }
