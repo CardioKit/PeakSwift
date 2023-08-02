@@ -35,15 +35,16 @@ class VectorUtils {
         switch paddingMethod {
             case .edge:
             
-            guard let startValue = array.first, let endValue = array.last else {
-                // no padding added to an empty array
-                return array
-            }
-            let startPadding = [Double](repeating: startValue, count: startPaddingSize)
-            let endPadding = [Double](repeating: endValue, count: endPaddingSize)
-            return startPadding + array + endPadding
-
+                guard let startValue = array.first, let endValue = array.last else {
+                    // no padding added to an empty array
+                    return array
+                }
             
+                let startPadding = [Double](repeating: startValue, count: startPaddingSize)
+                let endPadding = [Double](repeating: endValue, count: endPaddingSize)
+            
+                return startPadding + array + endPadding
+
         }
     }
 }

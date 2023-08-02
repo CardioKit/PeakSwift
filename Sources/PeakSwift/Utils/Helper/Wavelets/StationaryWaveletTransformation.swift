@@ -19,7 +19,7 @@ class StationaryWaveletTransformation {
     ///   - signal: signal to transform. Constraints on signal size: (signal.size% 2^^level == 0)
     ///   - wavelet: wavelet family (currently only db3 is supported)
     ///   - level: number of decomposition steps of the signal
-    /// - Returns: The approximation coeffecients of the last decomposition step and detail coeffecients of all decomposition steps
+    /// - Returns: The approximation coefficients of the last decomposition step and detail coeffecients of all decomposition steps
     func applyStationaryWaveletsTransformation(signal: [Double], wavelet: Wavelets, level: Int) -> WaveletCoefficients {
         
         let signalSize = signal.count
