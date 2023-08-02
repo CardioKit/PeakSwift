@@ -13,6 +13,13 @@ class StationaryWaveletTransformation {
     
     let waveletsWrapper = WaveletsWrapper()
     
+    
+    /// Applies stationary wavelet transformation on the signal
+    /// - Parameters:
+    ///   - signal: signal to transform
+    ///   - wavelet: wavelet family (currently only db3 is supported)
+    ///   - level: number of decomposition steps of the signal
+    /// - Returns: The approximation coeffecients of the last decomposition step and detail coeffecients of all decomposition steps
     func applyStationaryWaveletsTransformation(signal: [Double], wavelet: Wavelets, level: Int) -> WaveletCoefficients {
         
         let signalSize = signal.count
@@ -26,6 +33,11 @@ class StationaryWaveletTransformation {
         return extractCoefficients(waveletOutput: outputWaveletTransformation, level: level)
     }
     
+    /// Helper function to transform the wavelets library output in an OOP manner
+    /// - Parameters:
+    ///   - waveletOutput: wavlets library output
+    ///   - level: decomposition steps
+    /// - Returns: An object wrapping the approximation coeffecients of the last decomposition step and detail coeffecients of all decomposition steps
     private func extractCoefficients(waveletOutput: [Double], level: Int) -> WaveletCoefficients {
         let coeffcientsSize = waveletOutput.count / (level + 1)
         let approximationCoefficients = Array(waveletOutput[0..<coeffcientsSize])

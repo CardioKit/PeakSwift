@@ -10,4 +10,5 @@ import Foundation
 enum Wavelets: String {
     
     case db3 = "db3"
+    
 }

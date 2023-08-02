@@ -24,7 +24,7 @@ class Kalidas: Algorithm {
            (signalSize + index) % swtBase == 0
         } ?? 0
 
-        let signalWithPadding = VectorUtils.addPadding(ecgSignal, startPaddingSize: 0, endPaddingSize: padding, paddingType: .edge)
+        let signalWithPadding = VectorUtils.addPadding(ecgSignal, startPaddingSize: 0, endPaddingSize: padding, paddingMethod: .edge)
         
         let swtSetup = StationaryWaveletTransformation()
         let swtECG = swtSetup.applyStationaryWaveletsTransformation(signal: signalWithPadding, wavelet: .db3, level: swtLevel)

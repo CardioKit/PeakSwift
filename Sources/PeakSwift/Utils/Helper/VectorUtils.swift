@@ -23,8 +23,16 @@ class VectorUtils {
             setToZeroInRange(&array, start: start, end: array.count)
     }
     
-    static func addPadding(_ array: [Double], startPaddingSize: Int, endPaddingSize: Int, paddingType: Padding) -> [Double] {
-        switch paddingType {
+    /// Adds padding to the vector
+    /// Based on https://numpy.org/doc/stable/reference/generated/numpy.pad.html
+    /// - Parameters:
+    ///   - array: array to add padding
+    ///   - startPaddingSize: number of values to pad at the start of the array
+    ///   - endPaddingSize: number of values to pad at the end of the array
+    ///   - paddingMethod: approach how to generate padding at the start/end of the array (Supported: edge). The edge method uses the first and last value at the edge to padd the signal accordingly
+    /// - Returns: signal with padding
+    static func addPadding(_ array: [Double], startPaddingSize: Int, endPaddingSize: Int, paddingMethod: Padding) -> [Double] {
+        switch paddingMethod {
             case .edge:
             
             guard let startValue = array.first, let endValue = array.last else {
