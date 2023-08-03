@@ -18,7 +18,7 @@ final class WindowsTests: XCTestCase {
         
         let hammingWindowSize = 3
         
-        let actualHammingWindow = Hamming.createHammingWindow(windowSize: hammingWindowSize)
+        let actualHammingWindow =  Windows.createWindow(windowSize: hammingWindowSize, windowSequency: .hamming)
         let expectedHammingWindow = [0.08, 1, 0.08]
         
         AssertEqualWithThreshold(actualHammingWindow, expectedHammingWindow, threshold: Constants.doubleAccuracy)
@@ -28,7 +28,7 @@ final class WindowsTests: XCTestCase {
         
         let hammingWindowSize = 4
         
-        let actualHammingWindow = Hamming.createHammingWindow(windowSize: hammingWindowSize)
+        let actualHammingWindow =  Windows.createWindow(windowSize: hammingWindowSize, windowSequency: .hamming)
         let expectedHammingWindow = [0.08, 0.77, 0.77, 0.08]
         
         AssertEqualWithThreshold(actualHammingWindow, expectedHammingWindow, threshold: Constants.doubleAccuracy)
@@ -39,7 +39,7 @@ final class WindowsTests: XCTestCase {
         
         let hammingWindowSize = 10
         
-        let actualHammingWindow = Hamming.createHammingWindow(windowSize: hammingWindowSize)
+        let actualHammingWindow = Windows.createWindow(windowSize: hammingWindowSize, windowSequency: .hamming)
         let expectedHammingWindow = [0.08, 0.1876195561652700, 0.4601218382732120, 0.77, 0.9722586055615180, 0.9722586055615180, 0.77, 0.4601218382732120, 0.1876195561652700, 0.08]
         
         AssertEqualWithThreshold(actualHammingWindow, expectedHammingWindow, threshold: Constants.doubleAccuracy)
@@ -50,7 +50,7 @@ final class WindowsTests: XCTestCase {
         
         let hannWindowSize = 6
         
-        let actualHannWindow = Hann.createHannWindow(windowSize: hannWindowSize)
+        let actualHannWindow = Windows.createWindow(windowSize: hannWindowSize, windowSequency: .hann)
         let expectedHannWindow = [0.0, 0.34549150281252633, 0.9045084971874737, 0.9045084971874737, 0.34549150281252633, 0.0]
         
         AssertEqualWithThreshold(actualHannWindow, expectedHannWindow, threshold: Constants.doubleAccuracy)
@@ -61,7 +61,7 @@ final class WindowsTests: XCTestCase {
         
         let hannWindowSize = 7
         
-        let actualHannWindow = Hann.createHannWindow(windowSize: hannWindowSize)
+        let actualHannWindow = Windows.createWindow(windowSize: hannWindowSize, windowSequency: .hann)
         let expectedHannWindow = [0.0, 0.2499999999999999, 0.75, 1.0, 0.7500000000000002, 0.2500000000000003, 0.0]
 
         
