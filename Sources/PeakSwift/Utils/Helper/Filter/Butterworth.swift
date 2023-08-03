@@ -16,6 +16,9 @@ public class Butterworth {
         case three
         case four
         case five
+        case six
+        case seven
+        case eight
         // ButterworthWrapper is internally restricted to only order 5 filtering
         // Can be increased if necessary in the ButterworthWrapper.mm implementation
     }
@@ -78,5 +81,33 @@ public class Butterworth {
         let filteredSignal = butterworthWrapper.butterworthBandstop(signalObjC, orderObjC, sampleRateObjC, lowCutObjC, highCutObjC)
         
         return filteredSignal as! [Double]
+    }
+    
+    func butterworthLowPassForwardBackward(signal: [Double], order: Order, normalizedHighCutFrequency: Double, sampleRate: Double) -> [Double] {
+        var signalToFilter = [Double](signal)
+        var lowPassFilteredSignal = [Double](repeating: 0.0, count: signal.count)
+        butterworthWrapper.butterworthLowPassForwardBackward(&signalToFilter, &lowPassFilteredSignal, Int32(signal.count), normalizedHighCutFrequency, Int32(order.rawValue), sampleRate)
+        return lowPassFilteredSignal
+    }
+    
+    func butterworthLowPass(signal: [Double], order: Order, normalizedHighCutFrequency: Double, sampleRate: Double) -> [Double] {
+        var signalToFilter = [Double](signal)
+        var lowPassFilteredSignal = [Double](repeating: 0.0, count: signal.count)
+        butterworthWrapper.butterworthLowPass(&signalToFilter, &lowPassFilteredSignal, Int32(signal.count), normalizedHighCutFrequency, Int32(order.rawValue), sampleRate)
+        return lowPassFilteredSignal
+    }
+    
+    func butterworthLowPass(signal: [Double], order: Order, highCutFrequency: Double, sampleRate: Double) -> [Double] {
+        let normalizedCutoffFrequency = normalize(cutoffFrequency: highCutFrequency, samplingFrequency: sampleRate)
+        return butterworthLowPass(signal: signal, order: order, normalizedHighCutFrequency: normalizedCutoffFrequency, sampleRate: sampleRate)
+    }
+    
+    func butterworthLowPassForwardBackward(signal: [Double], order: Order, highCutFrequency: Double, sampleRate: Double) -> [Double] {
+        let normalizedCutoffFrequency = normalize(cutoffFrequency: highCutFrequency, samplingFrequency: sampleRate)
+        return butterworthLowPassForwardBackward(signal: signal, order: order, normalizedHighCutFrequency: normalizedCutoffFrequency, sampleRate: sampleRate)
+    }
+    
+    private func normalize(cutoffFrequency: Double, samplingFrequency: Double) -> Double {
+        return cutoffFrequency / (samplingFrequency / 2)
     }
 }

@@ -87,7 +87,21 @@ enum MathUtils {
         return vDSP.multiply(scalar, array)
     }
     
+    static func divideScalar(_ array: [Double], _ scalar: Double) -> [Double] {
+        return vDSP.divide(array, scalar)
+    }
+    
+    static func subtractScalar(_ array: [Double], _ scalar: Double) -> [Double] {
+        // vDSP doesn't have a anolog for substarct
+        return vDSP.add(-scalar, array)
+    }
+    
     static func subtractVectors(_ v1: ArraySlice<Double>, _ v2: ArraySlice<Double>) -> [Double] {
+        return vDSP.subtract(v1, v2)
+    }
+    
+    #warning("Make proper random access collection interface collection")
+    static func subtractVectors(_ v1: [Double], _ v2: [Double]) -> [Double] {
         return vDSP.subtract(v1, v2)
     }
     
@@ -95,6 +109,11 @@ enum MathUtils {
         return zip(v1,v2).map {
             (x,y) in x - y
         }
+    }
+    
+    #warning("Make proper random access collection interface collection")
+    static func mulVectors(_ v1: [Double], _ v2: [Double]) -> [Double] {
+        return vDSP.multiply(v1, v2)
     }
     
     static func mulScalar(_ vector: [Int], _ scalar: Int) -> [Int] {
@@ -108,6 +127,29 @@ enum MathUtils {
     
     static func floorDevision(_ x: Double, _ y: Double) -> Double {
         return floor(x / y)
+    }
+    
+    // Swift doesn't have a good in-build function to power Integer
+    // For sake not loosing precision provide a special function for powering with base 2
+    static func powerBase2(exponent: Int) -> Int {
+        return 2 << (exponent - 1)
+    }
+    
+    static func isEven(_ number: Int) -> Bool {
+        return number % 2 == 0
+    }
+    
+    static func sum(_ vector: [Double]) -> Double {
+        return vDSP.sum(vector)
+    }
+    
+    
+    static func addVectors(_ v1: [Double], _ v2: [Double]) -> [Double] {
+        return vDSP.add(v1, v2)
+    }
+    
+    static func sqrt(_ vector: [Double]) -> [Double] {
+        return vForce.sqrt(vector)
     }
     
     static func linespace(start: Double, end: Double, numberElements: Int) -> [Double] {

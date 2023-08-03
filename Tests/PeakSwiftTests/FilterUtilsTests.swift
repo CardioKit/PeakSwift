@@ -69,4 +69,62 @@ final class FilterTests: XCTestCase {
         XCTAssertEqual(actualPowerlineFilter, expectedPowerlineFilter)
     }
     
+    func testBaseline() {
+        let inputSignal: [Double] = [1,2,3,5,6]
+        
+        
+        let actualDetrend = Baseline.detrend(signal: inputSignal)
+        
+        // Generated with Matlab.detrend(...)
+        let expectedDetrend: [Double] = [0.2, -0.1, -0.4, 0.3, 0]
+        
+        
+        AssertEqualWithThreshold(actualDetrend, expectedDetrend, threshold: Constants.doubleAccuracy)
+    }
+    
+    func testBaselineRepetiveInput() {
+        let inputSignal: [Double] = [1,2,3,1,2,3]
+        
+        
+        let actualDetrend = Baseline.detrend(signal: inputSignal)
+        
+        // Generated with Matlab.detrend(...)
+        let expectedDetrend: [Double] = [-0.428571428571429, 0.342857142857143, 1.11428571428571, -1.11428571428571, -0.342857142857143, 0.428571428571429]
+        
+        AssertEqualWithThreshold(actualDetrend, expectedDetrend, threshold: Constants.doubleAccuracy)
+    }
+    
+    func testHammingOddWindow() {
+        
+        let hammingWindowSize = 3
+        
+        let actualHammingWindow = Hamming.createHammingWindow(windowSize: hammingWindowSize)
+        let expectedHammingWindow = [0.08, 1, 0.08]
+        
+        AssertEqualWithThreshold(actualHammingWindow, expectedHammingWindow, threshold: Constants.doubleAccuracy)
+    }
+    
+    func testHammingEvenWindow() {
+        
+        let hammingWindowSize = 4
+        
+        let actualHammingWindow = Hamming.createHammingWindow(windowSize: hammingWindowSize)
+        let expectedHammingWindow = [0.08, 0.77, 0.77, 0.08]
+        
+        AssertEqualWithThreshold(actualHammingWindow, expectedHammingWindow, threshold: Constants.doubleAccuracy)
+    }
+    
+    
+    func testHammingLargeWindow() {
+        
+        let hammingWindowSize = 10
+        
+        let actualHammingWindow = Hamming.createHammingWindow(windowSize: hammingWindowSize)
+        let expectedHammingWindow = [0.08, 0.1876195561652700, 0.4601218382732120, 0.77, 0.9722586055615180, 0.9722586055615180, 0.77, 0.4601218382732120, 0.1876195561652700, 0.08]
+        
+        AssertEqualWithThreshold(actualHammingWindow, expectedHammingWindow, threshold: Constants.doubleAccuracy)
+    }
+    
+    
+    
 }

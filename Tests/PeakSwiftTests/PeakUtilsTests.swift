@@ -42,4 +42,16 @@ final class PeakUtilsTests: XCTestCase {
         XCTAssertEqual(actualPeaksAndProminence.peakPosition, expectedPeaks)
         XCTAssertEqual(actualPeaksAndProminence.peakProminences, expectedProminence)
     }
+    
+    func testProminenceFiltered() {
+        
+        let inputSignal: [Double] = [1,0, 5,1, 0, 3, 0,0, 4,0,1,0,0, 0]
+        let actualPeaksAndProminence = PeakUtils.findAllPeaksAndProminences(signal: inputSignal, minProminence: 1.5)
+        
+        let expectedPeaks = [2, 5, 8]
+        let expectedProminence: [Double] = [5, 3, 4]
+        
+        XCTAssertEqual(actualPeaksAndProminence.peakPosition, expectedPeaks)
+        XCTAssertEqual(actualPeaksAndProminence.peakProminences, expectedProminence)
+    }
 }
