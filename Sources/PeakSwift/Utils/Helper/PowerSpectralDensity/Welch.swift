@@ -14,7 +14,7 @@ enum Welch {
         
         let noverlap = noverlap ??  nperseg / 2
         
-        let windowSequency = Windows.createWindow(windowSize: nperseg, windowSequency: .hann)
+        let windowSequency = Windows.createWindow(windowSize: nperseg, windowSequency: .hann, symmetric: false)
         let scale = calculateScalingFactor(samplingFequency: samplingFrequency, windowSequency: windowSequency)
         
         let signalSplittedByWindows = splitSignalByWindows(signal: signal, nperseg: nperseg, noverlap: noverlap)
@@ -25,8 +25,9 @@ enum Welch {
         
         let frequencies = FFT.generateSampleFrequencies(windowSize: nfft, samplingFrequency: 1.0 / samplingFrequency)
         let fft = applyFFT(signalWithAppliedWindow, nfft, scale)
+        let mean = mean(fft)
         
-        return (power: [], frequencies: frequencies)
+        return (power: mean, frequencies: frequencies)
         
     }
     
@@ -62,6 +63,8 @@ enum Welch {
     private static func applyFFT(_ signalWithAppliedWindow: [[Double]], _ nfft: Int, _ scale: Double) -> [[Double]] {
         let signalFFT = signalWithAppliedWindow.map { row in
             FFT.applyFFT(signal: row, transformLength: nfft)
+        }.map { row in
+            row.slice(0...(row.count / 2))
         }
         
         let signalFFTOnlyReal = signalFFT.map { row in
@@ -72,11 +75,26 @@ enum Welch {
             row.map { col in
                 col * scale
             }.enumerated().map { (index, col) in
-                0 < index && index < (row.count - 1) ? col / 2 : col
+                0 < index && index < (row.count - 1) ? col * 2 : col
             }
         }
         
         return signalFFTScaled
+    }
+    
+    private static func mean(_ matrix: [[Double]]) -> [Double] {
+        
+        var res: [Double] = []
+        let rows = Double(matrix.count)
+        for i in 0..<matrix[0].count {
+            var sum = 0.0
+            for j in 0..<matrix.count {
+                sum = sum + matrix[j][i]
+            }
+            res.append(sum / rows)
+        }
+        
+        return res
     }
     
 }

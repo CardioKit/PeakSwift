@@ -27,6 +27,6 @@ final class PowerSpectralDensity: XCTestCase {
         
         
         AssertEqualWithThreshold(actualPSD.frequencies, expectedPSDFrequencies)
-        AssertEqualWithThreshold(actualPSD.power, expectedPSDPower)
+        AssertEqualWithThreshold(actualPSD.power, expectedPSDPower, threshold: Constants.doubleAccuracy)
     }
 }
