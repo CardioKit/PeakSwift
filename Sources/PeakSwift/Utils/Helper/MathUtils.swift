@@ -7,6 +7,7 @@
 
 import Foundation
 import Accelerate
+import Surge
 
 enum MathUtils {
     
@@ -155,5 +156,17 @@ enum MathUtils {
     static func linespace(start: Double, end: Double, numberElements: Int) -> [Double] {
         let stepInterval = (end-start) / Double(numberElements - 1)
         return  Array(stride(from: start, through: end, by: stepInterval))
+    }
+    
+    static func mean(ofMatrix matrixValues: [[Double]]) -> [Double] {
+        
+        let matrix = Matrix(matrixValues)
+        let outputSize = matrix.rows
+        let identityVector = Vector([Double](repeating: 1, count: outputSize))
+        
+        let sumOfAllRows = identityVector * matrix
+        let mean = sumOfAllRows / Double(outputSize)
+        
+        return mean.scalars
     }
 }

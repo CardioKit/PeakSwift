@@ -25,7 +25,7 @@ enum Welch {
         
         let frequencies = FFT.generateSampleFrequencies(windowSize: nfft.value, samplingFrequency: 1.0 / samplingFrequency)
         let fft = applyFFT(signalWithAppliedWindow, nfft.value, scale)
-        let mean = mean(fft)
+        let mean = MathUtils.mean(ofMatrix: fft)
         
         return .init(power: mean, frequencies: frequencies)
         
@@ -80,21 +80,6 @@ enum Welch {
         }
         
         return signalFFTScaled
-    }
-    
-    private static func mean(_ matrix: [[Double]]) -> [Double] {
-        
-        var res: [Double] = []
-        let rows = Double(matrix.count)
-        for i in 0..<matrix[0].count {
-            var sum = 0.0
-            for j in 0..<matrix.count {
-                sum = sum + matrix[j][i]
-            }
-            res.append(sum / rows)
-        }
-        
-        return res
     }
     
 }
