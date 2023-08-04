@@ -10,6 +10,17 @@ import Foundation
 enum Welch {
 
     
+    /// Estimates the power spectral density(psd) based on the welch method. This method splits the signal in segments that may overlap and afterwards applies the FFT on each segement. Afterwards, the average of all FFT results segments is taken.
+    ///
+    /// Inspired by https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html
+    ///
+    /// - Parameters:
+    ///   - signal: signal to calculate the psd
+    ///   - samplingFrequency: sampling frequency of signal
+    ///   - nperseg: length of segments
+    ///   - noverlap: size of overlapping items between segments
+    ///   - nfft: (zero-padded) size of fft
+    /// - Returns: power spectral density which includes the power and frequency
     static func estimatePowerSpectralDensity(signal: [Double], samplingFrequency: Double, nperseg: Int, noverlap: Int?, nfft: PowerOfTwo) -> PowerSpectralDensity {
         
         let noverlap = noverlap ??  nperseg / 2
@@ -71,6 +82,7 @@ enum Welch {
             row.conj().multiply(rhs: row).realPart
         }
         
+        #warning("Consider optimizing with vDSP. Is a bit tricky since we need to slice the first column and last")
         let signalFFTScaled = signalFFTOnlyReal.map { row in
             row.map { col in
                 col * scale
