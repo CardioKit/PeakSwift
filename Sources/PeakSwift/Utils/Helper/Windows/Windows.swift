@@ -10,15 +10,16 @@ import Accelerate
 
 enum Windows {
     
-    static func createWindow(windowSize: Int, windowSequency: WindowSequence) -> [Double] {
+    static func createWindow(windowSize: Int, windowSequency: WindowSequence, symmetric: Bool = true) -> [Double] {
         #warning("Error if window size 0")
         // MatLab's and Python's implementation generates the same window but reduced by one positon
         // Afterwards the first value is mirrored at the end
-        let actualWindowSize = windowSize - 1
+        let actualWindowSize = symmetric ? (windowSize - 1) : windowSize
         let sequency: vDSP.WindowSequence = windowSequency.rawValue
         
         let window =  vDSP.window(ofType: Double.self, usingSequence: sequency, count: actualWindowSize, isHalfWindow: false)
         
-        return window + [window[0]]
+        let paddingEnd = symmetric ?  [window[0]] : []
+        return window + paddingEnd
     }
 }

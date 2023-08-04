@@ -67,5 +67,28 @@ final class WindowsTests: XCTestCase {
         
         AssertEqualWithThreshold(actualHannWindow, expectedHannWindow, threshold: Constants.doubleAccuracy)
     }
+    
+    
+    func testHannEvenWindowSymmteric() {
+        
+        let hannWindowSize = 4
+        
+        let actualHannWindow = Windows.createWindow(windowSize: hannWindowSize, windowSequency: .hann, symmetric: false)
+        let expectedHannWindow = [0.0, 0.5, 1, 0.5]
+
+        
+        AssertEqualWithThreshold(actualHannWindow, expectedHannWindow, threshold: Constants.doubleAccuracy)
+    }
+    
+    func testHannOddWindowSymmteric() {
+        
+        let hannWindowSize = 7
+        
+        let actualHannWindow = Windows.createWindow(windowSize: hannWindowSize, windowSequency: .hann, symmetric: false)
+        let expectedHannWindow = [0.0,0.18825509907063326,0.6112604669781572,0.9504844339512095,0.9504844339512095,0.6112604669781572,0.18825509907063326]
+        
+        AssertEqualWithThreshold(actualHannWindow, expectedHannWindow, threshold: Constants.doubleAccuracy)
+    }
+
 
 }
