@@ -10,7 +10,7 @@ import Foundation
 enum Welch {
 
     
-    static func estimatePowerSpectralDensity(signal: [Double], samplingFrequency: Double, nperseg: Int, noverlap: Int?, nfft: Int) -> (power: [Double], frequencies: [Double]) {
+    static func estimatePowerSpectralDensity(signal: [Double], samplingFrequency: Double, nperseg: Int, noverlap: Int?, nfft: PowerOfTwo) -> PowerSpectralDensity {
         
         let noverlap = noverlap ??  nperseg / 2
         
@@ -23,11 +23,11 @@ enum Welch {
             MathUtils.mulVectors(row, windowSequency)
         }
         
-        let frequencies = FFT.generateSampleFrequencies(windowSize: nfft, samplingFrequency: 1.0 / samplingFrequency)
-        let fft = applyFFT(signalWithAppliedWindow, nfft, scale)
+        let frequencies = FFT.generateSampleFrequencies(windowSize: nfft.value, samplingFrequency: 1.0 / samplingFrequency)
+        let fft = applyFFT(signalWithAppliedWindow, nfft.value, scale)
         let mean = mean(fft)
         
-        return (power: mean, frequencies: frequencies)
+        return .init(power: mean, frequencies: frequencies)
         
     }
     

@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import PeakSwift
 
-final class PowerSpectralDensity: XCTestCase {
+final class PowerSpectralDensityTests: XCTestCase {
     
     
     func testWelch() {
@@ -20,7 +20,7 @@ final class PowerSpectralDensity: XCTestCase {
         let nfft = 8
         let samplingRate = 1.0
         
-        let actualPSD = Welch.estimatePowerSpectralDensity(signal: inputSignal, samplingFrequency: samplingRate, nperseg: nperseg, noverlap: nil, nfft: nfft)
+        let actualPSD = Welch.estimatePowerSpectralDensity(signal: inputSignal, samplingFrequency: samplingRate, nperseg: nperseg, noverlap: nil, nfft: TransposedPowerOfTwo(value: inputSignal.count))
         
         let expectedPSDFrequencies = [0.0, 0.125, 0.25, 0.375, 0.5]
         let expectedPSDPower = [45.33333333333333,66.72217408045681,24.0,2.6111592528765124,0.0]
@@ -41,7 +41,7 @@ final class PowerSpectralDensity: XCTestCase {
 
         let signal = signalGenerator.synthesizeSignal(samplingFrequency: samplingFrequency, signalLength: signalLength)
         
-        let actualPSD = Welch.estimatePowerSpectralDensity(signal: signal, samplingFrequency: samplingFrequency, nperseg: nperseg, noverlap: nil, nfft: signalLength)
+        let actualPSD = Welch.estimatePowerSpectralDensity(signal: signal, samplingFrequency: samplingFrequency, nperseg: nperseg, noverlap: nil, nfft: TransposedPowerOfTwo(value: signalLength))
         
         // There should be only 2 prominent peaks at frequencies 50Hz and 120Hz
         let actualPeaks = PeakUtils.findAllPeaksAndProminences(signal: actualPSD.power, minProminence: 0.1).peakPosition
@@ -62,10 +62,8 @@ final class PowerSpectralDensity: XCTestCase {
         let signalGenerator = SignalGenerator(signalComponents: [sin50Hz, sin120Hz])
 
         let signal = signalGenerator.synthesizeSignal(samplingFrequency: samplingFrequency, signalLength: signalLength)
-        //print(signal)
         
-        let actualPSD = Welch.estimatePowerSpectralDensity(signal: signal, samplingFrequency: samplingFrequency, nperseg: nperseg, noverlap: nil, nfft: 1024)
-        print(actualPSD.frequencies)
+        let actualPSD = Welch.estimatePowerSpectralDensity(signal: signal, samplingFrequency: samplingFrequency, nperseg: nperseg, noverlap: nil, nfft: TransposedPowerOfTwo(value: signalLength))
         
         // There should be only 2 prominent peaks at frequencies 50Hz and 120Hz
         let actualPeaks = PeakUtils.findAllPeaksAndProminences(signal: actualPSD.power, minProminence: 0.1).peakPosition
