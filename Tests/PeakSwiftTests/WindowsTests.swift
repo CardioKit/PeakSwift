@@ -67,4 +67,5 @@ final class WindowsTests: XCTestCase {
         
         AssertEqualWithThreshold(actualHannWindow, expectedHannWindow, threshold: Constants.doubleAccuracy)
     }
+
 }
