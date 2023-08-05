@@ -89,7 +89,7 @@ final class PowerSpectralDensityTests: XCTestCase {
         let bandFrequency110Hz130Hz = BandFrequency(minFrequency: 110, maxFrequency: 130)
         let bandFrequencies = [bandFrequency40Hz60Hz, bandFrequency110Hz130Hz]
         
-        let actualPowerOfSignal = SignalPower.calculatePowerOfSignal(signal: signal, samplingFrequency: samplingFrequency, bandFrequencies: bandFrequencies)
+        let actualPowerOfSignal = SignalPower.calculatePowerOfSignalForBandFrequencies(signal: signal, samplingFrequency: samplingFrequency, bandFrequencies: bandFrequencies)
         
         let expectedPowerOfSignal40Hz60Hz = 0.245
         let expectedPowerOfSignal110Hz130Hz = 0.5
@@ -116,7 +116,7 @@ final class PowerSpectralDensityTests: XCTestCase {
         let bandFrequency110Hz130Hz = BandFrequency(minFrequency: 110, maxFrequency: 130)
         let bandFrequencies = [bandFrequency40Hz60Hz, bandFrequency110Hz130Hz]
         
-        let actualPowerOfSignal = SignalPower.calculatePowerOfSignal(signal: signal, samplingFrequency: samplingFrequency, bandFrequencies: bandFrequencies)
+        let actualPowerOfSignal = SignalPower.calculatePowerOfSignalForBandFrequencies(signal: signal, samplingFrequency: samplingFrequency, bandFrequencies: bandFrequencies)
         
         let expectedPowerOfSignal40Hz60Hz = 0.245
         let expectedPowerOfSignal110Hz130Hz = 0.5

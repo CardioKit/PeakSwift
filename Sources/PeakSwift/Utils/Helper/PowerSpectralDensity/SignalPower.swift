@@ -10,7 +10,7 @@ import Foundation
 
 enum SignalPower {
     
-    static func calculatePowerOfSignal(signal: [Double], samplingFrequency: Double, bandFrequencies: [BandFrequency]) -> [BandFrequencyPower] {
+    static func calculatePowerOfSignalForBandFrequencies(signal: [Double], samplingFrequency: Double, bandFrequencies: [BandFrequency]) -> [BandFrequencyPower] {
         
         let (minFrequency, maxFrequency) = self.findMinMaxBandFrequency(bandFrequencies: bandFrequencies)
         
@@ -26,7 +26,7 @@ enum SignalPower {
         
     }
     
-    static func findMinMaxBandFrequency(bandFrequencies: [BandFrequency]) -> (minFrequency: Double, maxFrequency: Double) {
+    private static func findMinMaxBandFrequency(bandFrequencies: [BandFrequency]) -> (minFrequency: Double, maxFrequency: Double) {
         let min = bandFrequencies.min { b1, b2 in
             b1.minFrequency < b2.minFrequency
         }?.minFrequency ?? 0
@@ -39,7 +39,7 @@ enum SignalPower {
     }
     
     
-    static func calculatePowerOfSignalForBandFrequency(powerSprectrumDensity: PowerSpectralDensity, bandFrequency: BandFrequency) -> BandFrequencyPower {
+    private static func calculatePowerOfSignalForBandFrequency(powerSprectrumDensity: PowerSpectralDensity, bandFrequency: BandFrequency) -> BandFrequencyPower {
         let psdInBandFrequency = powerSprectrumDensity.filter(minFrequency: bandFrequency.minFrequency, maxFrequency: bandFrequency.maxFrequency)
         
         let power = psdInBandFrequency.power
