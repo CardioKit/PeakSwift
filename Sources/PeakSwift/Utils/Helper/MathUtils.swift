@@ -156,4 +156,9 @@ enum MathUtils {
         let stepInterval = (end-start) / Double(numberElements - 1)
         return  Array(stride(from: start, through: end, by: stepInterval))
     }
+    
+    static func pow(bases: [Double], exponent: Double) -> [Double] {
+        let exponents = [Double](repeating: exponent, count: bases.count)
+        return vForce.pow(bases: bases, exponents: exponents)
+    }
 }
