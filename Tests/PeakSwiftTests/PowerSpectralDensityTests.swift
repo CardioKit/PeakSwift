@@ -101,4 +101,31 @@ final class PowerSpectralDensityTests: XCTestCase {
     
     }
     
+    
+    func testPowerOfSignalNoPowOf2() {
+        
+        let sin50Hz = SinusComponent(amplitude: 0.7, frequency: 50)
+        let sin120Hz = SinusComponent(amplitude: 1, frequency: 120)
+        let samplingFrequency = 300.0
+        let signalLength = 700
+        let signalGenerator = SignalGenerator(signalComponents: [sin50Hz, sin120Hz])
+        
+        let signal = signalGenerator.synthesizeSignal(samplingFrequency: samplingFrequency, signalLength: signalLength)
+        
+        let bandFrequency40Hz60Hz = BandFrequency(minFrequency: 40, maxFrequency: 60)
+        let bandFrequency110Hz130Hz = BandFrequency(minFrequency: 110, maxFrequency: 130)
+        let bandFrequencies = [bandFrequency40Hz60Hz, bandFrequency110Hz130Hz]
+        
+        let actualPowerOfSignal = SignalPower.calculatePowerOfSignal(signal: signal, samplingFrequency: samplingFrequency, bandFrequencies: bandFrequencies)
+        
+        let expectedPowerOfSignal40Hz60Hz = 0.245
+        let expectedPowerOfSignal110Hz130Hz = 0.5
+        
+        // 40-60 Hz range
+        XCTAssertEqualWithAccuracy(actualPowerOfSignal[0].power, expectedPowerOfSignal40Hz60Hz, accuracy: 0.0001)
+        // 110-130 Hz range
+        XCTAssertEqualWithAccuracy(actualPowerOfSignal[1].power, expectedPowerOfSignal110Hz130Hz, accuracy: 0.0001)
+    
+    }
+    
 }
