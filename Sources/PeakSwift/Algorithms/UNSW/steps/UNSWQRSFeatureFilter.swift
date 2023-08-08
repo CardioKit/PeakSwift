@@ -49,7 +49,7 @@ enum UNSWQRSFeatureFilter {
     }
     
     private static func calcHammingFilterCoeff(hammingWindowHeuristic: Int) -> (bCoeffs: [Double], aCoeff: Double) {
-        let bCoeffs = Hamming.createHammingWindow(windowSize: hammingWindowHeuristic)
+        let bCoeffs = Windows.createWindow(windowSize: hammingWindowHeuristic, windowSequency: .hamming)
         
         let bCoeffsDenominator = bCoeffs.map{abs($0)}.reduce(0.0, +)
         let bCoeffsTransformed = bCoeffs.map { b in b / bCoeffsDenominator }

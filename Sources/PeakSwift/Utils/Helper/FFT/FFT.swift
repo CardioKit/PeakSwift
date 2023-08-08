@@ -89,4 +89,12 @@ enum FFT {
         return autospectrum
     }
     
+    static func generateSampleFrequencies(windowSize: Int, samplingFrequency: Double) -> [Double] {
+        let maxRange = MathUtils.isEven(windowSize) ? windowSize / 2 : (windowSize - 1) / 2
+        
+        return (0...maxRange).map {
+            Double($0) / (samplingFrequency * Double(windowSize))
+        }
+    }
+    
 }

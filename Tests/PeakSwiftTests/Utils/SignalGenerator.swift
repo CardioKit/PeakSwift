@@ -19,7 +19,7 @@ struct SignalGenerator {
     func synthesizeSignal(samplingFrequency: Double, signalLength: Int) -> [Double] {
         
         let samplingPeriod = 1.0 / samplingFrequency
-        let signalLength = 2048
+        let signalLength = signalLength
         let timeVector = (0..<signalLength).map { Double($0) * samplingPeriod }
         
         let signal = timeVector.map { t in

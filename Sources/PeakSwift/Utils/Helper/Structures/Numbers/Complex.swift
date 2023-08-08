@@ -41,6 +41,14 @@ struct ComplexVector {
         complexNumbers.map(\.imag)
     }
     
+    var count: Int {
+        complexNumbers.count
+    }
+    
+    func slice(_ range: ClosedRange<Int>) -> ComplexVector {
+        ComplexVector(realPart: Array(realPart[range]), imagPart: Array(imagPart[range]))
+    }
+    
     
     func conj() -> ComplexVector {
         let conjugate = {
