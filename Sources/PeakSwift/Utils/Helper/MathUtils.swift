@@ -169,4 +169,10 @@ enum MathUtils {
         
         return mean.scalars
     }
+    
+    static func pow(bases: [Double], exponent: Double) -> [Double] {
+        let exponents = [Double](repeating: exponent, count: bases.count)
+        return vForce.pow(bases: bases, exponents: exponents)
+
+    }
 }
