@@ -74,7 +74,6 @@ final class PowerSpectralDensityTests: XCTestCase {
         
     }
     
-    
     func testPowerOfSignal() {
         
         let sin50Hz = SinusComponent(amplitude: 0.7, frequency: 50)
@@ -95,9 +94,9 @@ final class PowerSpectralDensityTests: XCTestCase {
         let expectedPowerOfSignal110Hz130Hz = 0.5
         
         // 40-60 Hz range
-        XCTAssertEqualWithAccuracy(actualPowerOfSignal[0].power, expectedPowerOfSignal40Hz60Hz, accuracy: 0.0001)
+        XCTAssertEqual(actualPowerOfSignal[0].power, expectedPowerOfSignal40Hz60Hz, accuracy: 0.0001)
         // 110-130 Hz range
-        XCTAssertEqualWithAccuracy(actualPowerOfSignal[1].power, expectedPowerOfSignal110Hz130Hz, accuracy: 0.0001)
+        XCTAssertEqual(actualPowerOfSignal[1].power, expectedPowerOfSignal110Hz130Hz, accuracy: 0.0001)
     
     }
     
@@ -122,10 +121,9 @@ final class PowerSpectralDensityTests: XCTestCase {
         let expectedPowerOfSignal110Hz130Hz = 0.5
         
         // 40-60 Hz range
-        XCTAssertEqualWithAccuracy(actualPowerOfSignal[0].power, expectedPowerOfSignal40Hz60Hz, accuracy: 0.0001)
+        XCTAssertEqual(actualPowerOfSignal[0].power, expectedPowerOfSignal40Hz60Hz, accuracy: 0.0001)
         // 110-130 Hz range
-        XCTAssertEqualWithAccuracy(actualPowerOfSignal[1].power, expectedPowerOfSignal110Hz130Hz, accuracy: 0.0001)
+        XCTAssertEqual(actualPowerOfSignal[1].power, expectedPowerOfSignal110Hz130Hz, accuracy: 0.0001)
     
     }
-    
 }

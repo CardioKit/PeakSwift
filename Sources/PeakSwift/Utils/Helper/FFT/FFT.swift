@@ -97,8 +97,7 @@ enum FFT {
         let frequencies = (0...maxRange).map {
             Double($0) * stepSize
         }
-                              
+        
         return .init(frequencyRange: frequencies, frequencyStep: stepSize)
     }
-    
 }
