@@ -26,4 +26,16 @@ final class MathUtilsTests: XCTestCase {
         
         XCTAssertEqual(actualGradient, expectedGradient)
     }
+    
+    func testIntegrationTrapetzoidal() {
+        
+        let inputVector: [Double] = [1, 2, 3, 4, 5]
+        let stepSize = 5.0
+        
+        let actualIntegral = IntegralUtils.applyTrapezoidal(inputVector, stepSize: stepSize)
+        let expectedIntegral = 60.0
+        
+        
+        XCTAssertEqual(actualIntegral, expectedIntegral)
+    }
 }

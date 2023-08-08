@@ -94,7 +94,7 @@ final class FFTTests: XCTestCase {
         let actualFrequencyRange = FFT.generateSampleFrequencies(windowSize: windowSize, samplingFrequency: samplingFrequency)
         let expectedFrequencyRange = [0.0,0.03333333333333333,0.06666666666666667,0.1,0.13333333333333333,0.16666666666666666]
         
-        AssertEqualWithThreshold(actualFrequencyRange, expectedFrequencyRange)
+        AssertEqualWithThreshold(actualFrequencyRange.frequencyRange, expectedFrequencyRange)
     }
     
     func testGenerateFrequenciesOddWindow() {
@@ -106,6 +106,6 @@ final class FFTTests: XCTestCase {
         let expectedFrequencyRange = [0.0,0.027777777777777776,0.05555555555555555,0.08333333333333333,0.1111111111111111]
 
         
-        AssertEqualWithThreshold(actualFrequencyRange, expectedFrequencyRange)
+        AssertEqualWithThreshold(actualFrequencyRange.frequencyRange, expectedFrequencyRange)
     }
 }
