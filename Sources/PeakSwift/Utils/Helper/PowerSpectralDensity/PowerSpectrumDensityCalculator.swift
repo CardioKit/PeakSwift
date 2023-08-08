@@ -15,12 +15,14 @@ enum PowerSpectrumDensityCalculator {
         let windowLength: Double = 1024.0
         let signalSize = signal.count
         
+        // number of elements per segment to apply the fft
         var nperseg = Int(windowLength * samplingRate)
         
         if nperseg > signalSize / 2 {
             nperseg = Int(signalSize / 2)
         }
         
+        // size of the fft operation (if larger > nperseg => zeropadd)
         let nfft = TransposedPowerOfTwo(value: nperseg)
         
         // Constant detrend
