@@ -31,13 +31,11 @@ enum SignalPower {
             b1.minFrequency < b2.minFrequency
         }?.minFrequency ?? 0
         
-        let boundedMin = min > 0 ? min : 0.001
-        
         let max = bandFrequencies.max { b1, b2 in
             b1.maxFrequency < b2.maxFrequency
         }?.maxFrequency ?? 0
         
-        return (minFrequency: boundedMin, maxFrequency: max)
+        return (minFrequency: min, maxFrequency: max)
     }
     
     

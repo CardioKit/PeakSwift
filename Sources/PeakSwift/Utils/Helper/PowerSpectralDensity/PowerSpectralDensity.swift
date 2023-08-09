@@ -31,7 +31,7 @@ struct PowerSpectralDensity {
         self.frequencyStepSize = frequencyStepSize
     }
     
-    func filter(minFrequency: Double, maxFrequency: Double) -> PowerSpectralDensity {
+    func filter(minFrequency: Double, maxFrequency: Double = Double.greatestFiniteMagnitude) -> PowerSpectralDensity {
         let filtered = powerFrequencyPairs.filter { (_, frequency) in
             minFrequency <= frequency && frequency <= maxFrequency
         }

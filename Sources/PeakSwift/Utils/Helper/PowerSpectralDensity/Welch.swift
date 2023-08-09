@@ -23,6 +23,7 @@ enum Welch {
     /// - Returns: power spectral density which includes the power and frequency
     static func estimatePowerSpectralDensity(signal: [Double], samplingFrequency: Double, nperseg: Int, noverlap: Int?, nfft: PowerOfTwo) -> PowerSpectralDensity {
         
+        let signalSize = signal.count
         let noverlap = noverlap ??  nperseg / 2
         
         let windowSequency = Windows.createWindow(windowSize: nperseg, windowSequency: .hann, symmetric: false)
@@ -38,7 +39,9 @@ enum Welch {
         let fft = applyFFT(signalWithAppliedWindow, nfft.value, scale)
         let mean = MathUtils.mean(ofMatrix: fft)
         
-        return .init(power: mean, frequencies: frequencies)
+        let minFrequency = (2.0 * samplingFrequency) / (Double(signalSize) / 2.0)
+        
+        return .init(power: mean, frequencies: frequencies).filter(minFrequency: minFrequency)
         
     }
     

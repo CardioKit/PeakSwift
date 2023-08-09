@@ -23,7 +23,7 @@ enum PowerSpectrumDensityCalculator {
         }
         
         // size of the fft operation (if larger > nperseg => zeropadd)
-        let nfft = TransposedPowerOfTwo(value: nperseg)
+        let nfft = TransposedPowerOfTwo(value: 2 * nperseg)
         
         // Constant detrend
         let mean = MathUtils.mean(signal)
