@@ -13,6 +13,10 @@ def _create_converter() -> ECGQualityConverter:
 
 
 class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
+
+    def __init__(self, expected_quality: str):
+        self.expected_quality = expected_quality
+
     def get_test_dataset(self) -> str:
         converter = self._create_converter()
         evaluator = self._create_ecg_quality_evaluator()
@@ -34,7 +38,8 @@ class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
         approach = evaluator.get_approach()
         method = evaluator.get_method()
 
-        file_name = method[:1].upper() + method[1:] + approach[:1].upper() + approach[1:]
+        file_name = method[:1].upper() + method[1:] + approach[:1].upper() + approach[1:] + \
+                    self.expected_quality[:1].upper() + self.expected_quality[1:]
         file_extension = converter.get_file_extension()
         return file_name_prefix + file_name + file_extension
 

@@ -12,13 +12,13 @@ enum ECGQualityTestDataSet {
     
     static let filePrefix = "TestECGQuality"
     
-    case TestZhao2018(approach: ECGQualityApporach)
+    case TestZhao2018(approach: ECGQualityApporach, expectedQuality: ECGQualityRating)
     
     var fileName: String {
         switch self {
-        case .TestZhao2018(let approach):
+        case .TestZhao2018(let approach, let expectdQuality):
             let prefix = "Zhao2018"
-            return ECGQualityTestDataSet.filePrefix + prefix + approach.description
+            return ECGQualityTestDataSet.filePrefix + prefix + approach.description + expectdQuality.rawValue.capitalized
         }
     }
 }
