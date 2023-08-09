@@ -30,15 +30,33 @@ class Zhao2018: ECGQuality {
     }
     
     private func calculateKurtosis(ecgSignal: [Double]) -> Double {
-        return 0
+        return Kurtosis.kurtosis(ecgSignal)
     }
     
     private func calculatePSQI(ecgSignal: [Double], samplingFrequency: Double) -> Double {
-        return 0
+        let bandFrequencyNumerator = BandFrequency(minFrequency: 5, maxFrequency: 15)
+        let bandFrequencyDenominator = BandFrequency(minFrequency: 5, maxFrequency: 40)
+        let bandFrequencies = [bandFrequencyNumerator, bandFrequencyDenominator]
+        
+        let powerOfSignal = SignalPower.calculatePowerOfSignalForBandFrequencies(signal: ecgSignal, samplingFrequency: samplingFrequency, bandFrequencies: bandFrequencies)
+        
+        let powerOfSignalNumerator = powerOfSignal[0].power
+        let powerOfSignalDenominator = powerOfSignal[1].power
+        
+        return powerOfSignalNumerator / powerOfSignalDenominator
     }
     
     private func calculateBaSQI(ecgSignal: [Double], samplingFrequency: Double) -> Double {
-        return 0
+        let bandFrequencyNumerator = BandFrequency(minFrequency: 0, maxFrequency: 1)
+        let bandFrequencyDenominator = BandFrequency(minFrequency: 0, maxFrequency: 40)
+        let bandFrequencies = [bandFrequencyNumerator, bandFrequencyDenominator]
+        
+        let powerOfSignal = SignalPower.calculatePowerOfSignalForBandFrequencies(signal: ecgSignal, samplingFrequency: samplingFrequency, bandFrequencies: bandFrequencies)
+        
+        let powerOfSignalNumerator = powerOfSignal[0].power
+        let powerOfSignalDenominator = powerOfSignal[1].power
+        
+        return 1 - (powerOfSignalNumerator / powerOfSignalDenominator)
     }
     
     
