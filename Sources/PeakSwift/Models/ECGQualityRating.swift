@@ -7,10 +7,14 @@
 
 import Foundation
 
-enum ECGQualityRating {
+public enum ECGQualityRating {
     
     case unacceptable
     case barelyAcceptable
     case excellent
+    
+}
+
+extension ECGQualityRating: Codable {
     
 }
