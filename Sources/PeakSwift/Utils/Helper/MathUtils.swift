@@ -30,14 +30,39 @@ enum MathUtils {
         return Double(sum) / Double(array.count)
     }
     
-    static func diff(_ input: [Double], order: Int = 1) -> [Double] {
-        
-        // Ensure that order is not out of bounds 
+    static private func sliceForDiff<C: Collection>(_ input: C, order: Int = 1) -> (C.SubSequence, C.SubSequence) where C.Index == Int {
+        // Ensure that order is not out of bounds
         let orderInRange = Swift.max(0, min(order, input.count-1))
         
         let vectorSlice1 = input[orderInRange...input.count-1]
         let vectorSlice2 = input[0...(input.count-1-orderInRange)]
-        return vDSP.subtract(vectorSlice1, vectorSlice2)
+        
+        return (vectorSlice1, vectorSlice2)
+        
+    }
+    
+    static func diff<C: Collection>(_ input: C, order: Int = 1) -> [C.Element] where C.Element: AdditiveArithmetic & Comparable & BinaryInteger, C.Index == Int {
+        let (vectorSlice1, vectorSlice2) = sliceForDiff(input, order: order)
+        return MathUtils.subtractVectors(vectorSlice1, vectorSlice2)
+    }
+    
+    static func diff(_ input: [Double], order: Int = 1) -> [Double] {
+        let (vectorSlice1, vectorSlice2) = sliceForDiff(input, order: order)
+        return MathUtils.subtractVectors(vectorSlice1, vectorSlice2)
+    }
+    
+    static func subtractVectors<C: Collection>(_ v1: C, _ v2: C) -> [C.Element] where C.Element: AdditiveArithmetic & Comparable & BinaryInteger {
+        return zip(v1,v2).map {
+            (x,y) in x - y
+        }
+    }
+    
+    static func subtractVectors(_ v1: [Double], _ v2: [Double]) -> [Double] {
+        return MathUtils.subtractVectors(v1[...], v2[...])
+    }
+    
+    static func subtractVectors(_ v1: ArraySlice<Double>, _ v2: ArraySlice<Double>) -> [Double] {
+        return vDSP.subtract(v1, v2)
     }
     
     static func absolute(_ array: [Double]) -> [Double] {
@@ -95,21 +120,6 @@ enum MathUtils {
     static func subtractScalar(_ array: [Double], _ scalar: Double) -> [Double] {
         // vDSP doesn't have a anolog for substarct
         return vDSP.add(-scalar, array)
-    }
-    
-    static func subtractVectors(_ v1: ArraySlice<Double>, _ v2: ArraySlice<Double>) -> [Double] {
-        return vDSP.subtract(v1, v2)
-    }
-    
-    #warning("Make proper random access collection interface collection")
-    static func subtractVectors(_ v1: [Double], _ v2: [Double]) -> [Double] {
-        return vDSP.subtract(v1, v2)
-    }
-    
-    static func subtractVectors<C: RandomAccessCollection>(_ v1: C, _ v2: C) -> [Int] where C.Element == Int {
-        return zip(v1,v2).map {
-            (x,y) in x - y
-        }
     }
     
     #warning("Make proper random access collection interface collection")
