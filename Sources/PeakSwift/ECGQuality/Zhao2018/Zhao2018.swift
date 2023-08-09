@@ -18,7 +18,7 @@ class Zhao2018: ECGQuality {
     
     func evaluateECGQuality(signal: [Double], samplingFrequency: Double, rPeaks: [Int]) -> ECGQualityRating {
         let (kurtosis, pSQI, baSQI) = calculateScores(ecgSignal: signal, samplingFrequency: samplingFrequency)
-        return self.mode.evaluateECGQuality(rPeaks: rPeaks, pSQI: pSQI, kSQI: kurtosis, baSQI: baSQI)
+        return self.mode.evaluateECGQuality(samplingFrequency: samplingFrequency, rPeaks: rPeaks, pSQI: pSQI, kSQI: kurtosis, baSQI: baSQI)
     }
     
     private func calculateScores(ecgSignal: [Double], samplingFrequency: Double) -> (kurtosis: Double, pSQI: Double, baSQI: Double) {

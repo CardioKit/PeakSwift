@@ -9,9 +9,9 @@ import Foundation
 
 class Simple: Zhao2018Mode {
     
-    func evaluateECGQuality(rPeaks: [Int], pSQI: Double, kSQI: Double, baSQI: Double) -> ECGQualityRating {
+    func evaluateECGQuality(samplingFrequency: Double, rPeaks: [Int], pSQI: Double, kSQI: Double, baSQI: Double) -> ECGQualityRating {
         
-        let ecgRate = getECGRate(rPeaks: rPeaks)
+        let ecgRate = getECGRate(samplingFrequency: samplingFrequency, rPeaks: rPeaks)
         let ratings = RatingsEvaluator(kSQI: kSQI, pSQI: pSQI, basSQI: baSQI, ecgRate: ecgRate)
         
         let classifications = [ratings.basSQIClassification, ratings.kSQIClassification, ratings.pSQIClassification]
@@ -29,10 +29,10 @@ class Simple: Zhao2018Mode {
         }
     }
     
-    private func getECGRate(rPeaks: [Int]) -> Double {
+    private func getECGRate(samplingFrequency: Double, rPeaks: [Int]) -> Double {
         if rPeaks.count > 1 {
             let minRRInterval = MathUtils.diff(rPeaks).min() ?? 0
-            return 60000.0 / (1000.0 / Double(minRRInterval))
+            return 60000.0 / (1000.0 / samplingFrequency * Double(minRRInterval))
         } else {
             return 1
         }
