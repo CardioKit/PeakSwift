@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ECGQuality {
+enum ECGQualityRating {
     
     case unacceptable
     case barelyAcceptable
