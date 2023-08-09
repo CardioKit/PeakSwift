@@ -18,7 +18,7 @@ class Simple: Zhao2018Mode {
         
         let numberOfOptimal = classifications.filter{$0 == .optimal}.count
         let numberOfSuspicious = classifications.filter{$0 == .suspicious}.count
-        let numberOfUnqualified = classifications.filter{$0 == .suspicious}.count
+        let numberOfUnqualified = classifications.filter{$0 == .unqualified}.count
         
         if numberOfUnqualified >= 2 || (numberOfUnqualified == 1 && numberOfSuspicious == 2) {
             return .unacceptable
