@@ -10,7 +10,7 @@ import PeakSwift
 
 struct SignalQualityExpectedResult: Codable {
     
-    let signalQuality: ECGQualityRating
+    let quality: ECGQualityRating
     let electrocardiogram: Electrocardiogram
     
 }

@@ -34,7 +34,7 @@ class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
         approach = evaluator.get_approach()
         method = evaluator.get_method()
 
-        file_name = method[:1].upper() + method[1:] + approach[:1].upper() + approach[1:] 
+        file_name = method[:1].upper() + method[1:] + approach[:1].upper() + approach[1:]
         file_extension = converter.get_file_extension()
         return file_name_prefix + file_name + file_extension
 
