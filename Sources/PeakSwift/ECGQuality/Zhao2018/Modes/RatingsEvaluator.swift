@@ -45,7 +45,7 @@ struct RatingsEvaluator {
         if kSQI > 5 {
             return .optimal
         } else {
-            return .suspicious
+            return .unqualified
         }
     }
     
