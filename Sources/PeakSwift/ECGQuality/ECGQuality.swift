@@ -9,5 +9,5 @@ import Foundation
 
 protocol ECGQuality {
     
-    func evaluateECGQuality(signal: [Double], samplingFrequency: Double, rPeaks: [Double])
+    func evaluateECGQuality(signal: [Double], samplingFrequency: Double, rPeaks: [Int]) -> ECGQualityRating
 }

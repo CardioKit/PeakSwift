@@ -9,5 +9,5 @@ import Foundation
 
 protocol Zhao2018Mode {
     
-    func evaluateECGQuality(rPeaks: [Int], pSQI: Double, kSQI: Double, baSQI: Double) -> Double
+    func evaluateECGQuality(rPeaks: [Int], pSQI: Double, kSQI: Double, baSQI: Double) -> ECGQualityRating 
 }
