@@ -33,6 +33,9 @@
         [waveletsOutput addObject:[NSNumber numberWithDouble:output]];
     }
     
+    wave_free(wave_obj);
+    wt_free(wavelet_obj);
+    
     return waveletsOutput;
 }
 
