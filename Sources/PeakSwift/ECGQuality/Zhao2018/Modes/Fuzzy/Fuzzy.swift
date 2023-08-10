@@ -14,12 +14,17 @@ class Fuzzy: Zhao2018Mode {
     
     func evaluateECGQuality(samplingFrequency: Double, rPeaks: [Int], pSQI: Double, kSQI: Double, baSQI: Double) -> ECGQualityRating {
        let ratingEvaluator = FuzzyRatingsEvaluator(kSQI: kSQI, pSQI: pSQI, basSQI: baSQI)
-    
-        let weightedPSQIRating = applyWeightOn(rating: ratingEvaluator.pSQIRating)
-        let weightedKSQIRating = applyWeightOn(rating: ratingEvaluator.kurtosisRating)
-        let weightedBaSQIRating = applyWeightOn(rating: ratingEvaluator.basSQIRating)
         
-        let weightedRatings = [weightedPSQIRating, weightedKSQIRating, weightedBaSQIRating]
+        let r2 = ratingEvaluator.pSQIRating
+        let r3 = ratingEvaluator.kurtosisRating
+        let r4 = ratingEvaluator.basSQIRating
+    
+//        let weightedPSQIRating = applyWeightOn(rating: ratingEvaluator.pSQIRating)
+//        let weightedKSQIRating = applyWeightOn(rating: ratingEvaluator.kurtosisRating)
+//        let weightedBaSQIRating = applyWeightOn(rating: ratingEvaluator.basSQIRating)
+        
+        let ratings = [ratingEvaluator.pSQIRating,  ratingEvaluator.kurtosisRating,  ratingEvaluator.basSQIRating]
+        let weightedRatings = applyWeightOn(ratings: ratings)
     
         let score = calculateClassifcationScore(weightedRatings: weightedRatings)
         
@@ -32,14 +37,22 @@ class Fuzzy: Zhao2018Mode {
         }
     }
     
-    func applyWeightOn(rating: [Double]) -> Double {
-        return MathUtils.sum(MathUtils.mulVectors(rating, weights))
+    func applyWeightOn(ratings: [[Double]]) -> [Double] {
+        var weightedRatings = [Double](repeating: 0, count: ratings.count)
+        for index in 0..<ratings.count {
+            weightedRatings[index] = ratings.enumerated().reduce(0.0) { acc, rating in
+                let (position, score) = rating
+                return acc + score[index] * weights[position]
+            }
+        }
+        
+        return weightedRatings
     }
     
     func calculateClassifcationScore(weightedRatings: [Double]) -> Double {
         let powerWeights = MathUtils.pow(bases: weightedRatings, exponent: 2)
         let num = MathUtils.sum(MathUtils.mulVectors(powerWeights, classificationWeights))
-        let den = MathUtils.sum(weightedRatings)
+        let den = MathUtils.sum(powerWeights)
         
         return num / den
     }
