@@ -24,6 +24,10 @@ class StationaryWaveletTransformation {
         
         let signalSize = signal.count
         
+        guard signalSize % MathUtils.powerBase2(exponent: level) == 0 else {
+            fatalError("For applying stationary wavelets transformation: signal.size% 2^^level == 0")
+        }
+        
         var inputSignal = [Double](signal)
         
         let outputWaveletTransformationRaw = waveletsWrapper.stationaryWaveletTransformation(&inputSignal, Int32(signalSize), wavelet.rawValue, Int32(level))

@@ -122,10 +122,12 @@ enum MathUtils {
     /// - Parameter exponent: must be positive or zero!
     /// - Returns: 2^(exponent)
     static func powerBase2(exponent: Int) -> Int {
-        if exponent >= 0 {
-            return 2 << (exponent - 1)
-        } else {
-            fatalError("This function supports only positive exponents")
+        
+        guard exponent >= 0 else {
+            fatalError("powerBase2 supports only positive exponents (including zero)")
         }
+        
+        return 2 << (exponent - 1)
+
     }
 }
