@@ -9,7 +9,6 @@ import Foundation
 
 class Fuzzy: Zhao2018Mode {
     
-    let weights: [Double] = [0.6, 0.2, 0.2]
     let classificationWeights: [Double] = [1, 2, 3]
     
     func evaluateECGQuality(samplingFrequency: Double, rPeaks: [Int], pSQI: Double, kSQI: Double, baSQI: Double) -> ECGQualityRating {
