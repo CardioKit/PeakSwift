@@ -24,8 +24,6 @@ class AlgorithmStrategy {
             self.algorithm = Aristotle()
         case .christov:
             self.algorithm = Christov()
-        case .gqrs:
-            self.algorithm = GQRS()
         case .nabian2018:
             self.algorithm = Nabian2018()
         case .twoAverage:
