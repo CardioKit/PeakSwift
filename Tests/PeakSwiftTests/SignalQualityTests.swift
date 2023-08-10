@@ -38,4 +38,16 @@ final class ECGQualityTests: XCTestCase {
         XCTAssertEqual(actualECGQuality, expectedECGQuality)
         
     }
+
+    func testZhao2018FuzzyExcellent() throws {
+        
+        let zhao2018Setup = Zhao2018(mode:  Fuzzy())
+        let testData = try testDataSetLoader.getTestData(testDataSet: .TestZhao2018(approach: .fuzzy, expectedQuality: .excellent))
+        
+        let actualECGQuality = zhao2018Setup.evaluateECGQuality(signal: testData.electrocardiogram.ecg, samplingFrequency: testData.electrocardiogram.samplingRate)
+        let expectedECGQuality = testData.quality
+        
+        XCTAssertEqual(actualECGQuality, expectedECGQuality)
+    }
+    
 }

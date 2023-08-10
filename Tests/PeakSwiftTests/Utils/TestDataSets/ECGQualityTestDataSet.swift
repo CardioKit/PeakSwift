@@ -29,7 +29,8 @@ extension ECGQualityApporach: CustomStringConvertible {
         switch self {
             case .simple:
                 return "Simple"
-            
+        case .fuzzy:
+                return "Fuzzy"
         }
     }
 }
