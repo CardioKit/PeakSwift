@@ -39,9 +39,7 @@ enum Welch {
         let fft = applyFFT(signalWithAppliedWindow, nfft.value, scale)
         let mean = MathUtils.mean(ofMatrix: fft)
         
-        let minFrequency = (2.0 * samplingFrequency) / (Double(signalSize) / 2.0)
-        
-        return .init(power: mean, frequencies: frequencies).filter(minFrequency: minFrequency)
+        return .init(power: mean, frequencies: frequencies)
         
     }
     
