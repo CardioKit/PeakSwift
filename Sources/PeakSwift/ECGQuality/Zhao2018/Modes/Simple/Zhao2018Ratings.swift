@@ -7,8 +7,9 @@
 
 import Foundation
 
-
-protocol TestDataSet {
+enum Zhao2018Ratings {
     
-    var decoder: Decoder { get }
+    case unqualified
+    case suspicious
+    case optimal
 }

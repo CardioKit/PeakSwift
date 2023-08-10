@@ -11,11 +11,19 @@ import PeakSwift
 class TestDataSetLoader {
     
     let fileReader: FileReader = FileReader()
-    let converter = JSONConverter<QRSExpectedTestResult>()
     
-    func getTestData(testDataSet: TestDataSet) throws -> QRSExpectedTestResult {
-        let fileContent = try fileReader.readFile(fileName: testDataSet.rawValue, fileExtension: .json)
-        let qrsResult = try converter.deserialize(toConvert: fileContent)
-        return qrsResult
+    func getTestData(testDataSet: QRSDetectionTestDataSet) throws -> QRSExpectedTestResult {
+        return try getTestData(fileName: testDataSet.rawValue)
+    }
+    
+    func getTestData(testDataSet: ECGQualityTestDataSet) throws -> SignalQualityExpectedResult {
+        return try getTestData(fileName: testDataSet.fileName)
+    }
+    
+    private func getTestData<Result: Codable>(fileName: String) throws -> Result {
+        let converter = JSONConverter<Result>()
+        let fileContent = try fileReader.readFile(fileName: fileName, fileExtension: .json)
+        let result = try converter.deserialize(toConvert: fileContent)
+        return result
     }
 }

@@ -22,6 +22,6 @@ enum Kurtosis {
         let moment4 = CentralMoment.centralMoment(dataset, order: 4)
         let moment2 = CentralMoment.centralMoment(dataset, order: 2)
         
-        return (moment4 / pow(moment2, 2))
+        return (moment4 / pow(moment2, 2)) - 3.0
     }
 }

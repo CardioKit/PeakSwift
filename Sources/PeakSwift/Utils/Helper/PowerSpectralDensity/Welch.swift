@@ -23,6 +23,7 @@ enum Welch {
     /// - Returns: power spectral density which includes the power and frequency
     static func estimatePowerSpectralDensity(signal: [Double], samplingFrequency: Double, nperseg: Int, noverlap: Int?, nfft: PowerOfTwo) -> PowerSpectralDensity {
         
+        let signalSize = signal.count
         let noverlap = noverlap ??  nperseg / 2
         
         let windowSequency = Windows.createWindow(windowSize: nperseg, windowSequency: .hann, symmetric: false)

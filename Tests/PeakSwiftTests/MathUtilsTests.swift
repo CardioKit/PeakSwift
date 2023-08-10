@@ -12,7 +12,9 @@ import XCTest
 final class MathUtilsTests: XCTestCase {
     
     func testDiff() {
-        let actualResult = MathUtils.diff([1, 2, 4, 7, 0])
+        let inputVector: [Double] = [1.0, 2, 4, 7, 0]
+        
+        let actualResult = MathUtils.diff(inputVector)
         let exptectedResult: [Double] = [ 1,  2,  3, -7]
         
         XCTAssertEqual(actualResult, exptectedResult)

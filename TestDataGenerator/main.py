@@ -1,5 +1,8 @@
-import TestDataSetGenerator
-from SyntheticNeuroKitTDGenerator import SyntheticNeuroKitTDGenerator
+from ECGQualityDataSetGenerator.RealNeuroKitTDGeneratorSignalQuality import RealNeuroKitTDGeneratorSignalQuality
+from ECGQualityDataSetGenerator.SyntheticNeuroKitTDGeneratorSignalQuality import \
+    SyntheticNeuroKitTDGeneratorSignalQuality
+from QRSECGDataSetGenerator.SyntheticNeuroKitTDGenerator import SyntheticNeuroKitTDGenerator
+from TestDataSetGenerator import TestDataSetGenerator
 
 test_data_set_generators: [TestDataSetGenerator] = [
     SyntheticNeuroKitTDGenerator(algorithm="nabian", seed=2),
@@ -10,6 +13,14 @@ test_data_set_generators: [TestDataSetGenerator] = [
     SyntheticNeuroKitTDGenerator(algorithm="panTompkins", seed=1, clean_signal=True),
     SyntheticNeuroKitTDGenerator(algorithm="nk", duration=10, seed=15, clean_signal=True, noise_frequency=0.3),
     SyntheticNeuroKitTDGenerator(algorithm="engzee", seed=1, clean_signal=True, noise_frequency=50),
+    SyntheticNeuroKitTDGeneratorSignalQuality(ecg_quality_assessment_method="zhao2018",
+                                              ecg_quality_assessment_approach="simple",
+                                              expected_quality="unacceptable",
+                                              seed=1),
+    RealNeuroKitTDGeneratorSignalQuality(ecg_quality_assessment_method="zhao2018",
+                                         ecg_quality_assessment_approach="simple",
+                                         expected_quality="excellent",
+                                         source_name="bio_eventrelated_100hz", sampling_rate=100),
 ]
 
 

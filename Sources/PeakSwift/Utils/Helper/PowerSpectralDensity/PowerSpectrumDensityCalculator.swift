@@ -23,12 +23,14 @@ enum PowerSpectrumDensityCalculator {
         }
         
         // size of the fft operation (if larger > nperseg => zeropadd)
-        let nfft = TransposedPowerOfTwo(value: nperseg)
+        let nfft = TransposedPowerOfTwo(value: 2 * nperseg)
         
         // Constant detrend
         let mean = MathUtils.mean(signal)
         let detrendSignal = MathUtils.subtractScalar(signal, mean)
         
-        return Welch.estimatePowerSpectralDensity(signal: detrendSignal, samplingFrequency: samplingRate, nperseg: nperseg, noverlap: nil, nfft: nfft)
+        let minFrequency = (2.0 * samplingRate) / (Double(signalSize) / 2.0)
+        
+        return Welch.estimatePowerSpectralDensity(signal: detrendSignal, samplingFrequency: samplingRate, nperseg: nperseg, noverlap: nil, nfft: nfft).filter(minFrequency: minFrequency)
     }
 }
