@@ -6,6 +6,7 @@ from converter.ECGQualityJSONConverter import ECGQualityJSONConverter
 from converter.QRSJSONConverter import QRSJSONConverter
 from ecgquality.ECGQuality import ECGQuality
 from ecgsource.ECGSource import ECGSource
+from utils.Formatter import to_upper_case
 
 
 def _create_converter() -> ECGQualityConverter:
@@ -38,8 +39,7 @@ class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
         approach = evaluator.get_approach()
         method = evaluator.get_method()
 
-        file_name = method[:1].upper() + method[1:] + approach[:1].upper() + approach[1:] + \
-                    self.expected_quality[:1].upper() + self.expected_quality[1:]
+        file_name = to_upper_case(method) + to_upper_case(approach) + to_upper_case(self.expected_quality)
         file_extension = converter.get_file_extension()
         return file_name_prefix + file_name + file_extension
 
