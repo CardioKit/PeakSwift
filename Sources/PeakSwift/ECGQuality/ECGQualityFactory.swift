@@ -9,16 +9,16 @@ import Foundation
 
 class ECGQualityFactory {
     
-    func createECGQualityAlgorithm(approach: ECGQualityAlgorithms) -> ECGQuality {
-        switch approach {
+    func createECGQualityAlgorithm(algorithm: ECGQualityAlgorithms) -> ECGQuality {
+        switch algorithm {
         case .zhao2018(let eCGQualityApporach):
-            let mode = createECGQualityMethod(method: eCGQualityApporach)
+            let mode = createECGQualityMethod(approach: eCGQualityApporach)
             return Zhao2018(mode: mode)
         }
     }
     
-    private func createECGQualityMethod(method: ECGQualityApporach) -> Zhao2018Mode {
-        switch method {
+    private func createECGQualityMethod(approach: ECGQualityApproach) -> Zhao2018Mode {
+        switch approach {
         case .simple:
             return Simple()
         case .fuzzy:
