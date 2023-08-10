@@ -1,4 +1,4 @@
-from TestDataSetGenerator import TestDataSetGenerator
+from QRSECGDataSetGenerator.QRSDetectionTestDataSetGenerator import QRSDetectionTestDataSetGenerator
 from ecgsource import ECGSource
 from ecgsource.NeuroKitSyntheticECGSource import NeuroKitSyntheticECGSource
 from noisegenerator.NoiseGenerator import NoiseGenerator
@@ -6,7 +6,7 @@ from qrsdetector import QRSDetector
 from qrsdetector.NeuroKitQRSDetector import NeuroKitQRSDetector
 
 
-class SyntheticNeuroKitTDGenerator(TestDataSetGenerator):
+class SyntheticNeuroKitTDGenerator(QRSDetectionTestDataSetGenerator):
 
     def __init__(self, algorithm, clean_signal: bool = False, duration: int = 15, sampling_rate: int = 1000, heart_rate:int = 80, seed:int = None, noise_frequency: float = None):
         super().__init__(noise_frequency=noise_frequency)

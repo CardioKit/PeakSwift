@@ -12,7 +12,9 @@ import XCTest
 final class MathUtilsTests: XCTestCase {
     
     func testDiff() {
-        let actualResult = MathUtils.diff([1, 2, 4, 7, 0])
+        let inputVector: [Double] = [1.0, 2, 4, 7, 0]
+        
+        let actualResult = MathUtils.diff(inputVector)
         let exptectedResult: [Double] = [ 1,  2,  3, -7]
         
         XCTAssertEqual(actualResult, exptectedResult)
@@ -45,5 +47,17 @@ final class MathUtilsTests: XCTestCase {
         
         XCTAssertEqual(actualPowerBase2, expectedPowerBase2)
         
+        
+        func testIntegrationTrapetzoidal() {
+            
+            let inputVector: [Double] = [1, 2, 3, 4, 5]
+            let stepSize = 5.0
+            
+            let actualIntegral = IntegralUtils.applyTrapezoidal(inputVector, stepSize: stepSize)
+            let expectedIntegral = 60.0
+            
+            
+            XCTAssertEqual(actualIntegral, expectedIntegral)
+        }
     }
 }

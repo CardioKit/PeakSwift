@@ -19,6 +19,7 @@ public enum Algorithms: CaseIterable {
     case twoAverage
     case neurokit
     case panTompkins
+    case unsw
     case engzee
     case kalidas
     

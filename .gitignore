@@ -8,7 +8,8 @@
 /.swiftpm/
 
 # ignore generated test data
-/Tests/PeakSwiftTests/Resources
+/Tests/PeakSwiftTests/Resources/*
+!/Tests/PeakSwiftTests/Resources/TestUnsw.json
 
 # ignore Mac specific generated binaries
 **/.DS_Store
