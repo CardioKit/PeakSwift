@@ -169,8 +169,10 @@ enum MathUtils {
     }
     
     static func mean(ofMatrix matrixValues: [[Double]]) -> [Double] {
+        // Avoid to divide by zero
+        let outputSize = Swift.max(matrixValues.count, 1)
         let sumOfAllRows: Vector = sumOfRows(ofMatrix: matrixValues)
-        let mean = sumOfAllRows / Double(sumOfAllRows.count)
+        let mean = sumOfAllRows / Double(outputSize)
         
         return mean.scalars
     }
