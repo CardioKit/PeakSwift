@@ -115,9 +115,17 @@ enum MathUtils {
         return  Array(stride(from: start, through: end, by: stepInterval))
     }
     
-    // Swift doesn't have a good in-build function to power Integer
-        // For sake not loosing precision provide a special function for powering with base 2
+    /// Calculates power of base 2 by an exponent
+    ///
+    /// Swift doesn't have a good in-build function to power Integer
+    /// For sake not loosing precision provide a special function for powering with base 2
+    /// - Parameter exponent: must be positive or zero!
+    /// - Returns: 2^(exponent)
     static func powerBase2(exponent: Int) -> Int {
+        if exponent >= 0 {
             return 2 << (exponent - 1)
+        } else {
+            fatalError("This function supports only positive exponents")
+        }
     }
 }
