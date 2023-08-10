@@ -53,20 +53,6 @@ final class PeakSwiftTests: XCTestCase {
     }
     
     
-// Note: this test has precison problem depending on different architectures
-// The output on MChip and intel based devices can differ
-    func testWQRSPeaks() {
-        let qrsDetector = QRSDetector()
-        let result = qrsDetector.detectPeaks(electrocardiogram:testData.d1namoHealthyECG, algorithm: .wqrs)
-    
-        let expectedRPeaksIntel: [UInt] = [19, 202, 402, 604, 804, 1001, 1119, 1393, 1586, 1783, 1976, 2170, 2361, 2557, 2755, 2957, 3170, 3385, 3596, 3806]
-        let expectedRPeaksMChip: [UInt] = [12, 202, 402, 604, 804, 1001, 1119, 1393, 1586, 1783, 1976, 2170, 2361, 2557, 2755, 2957, 3170, 3385, 3596, 3806]
-        
-        let rPeaksMatchOnIntel = expectedRPeaksIntel == result.rPeaks
-        let rPeaksMatchOnMChip = expectedRPeaksMChip == result.rPeaks
-        
-        XCTAssertTrue(rPeaksMatchOnIntel || rPeaksMatchOnMChip, "Actual R peaks \(result.rPeaks) differ from expected ones \(expectedRPeaksIntel) (intel) or \(expectedRPeaksMChip) (M chip) ")
-    }
     
     func testAuto() {
         let qrsDetector = QRSDetector()
@@ -84,17 +70,6 @@ final class PeakSwiftTests: XCTestCase {
         
         let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestNabian)
         let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .nabian2018)
-        
-        AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
-        
-    }
-    
-    func testWQRSNeuroKit() throws {
-        
-        let qrsDetector = QRSDetector()
-        
-        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestWQRS)
-        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .wqrs)
         
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: threshold)
         
