@@ -12,7 +12,7 @@ class Simple: Zhao2018Mode {
     func evaluateECGQuality(samplingFrequency: Double, rPeaks: [Int], pSQI: Double, kSQI: Double, baSQI: Double) -> ECGQualityRating {
         
         let ecgRate = getECGRate(samplingFrequency: samplingFrequency, rPeaks: rPeaks)
-        let ratings = RatingsEvaluator(kSQI: kSQI, pSQI: pSQI, basSQI: baSQI, ecgRate: ecgRate)
+        let ratings = SimpleRatingsEvaluator(kSQI: kSQI, pSQI: pSQI, basSQI: baSQI, ecgRate: ecgRate)
         
         let classifications = [ratings.basSQIClassification, ratings.kSQIClassification, ratings.pSQIClassification]
         

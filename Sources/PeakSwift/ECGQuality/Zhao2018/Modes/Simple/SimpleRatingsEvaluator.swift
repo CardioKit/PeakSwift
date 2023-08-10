@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RatingsEvaluator {
+struct SimpleRatingsEvaluator {
     
     let kSQI: Double
     let pSQI: Double
