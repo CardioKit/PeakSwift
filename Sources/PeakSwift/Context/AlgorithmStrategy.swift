@@ -30,8 +30,6 @@ class AlgorithmStrategy {
             self.algorithm = TwoAverage()
         case .hamilton:
             self.algorithm = Hamilton()
-        case .hamiltonCleaned:
-            self.algorithm = HamiltonCleaned()
         case .neurokit:
             self.algorithm = NeuroKit()
         case .panTompkins:

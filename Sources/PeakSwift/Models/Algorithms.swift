@@ -13,7 +13,6 @@ public enum Algorithms: CaseIterable {
     case christov
     case nabian2018
     case hamilton
-    case hamiltonCleaned
     case twoAverage
     case neurokit
     case panTompkins
