@@ -28,7 +28,12 @@ test_data_set_generators: [TestDataSetGenerator] = [
     RealNeuroKitTDGeneratorSignalQuality(ecg_quality_assessment_method="zhao2018",
                                          ecg_quality_assessment_approach="fuzzy",
                                          expected_quality="excellent",
-                                         source_name="bio_eventrelated_100hz", sampling_rate=100)
+                                         source_name="bio_eventrelated_100hz", sampling_rate=100),
+    SyntheticNeuroKitTDGeneratorSignalQuality(ecg_quality_assessment_method="zhao2018",
+                                              ecg_quality_assessment_approach="fuzzy",
+                                              expected_quality="unacceptable",
+                                              noise_frequency=20,
+                                              seed=1),
 ]
 
 

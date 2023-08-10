@@ -6,6 +6,7 @@ from converter.ECGQualityJSONConverter import ECGQualityJSONConverter
 from converter.QRSJSONConverter import QRSJSONConverter
 from ecgquality.ECGQuality import ECGQuality
 from ecgsource.ECGSource import ECGSource
+from noisegenerator.NoiseGenerator import NoiseGenerator
 from utils.Formatter import to_upper_case
 
 
@@ -15,8 +16,9 @@ def _create_converter() -> ECGQualityConverter:
 
 class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
 
-    def __init__(self, expected_quality: str):
+    def __init__(self, expected_quality: str, noise_frequency: float):
         self.expected_quality = expected_quality
+        self.noise_frequency = noise_frequency
 
     def get_test_dataset(self) -> str:
         converter = self._create_converter()
@@ -24,6 +26,10 @@ class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
         ecg_source = self._create_ecg_source()
 
         ecg_signal, sampling_rate = ecg_source.create_ecg_signal()
+
+        if self.noise_frequency:
+            ecg_signal = self._create_ecg_noise_generator().add_noise(signal=ecg_signal)
+
         quality = evaluator.evaluate_ecg_quality(ecg_signal=ecg_signal, sampling_rate=sampling_rate)
 
         serialized_data = converter.serialize(sampling_rate=sampling_rate, signal=ecg_signal, quality=quality)
@@ -53,3 +59,7 @@ class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
 
     def _create_converter(self) -> ECGQualityConverter:
         return ECGQualityJSONConverter()
+
+    @abstractmethod
+    def _create_ecg_noise_generator(self) -> NoiseGenerator:
+        pass

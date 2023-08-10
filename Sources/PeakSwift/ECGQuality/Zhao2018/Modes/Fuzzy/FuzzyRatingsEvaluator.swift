@@ -57,7 +57,7 @@ struct FuzzyRatingsEvaluator {
         } else if pSQI > 0.25 {
             return 0
         } else {
-            return 25 * (0.32 - pSQI)
+            return 0.1 * (0.25 - pSQI)
         }
     }
     
@@ -65,9 +65,9 @@ struct FuzzyRatingsEvaluator {
         if basSQI <= 90 {
             return 0
         } else if basSQI >= 95 {
-            return 1
+            return basSQI / 100.0
         } else {
-            return 1 / ( 1 + ( 1 / ( pow(0.8718 * (basSQI - 90), 2))))
+            return 1.0 / ( 1.0 + ( 1.0 / ( pow(0.8718 * (basSQI - 90), 2))))
         }
     }
     
@@ -75,11 +75,11 @@ struct FuzzyRatingsEvaluator {
         if basSQI <= 85 {
             return 1
         } else {
-            return 1.0 / (1 + pow((basSQI - 85) / 5.0, 2))
+            return 1.0 / (1.0 + pow((basSQI - 85) / 5.0, 2))
         }
     }
     
     private var UbI: Double {
-        return 1.0 / (1 + pow((basSQI - 95) / 2.5, 2))
+        return 1.0 / (1.0 + pow((basSQI - 95) / 2.5, 2))
     }
 }
