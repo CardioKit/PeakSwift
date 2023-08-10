@@ -1,10 +1,8 @@
 import json
 from abc import ABC, abstractmethod
 import numpy as np
-
 from converter.ECGQualityConverter import ECGQualityConverter
 from utils.Formatter import to_camel_case
-
 
 class ECGQualityJSONConverter(ECGQualityConverter):
 

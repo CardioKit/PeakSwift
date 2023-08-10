@@ -10,6 +10,7 @@ from noisegenerator.NoiseGenerator import NoiseGenerator
 from utils.Formatter import to_upper_case
 
 
+
 def _create_converter() -> ECGQualityConverter:
     return QRSJSONConverter()
 
@@ -19,6 +20,7 @@ class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
     def __init__(self, expected_quality: str, noise_frequency: float):
         self.expected_quality = expected_quality
         self.noise_frequency = noise_frequency
+
 
     def get_test_dataset(self) -> str:
         converter = self._create_converter()
@@ -46,6 +48,7 @@ class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
         method = evaluator.get_method()
 
         file_name = to_upper_case(method) + to_upper_case(approach) + to_upper_case(self.expected_quality)
+
         file_extension = converter.get_file_extension()
         return file_name_prefix + file_name + file_extension
 
@@ -63,3 +66,4 @@ class ECGQualityTestDataSetGenerator(TestDataSetGenerator):
     @abstractmethod
     def _create_ecg_noise_generator(self) -> NoiseGenerator:
         pass
+

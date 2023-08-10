@@ -33,7 +33,7 @@ test_data_set_generators: [TestDataSetGenerator] = [
                                               ecg_quality_assessment_approach="fuzzy",
                                               expected_quality="unacceptable",
                                               noise_frequency=20,
-                                              seed=1),
+                                              seed=1)
 ]
 
 

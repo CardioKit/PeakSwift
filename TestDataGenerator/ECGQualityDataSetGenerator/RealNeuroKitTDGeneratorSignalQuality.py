@@ -6,7 +6,6 @@ from ecgsource.NeuroKitRealECGSource import NeuroKitRealECGSource
 from ecgsource.NeuroKitSyntheticECGSource import NeuroKitSyntheticECGSource
 from noisegenerator.NoiseGenerator import NoiseGenerator
 
-
 class RealNeuroKitTDGeneratorSignalQuality(ECGQualityTestDataSetGenerator):
 
     def __init__(self, source_name: str, sampling_rate: int, ecg_quality_assessment_method: str, expected_quality: str,
