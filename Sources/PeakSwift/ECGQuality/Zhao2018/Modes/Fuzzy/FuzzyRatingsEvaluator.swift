@@ -14,15 +14,19 @@ struct FuzzyRatingsEvaluator {
     let basSQI: Double
     
     var pSQIRating: [Double] {
-        return [UpH, UpI, UpJ]
+        let weight = 0.6
+        return [UpH, UpI, UpJ].map{ $0 * weight }
     }
     
     var basSQIRating: [Double] {
-        return [UbH, UbI, UbJ]
+        let weight = 0.2
+        return [UbH, UbI, UbJ].map{ $0 * weight }
     }
     
     var kurtosisRating: [Double] {
-        kSQI > 5 ? [1, 0, 0] : [0, 0, 1]
+        let weight = 0.2
+        let rating: [Double]  = kSQI > 5 ? [1, 0, 0] : [0, 0, 1]
+        return rating.map{ $0 * weight }
     }
     
     private var UpH: Double {
