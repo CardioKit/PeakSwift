@@ -19,5 +19,6 @@ enum QRSDetectionTestDataSet: String  {
     case TestNeuroKit = "TestQRSDetectionNk"
     case TestUnsw = "TestUnsw"
     case TestEngzee = "TestQRSDetectionEngzee"
+    case TestKalidas = "TestQRSDetectionKalidas"
 
 }

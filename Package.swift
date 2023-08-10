@@ -26,15 +26,19 @@ let package = Package(
         .target(name: "IIR",
                 path: "Sources/IIR/iir"
          ),
+        .target(name: "wavelib",
+                path: "Sources/wavelib/src"
+         ),
         .target(name: "FilterUtils",
                 path: "Sources/FilterUtils"
         ),
         .target(
             name: "Butterworth", // TODO rename it to something meaningful: FilterWrapper
-            dependencies: ["IIR", "FilterUtils"],
+            dependencies: ["IIR", "FilterUtils", "wavelib"],
             path: "Sources/Butterworth",
             cxxSettings: [
-                 .headerSearchPath("../IIR/iir/")
+                 .headerSearchPath("../IIR/iir/"),
+                 .headerSearchPath("../wavelib/header/")
             ]
         ),
         .target(

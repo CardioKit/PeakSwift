@@ -29,15 +29,35 @@ final class MathUtilsTests: XCTestCase {
         XCTAssertEqual(actualGradient, expectedGradient)
     }
     
-    func testIntegrationTrapetzoidal() {
+    func testPowerBase2WithZeroExponent() {
         
-        let inputVector: [Double] = [1, 2, 3, 4, 5]
-        let stepSize = 5.0
+        let inputExponent = 0
         
-        let actualIntegral = IntegralUtils.applyTrapezoidal(inputVector, stepSize: stepSize)
-        let expectedIntegral = 60.0
+        let actualPowerBase2 = MathUtils.powerBase2(exponent: inputExponent)
+        let expectedPowerBase2 = 1
+        
+        XCTAssertEqual(actualPowerBase2, expectedPowerBase2)
+    }
+    
+    func testPowerBase2() {
+        let inputExponent = 4
+        
+        let actualPowerBase2 = MathUtils.powerBase2(exponent: inputExponent)
+        let expectedPowerBase2 = 16
+        
+        XCTAssertEqual(actualPowerBase2, expectedPowerBase2)
         
         
-        XCTAssertEqual(actualIntegral, expectedIntegral)
+        func testIntegrationTrapetzoidal() {
+            
+            let inputVector: [Double] = [1, 2, 3, 4, 5]
+            let stepSize = 5.0
+            
+            let actualIntegral = IntegralUtils.applyTrapezoidal(inputVector, stepSize: stepSize)
+            let expectedIntegral = 60.0
+            
+            
+            XCTAssertEqual(actualIntegral, expectedIntegral)
+        }
     }
 }

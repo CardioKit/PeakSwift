@@ -51,7 +51,6 @@ public class Butterworth {
     }
     
     
-    
     /// This butterworth filter applies the a HighPassFilter once forward and afterwards backwards
     /// - Parameters:
     ///   - signal: The signal to filter
@@ -82,7 +81,7 @@ public class Butterworth {
         
         return filteredSignal as! [Double]
     }
-    
+
     func butterworthLowPassForwardBackward(signal: [Double], order: Order, normalizedHighCutFrequency: Double, sampleRate: Double) -> [Double] {
         var signalToFilter = [Double](signal)
         var lowPassFilteredSignal = [Double](repeating: 0.0, count: signal.count)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Algorithms {
+public enum Algorithms: CaseIterable {
     case basic
     case aristotle
     case christov
@@ -21,5 +21,6 @@ public enum Algorithms {
     case panTompkins
     case unsw
     case engzee
+    case kalidas
     
 }
