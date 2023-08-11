@@ -11,6 +11,10 @@ public class ECGQualityEvaluator {
     
     private let ecgQualityFactory = ECGQualityFactory()
     
+    public init() {
+        
+    }
+    
     public func evaluateECGQuality(electrocardiogram: Electrocardiogram, algorithm: ECGQualityAlgorithms) -> ECGQualityRating {
         let algorithm = ecgQualityFactory.createECGQualityAlgorithm(algorithm: algorithm)
         return algorithm.evaluateECGQuality(signal: electrocardiogram.ecg, samplingFrequency: electrocardiogram.samplingRate)
