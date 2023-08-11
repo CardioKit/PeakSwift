@@ -18,7 +18,7 @@ enum ECGQualityTestDataSet {
         switch self {
         case .TestZhao2018(let approach, let expectdQuality):
             let prefix = "Zhao2018"
-            return ECGQualityTestDataSet.filePrefix + prefix + approach.description + expectdQuality.rawValue.capitalized
+            return ECGQualityTestDataSet.filePrefix + prefix + approach.description + expectdQuality.rawValue.uppercaseFirstLetter
         }
     }
 }
@@ -29,7 +29,8 @@ extension ECGQualityApporach: CustomStringConvertible {
         switch self {
             case .simple:
                 return "Simple"
-            
+        case .fuzzy:
+                return "Fuzzy"
         }
     }
 }

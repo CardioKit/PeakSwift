@@ -10,6 +10,7 @@ import Foundation
 public enum ECGQualityApporach {
     
     case simple
+    case fuzzy
 
 }
 

@@ -3,14 +3,15 @@ from ecgquality.ECGQuality import ECGQuality
 from ecgquality.NeuroKitECGQuality import NeuroKitECGQuality
 from ecgsource.ECGSource import ECGSource
 from ecgsource.NeuroKitSyntheticECGSource import NeuroKitSyntheticECGSource
+from noisegenerator.NoiseGenerator import NoiseGenerator
 
 
 class SyntheticNeuroKitTDGeneratorSignalQuality(ECGQualityTestDataSetGenerator):
 
     def __init__(self, ecg_quality_assessment_method: str, expected_quality: str,
                  ecg_quality_assessment_approach: str = None, duration: int = 15, sampling_rate: int = 1000,
-                 heart_rate: int = 80, seed: int = None):
-        super().__init__(expected_quality)
+                 heart_rate: int = 80, seed: int = None, noise_frequency: float = None):
+        super().__init__(expected_quality, noise_frequency)
         self.ecg_quality_assessment_method = ecg_quality_assessment_method
         self.ecg_quality_assessment_approach = ecg_quality_assessment_approach
         self.duration = duration
@@ -25,3 +26,6 @@ class SyntheticNeuroKitTDGeneratorSignalQuality(ECGQualityTestDataSetGenerator):
     def _create_ecg_source(self) -> ECGSource:
         return NeuroKitSyntheticECGSource(duration=self.duration, sampling_rate=self.sampling_rate,
                                           heart_rate=self.heart_rate, seed=self.seed)
+
+    def _create_ecg_noise_generator(self) -> NoiseGenerator:
+        return NoiseGenerator(duration=self.duration, frequency=self.noise_frequency, seed=self.seed)

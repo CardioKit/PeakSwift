@@ -179,15 +179,23 @@ enum MathUtils {
     }
     
     static func mean(ofMatrix matrixValues: [[Double]]) -> [Double] {
-        
-        let matrix = Matrix(matrixValues)
-        let outputSize = matrix.rows
-        let identityVector = Vector([Double](repeating: 1, count: outputSize))
-        
-        let sumOfAllRows = identityVector * matrix
+        // Avoid to divide by zero
+        let outputSize = Swift.max(matrixValues.count, 1)
+        let sumOfAllRows: Vector = sumOfRows(ofMatrix: matrixValues)
         let mean = sumOfAllRows / Double(outputSize)
         
         return mean.scalars
+    }
+    
+    private static func sumOfRows(ofMatrix matrixValues: [[Double]]) -> Vector<Double> {
+        let matrix = Matrix(matrixValues)
+        let outputSize = matrix.rows
+        let identityVector = Vector([Double](repeating: 1, count: outputSize))
+        return identityVector * matrix
+    }
+    
+    static func sumOfRows(ofMatrix matrixValues: [[Double]]) -> [Double] {
+        sumOfRows(ofMatrix: matrixValues).scalars
     }
 
     
