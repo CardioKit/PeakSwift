@@ -10,6 +10,9 @@ import Foundation
 class Hamilton: Algorithm {
     
     
+    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        Butterworth().butterworth(signal: ecgSignal, order: .one, lowCutFrequency: 8, highCutFrequency: 16, sampleRate: samplingFrequency)
+    }
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         

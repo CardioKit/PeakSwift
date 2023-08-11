@@ -11,11 +11,8 @@ public enum Algorithms: CaseIterable {
     case basic
     case aristotle
     case christov
-    case gqrs
-    case wqrs
     case nabian2018
     case hamilton
-    case hamiltonCleaned
     case twoAverage
     case neurokit
     case panTompkins
