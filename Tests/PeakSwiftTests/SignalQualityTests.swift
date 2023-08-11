@@ -17,10 +17,10 @@ final class ECGQualityTests: XCTestCase {
 
     func testZhao2018SimpleUnacceptable() throws {
         
-        let zhao2018Setup = Zhao2018(mode:  Simple())
+        let qualityEvaluator = ECGQualityEvaluator()
         let testData = try testDataSetLoader.getTestData(testDataSet: .TestZhao2018(approach: .simple, expectedQuality: .unacceptable))
         
-        let actualECGQuality = zhao2018Setup.evaluateECGQuality(signal: testData.electrocardiogram.ecg, samplingFrequency: testData.electrocardiogram.samplingRate)
+        let actualECGQuality = qualityEvaluator.evaluateECGQuality(electrocardiogram: testData.electrocardiogram, algorithm: .zhao2018(.simple))
         let expectedECGQuality = testData.quality
         
         XCTAssertEqual(actualECGQuality, expectedECGQuality)
@@ -29,10 +29,10 @@ final class ECGQualityTests: XCTestCase {
     
     func testZhao2018SimpleExcellent() throws {
         
-        let zhao2018Setup = Zhao2018(mode:  Simple())
+        let qualityEvaluator = ECGQualityEvaluator()
         let testData = try testDataSetLoader.getTestData(testDataSet: .TestZhao2018(approach: .simple, expectedQuality: .excellent))
         
-        let actualECGQuality = zhao2018Setup.evaluateECGQuality(signal: testData.electrocardiogram.ecg, samplingFrequency: testData.electrocardiogram.samplingRate)
+        let actualECGQuality = qualityEvaluator.evaluateECGQuality(electrocardiogram: testData.electrocardiogram, algorithm: .zhao2018(.simple))
         let expectedECGQuality = testData.quality
         
         XCTAssertEqual(actualECGQuality, expectedECGQuality)
@@ -41,10 +41,10 @@ final class ECGQualityTests: XCTestCase {
 
     func testZhao2018FuzzyExcellent() throws {
         
-        let zhao2018Setup = Zhao2018(mode:  Fuzzy())
+        let qualityEvaluator = ECGQualityEvaluator()
         let testData = try testDataSetLoader.getTestData(testDataSet: .TestZhao2018(approach: .fuzzy, expectedQuality: .excellent))
         
-        let actualECGQuality = zhao2018Setup.evaluateECGQuality(signal: testData.electrocardiogram.ecg, samplingFrequency: testData.electrocardiogram.samplingRate)
+        let actualECGQuality = qualityEvaluator.evaluateECGQuality(electrocardiogram: testData.electrocardiogram, algorithm: .zhao2018(.fuzzy))
         let expectedECGQuality = testData.quality
         
         XCTAssertEqual(actualECGQuality, expectedECGQuality)
@@ -52,11 +52,11 @@ final class ECGQualityTests: XCTestCase {
     
     func testZhao2018FuzzyBarelyAcceptable() throws {
         
-        let test = ECGQualityRating.barelyAcceptable.rawValue
-        let zhao2018Setup = Zhao2018(mode:  Fuzzy())
+        let qualityEvaluator = ECGQualityEvaluator()
         let testData = try testDataSetLoader.getTestData(testDataSet: .TestZhao2018(approach: .fuzzy, expectedQuality: .barelyAcceptable))
         
-        let actualECGQuality = zhao2018Setup.evaluateECGQuality(signal: testData.electrocardiogram.ecg, samplingFrequency: testData.electrocardiogram.samplingRate)
+        let actualECGQuality = qualityEvaluator.evaluateECGQuality(electrocardiogram: testData.electrocardiogram, algorithm: .zhao2018(.fuzzy))
+
         let expectedECGQuality = testData.quality
         
         XCTAssertEqual(actualECGQuality, expectedECGQuality)
@@ -64,11 +64,10 @@ final class ECGQualityTests: XCTestCase {
     
     func testZhao2018FuzzyUnacceptable() throws {
         
-        let test = ECGQualityRating.barelyAcceptable.rawValue
-        let zhao2018Setup = Zhao2018(mode:  Fuzzy())
+        let qualityEvaluator = ECGQualityEvaluator()
         let testData = try testDataSetLoader.getTestData(testDataSet: .TestZhao2018(approach: .fuzzy, expectedQuality: .unacceptable))
         
-        let actualECGQuality = zhao2018Setup.evaluateECGQuality(signal: testData.electrocardiogram.ecg, samplingFrequency: testData.electrocardiogram.samplingRate)
+        let actualECGQuality = qualityEvaluator.evaluateECGQuality(electrocardiogram: testData.electrocardiogram, algorithm: .zhao2018(.fuzzy))
         let expectedECGQuality = testData.quality
         
         XCTAssertEqual(actualECGQuality, expectedECGQuality)

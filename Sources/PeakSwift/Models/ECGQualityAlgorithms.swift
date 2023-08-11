@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ECGQualityApporach {
+public enum ECGQualityApproach {
     
     case simple
     case fuzzy
@@ -16,5 +16,5 @@ public enum ECGQualityApporach {
 
 public enum ECGQualityAlgorithms {
     
-    case zhao2018(ECGQualityApporach)
+    case zhao2018(ECGQualityApproach)
 }

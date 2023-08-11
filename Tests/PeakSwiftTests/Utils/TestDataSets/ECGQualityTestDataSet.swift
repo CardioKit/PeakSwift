@@ -12,7 +12,7 @@ enum ECGQualityTestDataSet {
     
     static let filePrefix = "TestECGQuality"
     
-    case TestZhao2018(approach: ECGQualityApporach, expectedQuality: ECGQualityRating)
+    case TestZhao2018(approach: ECGQualityApproach, expectedQuality: ECGQualityRating)
     
     var fileName: String {
         switch self {
@@ -23,7 +23,7 @@ enum ECGQualityTestDataSet {
     }
 }
 
-extension ECGQualityApporach: CustomStringConvertible {
+extension ECGQualityApproach: CustomStringConvertible {
     
     public var description: String {
         switch self {
