@@ -140,12 +140,6 @@ enum MathUtils {
         return floor(x / y)
     }
     
-    // Swift doesn't have a good in-build function to power Integer
-    // For sake not loosing precision provide a special function for powering with base 2
-    static func powerBase2(exponent: Int) -> Int {
-        return 2 << (exponent - 1)
-    }
-    
     static func isEven(_ number: Int) -> Bool {
         return number % 2 == 0
     }
@@ -166,6 +160,22 @@ enum MathUtils {
     static func linespace(start: Double, end: Double, numberElements: Int) -> [Double] {
         let stepInterval = (end-start) / Double(numberElements - 1)
         return  Array(stride(from: start, through: end, by: stepInterval))
+    }
+    
+    /// Calculates power of base 2 by an exponent
+    ///
+    /// Swift doesn't have a good in-build function to power Integer
+    /// For sake not loosing precision provide a special function for powering with base 2
+    /// - Parameter exponent: must be positive or zero!
+    /// - Returns: 2^(exponent)
+    static func powerBase2(exponent: Int) -> Int {
+        
+        guard exponent >= 0 else {
+            fatalError("powerBase2 supports only positive exponents (including zero)")
+        }
+        
+        return 2 << (exponent - 1)
+
     }
     
     static func mean(ofMatrix matrixValues: [[Double]]) -> [Double] {
@@ -194,5 +204,4 @@ enum MathUtils {
         return vForce.pow(bases: bases, exponents: exponents)
 
     }
-
 }

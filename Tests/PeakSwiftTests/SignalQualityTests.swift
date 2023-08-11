@@ -56,6 +56,7 @@ final class ECGQualityTests: XCTestCase {
         let testData = try testDataSetLoader.getTestData(testDataSet: .TestZhao2018(approach: .fuzzy, expectedQuality: .barelyAcceptable))
         
         let actualECGQuality = qualityEvaluator.evaluateECGQuality(electrocardiogram: testData.electrocardiogram, algorithm: .zhao2018(.fuzzy))
+
         let expectedECGQuality = testData.quality
         
         XCTAssertEqual(actualECGQuality, expectedECGQuality)

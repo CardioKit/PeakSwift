@@ -44,6 +44,8 @@ class AlgorithmStrategy {
             self.algorithm = UNSW()
         case .engzee:
             self.algorithm = Engzee()
+        case .kalidas:
+            self.algorithm = Kalidas()
         }
     }
     
