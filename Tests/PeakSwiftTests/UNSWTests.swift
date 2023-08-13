@@ -24,6 +24,16 @@ final class UNSWTests: XCTestCase {
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: 5)
     }
     
+    func testUNSW700Hz() throws {
+        let qrsDetector = QRSDetector()
+        
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestUnsw300Hz)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .unsw)
+    
+        AssertEqualWithThreshold(actualResult.rPeaks, actualResult.rPeaks)
+    }
+    
+    
     func testStandardSortFilt1OddWindow() {
         
         let inputVector: [Double] = [1,2,3,4,5,6]
