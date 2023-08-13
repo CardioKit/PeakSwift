@@ -24,7 +24,7 @@ final class UNSWTests: XCTestCase {
         AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: 5)
     }
     
-    func testUNSW700Hz() throws {
+    func testUNSW300Hz() throws {
         let qrsDetector = QRSDetector()
         
         let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestUnsw300Hz)
@@ -32,6 +32,18 @@ final class UNSWTests: XCTestCase {
     
         AssertEqualWithThreshold(actualResult.rPeaks, actualResult.rPeaks)
     }
+    
+    func testUNSW700Hz() throws {
+        let qrsDetector = QRSDetector()
+    
+        let expectedResult = try testDataSetLoader.getTestData(testDataSet: .TestUnsw700Hz)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .unsw)
+        
+        // Testing against NeuorKit and not the native matlab unsw results. Problem: UNSW matlab filter deosn't work for higher sampling range >600
+        let neuroKitResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .neurokit)
+
+        AssertEqualWithThreshold(actualResult.rPeaks, neuroKitResult.rPeaks, threshold: 3)
+}
     
     
     func testStandardSortFilt1OddWindow() {
