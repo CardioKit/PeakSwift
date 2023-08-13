@@ -33,11 +33,10 @@ enum UNSWCleaner {
             return lowPassFilteredSignal
             
         } else {
-            #warning("TODO add butterworth filter")
+            let highPassFilteredSignal = Butterworth().butterworthForwardBackward(signal: medianData, order: .seven, lowCutFrequency: 0.7, sampleRate: samplingFrequency)
+            let lowPassFilteredSignal = Butterworth().butterworthLowPassForwardBackward(signal: highPassFilteredSignal, order: .seven, highCutFrequency: 20, sampleRate: samplingFrequency)
+            return lowPassFilteredSignal
             
         }
-        
-        
-        return []
     }
 }
