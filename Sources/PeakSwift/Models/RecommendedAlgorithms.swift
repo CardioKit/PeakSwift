@@ -9,15 +9,16 @@ import Foundation
 
 struct RecommendedAlgorithms {
     
-    var rankToAlgorithms: [Int:Algorithms] = [:]
+    private (set)var rankedAlgorithms: [RankedAlgorithm] = []
     
     var highestRankedAlgorithm: RankedAlgorithm? {
-        guard let highestRank = rankToAlgorithms.keys.max(),
-                let algorithm = rankToAlgorithms[highestRank] else {
-            return nil
+        return rankedAlgorithms.max { (algorithm1, algorithm2) in
+            algorithm1.rank < algorithm2.rank
         }
-        
-        return .init(rank: highestRank, algortihm: algorithm)
+    }
+    
+    mutating func addRankedAlgortihm(algortihm: Algorithms, rank: Int) {
+        rankedAlgorithms.append(.init(rank: rank, algortihm: algortihm))
     }
     
 }

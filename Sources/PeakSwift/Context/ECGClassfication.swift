@@ -17,10 +17,29 @@ public enum ECGClassfication: ECGContext {
     case unrecognized
     
     func recommend(ecg: Electrocardiogram) -> RecommendedAlgorithms {
-        
+        switch self {
+        case .sinusRhythm:
+            return self.recommendSinusRhythm()
+        case .atrialFibrillation:
+            return self.recommendAtrialFibrillation()
+        default:
+            let emptyRecommendation = RecommendedAlgorithms()
+            return emptyRecommendation
+        }
+    }
+    
+    private func recommendSinusRhythm() -> RecommendedAlgorithms {
         var recommendation = RecommendedAlgorithms()
-        recommendation.rankToAlgorithms[10] = .nabian2018
+        
         return recommendation
     }
+    
+    private func recommendAtrialFibrillation() -> RecommendedAlgorithms {
+        var recommendation = RecommendedAlgorithms()
+
+        return recommendation
+    }
+    
+    
     
 }
