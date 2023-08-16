@@ -57,7 +57,8 @@ final class PeakSwiftTests: XCTestCase {
     func testAuto() {
         let qrsDetector = QRSDetector()
         // For expect same results as Nabian algorithm
-        let result = qrsDetector.detectPeaks(electrocardiogram:testData.d1namoHealthyECG, configuration: .auto)
+        let config = Configuration.createConfiguration().setClassification(.sinusRhythm)
+        let result = qrsDetector.detectPeaks(electrocardiogram:testData.d1namoHealthyECG, configuration: config)
         
         let expectedRPeaks: [UInt] = [3, 204, 1002, 1394, 1587, 1784, 1977, 2362, 2558, 2756, 2958, 3171, 3386, 3597, 3807]
         
