@@ -11,33 +11,95 @@ public enum ECGClassfication: ECGContext {
     
     case sinusRhythm
     case atrialFibrillation
-    case highHeartRate
-    case lowHeartRate
-    case inconclusiveSignal
-    case unrecognized
+    case highQuality
+    case lowQuality
+    case inconclusive
     
     func recommend(ecg: Electrocardiogram) -> RecommendedAlgorithms {
+        var rankedAlgorithms: [RankedAlgorithm] = []
         switch self {
         case .sinusRhythm:
-            return self.recommendSinusRhythm()
+             rankedAlgorithms = self.recommendSinusRhythm()
         case .atrialFibrillation:
-            return self.recommendAtrialFibrillation()
-        default:
-            let emptyRecommendation = RecommendedAlgorithms()
-            return emptyRecommendation
+             rankedAlgorithms = self.recommendAtrialFibrillation()
+        case .highQuality:
+             rankedAlgorithms = self.recommendHighQuality()
+        case .lowQuality:
+            rankedAlgorithms = self.recommendLowQuality()
+        case .inconclusive:
+            rankedAlgorithms = []
+        }
+        
+        return .init(rankedAlgorithms: rankedAlgorithms)
+    }
+    
+    private func recommendSinusRhythm() -> [RankedAlgorithm] {
+
+        return Algorithms.allCases.map { algorithm in
+            var rank = 0
+            switch algorithm {
+            case .basic, .aristotle:
+                rank = 0
+            case .christov, .nabian2018, .hamilton, .twoAverage,
+                    .neurokit, .panTompkins, .unsw, .engzee, .kalidas:
+                rank = 2
+            }
+            
+            return .init(rank: rank, algortihm: algorithm)
         }
     }
     
-    private func recommendSinusRhythm() -> RecommendedAlgorithms {
-        var recommendation = RecommendedAlgorithms()
+    private func recommendAtrialFibrillation() -> [RankedAlgorithm] {
         
-        return recommendation
+        return Algorithms.allCases.map { algorithm in
+            var rank = 0
+            switch algorithm {
+            case .basic, .aristotle:
+                rank = 0
+            case .engzee:
+                rank = 1
+            case .christov, .nabian2018, .hamilton, .twoAverage,
+                    .neurokit, .panTompkins, .unsw, .kalidas:
+                rank = 2
+            }
+            
+            return .init(rank: rank, algortihm: algorithm)
+        }
     }
     
-    private func recommendAtrialFibrillation() -> RecommendedAlgorithms {
-        var recommendation = RecommendedAlgorithms()
-
-        return recommendation
+    
+    private func recommendHighQuality() -> [RankedAlgorithm] {
+        
+        return Algorithms.allCases.map { algorithm in
+            var rank = 0
+            switch algorithm {
+            case .basic, .aristotle:
+                rank = 0
+            case .christov, .nabian2018, .hamilton, .twoAverage,
+                    .neurokit, .panTompkins, .unsw, .kalidas, .engzee:
+                rank = 2
+            }
+            
+            return .init(rank: rank, algortihm: algorithm)
+        }
+    }
+    
+    private func recommendLowQuality() -> [RankedAlgorithm] {
+        
+        return Algorithms.allCases.map { algorithm in
+            var rank = 0
+            switch algorithm {
+            case .basic, .aristotle, .engzee:
+                rank = 0
+            case .christov:
+                rank = 1
+            case .nabian2018, .hamilton, .twoAverage,
+                    .neurokit, .panTompkins, .unsw, .kalidas:
+                rank = 2
+            }
+            
+            return .init(rank: rank, algortihm: algorithm)
+        }
     }
     
     

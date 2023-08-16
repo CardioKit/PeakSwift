@@ -11,6 +11,10 @@ struct RecommendedAlgorithms {
     
     private (set)var rankedAlgorithms: [RankedAlgorithm] = []
     
+    init(rankedAlgorithms: [RankedAlgorithm]) {
+        self.rankedAlgorithms = rankedAlgorithms
+    }
+    
     var highestRankedAlgorithm: RankedAlgorithm? {
         return rankedAlgorithms.max { (algorithm1, algorithm2) in
             algorithm1.rank < algorithm2.rank
