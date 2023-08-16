@@ -10,11 +10,12 @@ import Foundation
 public class Configuration {
     
     var ecgContext: [ECGContext] {
-        [ecgClassification, runtimeClassification]
+        [ecgClassification, runtimeClassification, errorClassification]
     }
     
     private var ecgClassification: ECGClassfication = .notSet
     private let runtimeClassification: AlgorithmRuntime = AlgorithmRuntime()
+    private let errorClassification: AlgorithmError = AlgorithmError()
     
     public func setClassification(_ classification: ECGClassfication) -> Configuration {
         ecgClassification = classification
