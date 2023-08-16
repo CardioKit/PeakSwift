@@ -10,7 +10,6 @@ import Foundation
 class Policy {
     
     private let algortihmStrategy: AlgorithmStrategy
-    private let recommendations: [Recommendation] = []
     
     // Default algorithm is neurokit due to excellent performance in most characteristics (quality + performance)
     private let defaultAlgorithm: Algorithms = .neurokit
