@@ -21,12 +21,13 @@ class Policy {
     func configureAlgorithm(electrocardiogram: Electrocardiogram, configuration: Configuration) {
         
         let ratings = configuration.ecgContext.compactMap { ecgContext in
-            let rating = ecgContext.recommend(ecg: electrocardiogram)
-            return rating.highestRankedAlgorithm
+            ecgContext.recommend(ecg: electrocardiogram)
+        }.reduce(RecommendedAlgorithms(rankedAlgorithms: [])) { (acc, next) in
+            let newAcc = acc.mergeRanks(recommendedAlgorithms: next)
+            return newAcc
         }
-        
-        let highestRatedAlgorithmWithRating = ratings.max { $0.rank < $1.rank }
-        let highestRatedAlgorithm = highestRatedAlgorithmWithRating?.algortihm ?? defaultAlgorithm
+    
+        let highestRatedAlgorithm = ratings.highestRankedAlgorithm?.algortihm ?? defaultAlgorithm
         
         self.algortihmStrategy.setAlgorithm(algorithm: highestRatedAlgorithm)
     }

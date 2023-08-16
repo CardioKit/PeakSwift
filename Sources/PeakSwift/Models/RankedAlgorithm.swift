@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RankedAlgorithm {
+struct RankedAlgorithm: Hashable {
     
     let rank: Int
     let algortihm: Algorithms
