@@ -14,6 +14,7 @@ public enum ECGClassfication: ECGContext {
     case highQuality
     case lowQuality
     case inconclusive
+    case notSet
     
     func recommend(ecg: Electrocardiogram) -> RecommendedAlgorithms {
         var rankedAlgorithms: [RankedAlgorithm] = []
@@ -26,7 +27,7 @@ public enum ECGClassfication: ECGContext {
              rankedAlgorithms = self.recommendHighQuality()
         case .lowQuality:
             rankedAlgorithms = self.recommendLowQuality()
-        case .inconclusive:
+        case .inconclusive, .notSet:
             rankedAlgorithms = []
         }
         

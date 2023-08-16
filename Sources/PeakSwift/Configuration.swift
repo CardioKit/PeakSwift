@@ -10,15 +10,11 @@ import Foundation
 public class Configuration {
     
     var ecgContext: [ECGContext] {
-        [ecgClassification].compactMap { $0 }
+        [ecgClassification, runtimeClassification]
     }
     
-    var weight: Double {
-        // for now, everything is equally weighted
-        100.0 / Double(ecgContext.count)
-    }
-    
-    private var ecgClassification: ECGClassfication? = nil
+    private var ecgClassification: ECGClassfication = .notSet
+    private let runtimeClassification: AlgorithmRuntime = AlgorithmRuntime()
     
     public func setClassification(_ classification: ECGClassfication) -> Configuration {
         ecgClassification = classification
