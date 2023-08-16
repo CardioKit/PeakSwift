@@ -11,13 +11,13 @@ struct RecommendedAlgorithms {
     
     var rankToAlgorithms: [Int:Algorithms] = [:]
     
-    var highestRankedAlgorithm: (algorithm: Algorithms, rank: Int)? {
+    var highestRankedAlgorithm: RankedAlgorithm? {
         guard let highestRank = rankToAlgorithms.keys.max(),
                 let algorithm = rankToAlgorithms[highestRank] else {
             return nil
         }
         
-        return (algorithm: algorithm, rank: highestRank)
+        return .init(rank: highestRank, algortihm: algorithm)
     }
     
 }

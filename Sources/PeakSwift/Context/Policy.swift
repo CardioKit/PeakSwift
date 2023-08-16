@@ -12,7 +12,7 @@ class Policy {
     private let algortihmStrategy: AlgorithmStrategy
     private let recommendations: [Recommendation] = []
     
-    // Default algorithm is neurokit due to excellent performance in most characteristics
+    // Default algorithm is neurokit due to excellent performance in most characteristics (quality + performance)
     private let defaultAlgorithm: Algorithms = .neurokit
     
     init(algortihmStrategy: AlgorithmStrategy) {
@@ -23,15 +23,11 @@ class Policy {
         
         let ratings = configuration.ecgContext.compactMap { ecgContext in
             let rating = ecgContext.recommend(ecg: electrocardiogram)
-            if let (algorihm, rating) = rating.highestRankedAlgorithm {
-                return (algorihm, rating)
-            } else {
-                return nil
-            }
+            return rating.highestRankedAlgorithm
         }
         
-        let highestRatedAlgorithmWithRating = ratings.max { $0.1 < $1.1 }
-        let highestRatedAlgorithm = highestRatedAlgorithmWithRating?.0 ?? defaultAlgorithm
+        let highestRatedAlgorithmWithRating = ratings.max { $0.rank < $1.rank }
+        let highestRatedAlgorithm = highestRatedAlgorithmWithRating?.algortihm ?? defaultAlgorithm
         
         self.algortihmStrategy.setAlgorithm(algorithm: highestRatedAlgorithm)
     }
