@@ -21,7 +21,7 @@ public class QRSDetector {
         return self.algorithmStrategy.processSignal(electrocardiogram: electrocardiogram)
     }
     
-    public func detectPeaks(electrocardiogram: Electrocardiogram, configuration: Configuration) -> QRSResult {
+    public func detectPeaks(electrocardiogram: Electrocardiogram, configuration: Configuration = Configuration.createDefaultConfiguration()) -> QRSResult {
         self.policy.configureAlgorithm(electrocardiogram: electrocardiogram, configuration: configuration)
         return self.algorithmStrategy.processSignal(electrocardiogram: electrocardiogram)
     }

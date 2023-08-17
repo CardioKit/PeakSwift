@@ -22,7 +22,7 @@ public class Configuration {
         return self
     }
     
-    public static func createConfiguration() -> Configuration {
+    public static func createDefaultConfiguration() -> Configuration {
         return .init()
     }
     
