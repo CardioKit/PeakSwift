@@ -27,10 +27,11 @@ final class ContextAwarenessTests: XCTestCase {
     func testSelectionHighQuality() throws {
         
         let qrsDetector = QRSDetector()
-        let defaultConfiguration = Configuration.createDefaultConfiguration().setClassification(.highQuality)
         let ecg = try simpleECG()
         
-        let actualResult = qrsDetector.detectPeaks(electrocardiogram: ecg, configuration: defaultConfiguration)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: ecg) { configuration in
+            configuration.setClassification(.highQuality)
+        }
         
         AssertContainsExpectedAlgorithms(actualAlgorithm: actualResult.algorithm)
     }
@@ -38,10 +39,11 @@ final class ContextAwarenessTests: XCTestCase {
     func testSelectionLowQuality() throws {
         
         let qrsDetector = QRSDetector()
-        let defaultConfiguration = Configuration.createDefaultConfiguration().setClassification(.lowQuality)
         let ecg = try simpleECG()
         
-        let actualResult = qrsDetector.detectPeaks(electrocardiogram: ecg, configuration: defaultConfiguration)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: ecg) { configuration in
+            configuration.setClassification(.lowQuality)
+        }
         
         AssertContainsExpectedAlgorithms(actualAlgorithm: actualResult.algorithm)
     }
@@ -49,10 +51,11 @@ final class ContextAwarenessTests: XCTestCase {
     func testSelectionSinusRhytm() throws {
         
         let qrsDetector = QRSDetector()
-        let defaultConfiguration = Configuration.createDefaultConfiguration().setClassification(.sinusRhythm)
         let ecg = try simpleECG()
         
-        let actualResult = qrsDetector.detectPeaks(electrocardiogram: ecg, configuration: defaultConfiguration)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: ecg) { configuration in
+            configuration.setClassification(.sinusRhythm)
+        }
         
         AssertContainsExpectedAlgorithms(actualAlgorithm: actualResult.algorithm)
     }
@@ -60,10 +63,11 @@ final class ContextAwarenessTests: XCTestCase {
     func testSelectionAtrialFibrillation() throws {
         
         let qrsDetector = QRSDetector()
-        let defaultConfiguration = Configuration.createDefaultConfiguration().setClassification(.atrialFibrillation)
         let ecg = try simpleECG()
         
-        let actualResult = qrsDetector.detectPeaks(electrocardiogram: ecg, configuration: defaultConfiguration)
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: ecg) { configuration in
+            configuration.setClassification(.atrialFibrillation)
+        }
         
         AssertContainsExpectedAlgorithms(actualAlgorithm: actualResult.algorithm)
     }
