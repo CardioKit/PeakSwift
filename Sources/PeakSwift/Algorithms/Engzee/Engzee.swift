@@ -36,7 +36,9 @@ class Engzee: Algorithm {
                       
         }
         
-        rPeaks.remove(at: 0)
+        if !rPeaks.isEmpty {
+            rPeaks.remove(at: 0)
+        }
         
         return rPeaks.map { UInt($0) }
     }

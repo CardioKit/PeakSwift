@@ -80,7 +80,9 @@ class Hamilton: Algorithm {
             }
         }
         
-        qrsComplexes.remove(at: 0)
+        if !qrsComplexes.isEmpty {
+            qrsComplexes.remove(at: 0)
+        }
         
         return qrsComplexes.map { UInt($0) }
     }
