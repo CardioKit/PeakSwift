@@ -21,9 +21,14 @@ public class QRSDetector {
         return self.algorithmStrategy.processSignal(electrocardiogram: electrocardiogram)
     }
     
-    public func detectPeaks(electrocardiogram: Electrocardiogram, configuration: Configuration) -> QRSResult {
-        self.policy.configureAlgorithm(electrocardiogram: electrocardiogram)
+    public func detectPeaks(electrocardiogram: Electrocardiogram,
+                            configurationBuilder buildConfiguration: @escaping (ConfigurationBuilder) -> Void = { _ in }) -> QRSResult {
+        
+        let configurationBuilder = ConfigurationBuilder()
+        buildConfiguration(configurationBuilder)
+        let configuration = configurationBuilder.configuration
+        
+        self.policy.configureAlgorithm(electrocardiogram: electrocardiogram, configuration: configuration)
         return self.algorithmStrategy.processSignal(electrocardiogram: electrocardiogram)
     }
-        
 }

@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import HealthKit
 
-public enum Configuration {
-    case auto
+protocol Configuration {
+    
+    var ecgContext: [ECGContext] { get }
 }
+

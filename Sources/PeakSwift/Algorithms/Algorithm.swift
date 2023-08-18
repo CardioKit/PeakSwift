@@ -9,7 +9,7 @@ import Foundation
 
 protocol Algorithm {
     
-    func processSignal(electrocardiogram: Electrocardiogram) -> QRSResult
+    func processSignal(electrocardiogram: Electrocardiogram) -> ProcessedSignal
     
     func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double]
     
@@ -19,7 +19,7 @@ protocol Algorithm {
 
 extension Algorithm {
     
-    func processSignal(electrocardiogram: Electrocardiogram) -> QRSResult {
+    func processSignal(electrocardiogram: Electrocardiogram) -> ProcessedSignal {
         let cleanedSignal = self.preprocessSignal(ecgSignal: electrocardiogram.ecg, samplingFrequency: electrocardiogram.samplingRate)
         let rPeaks = self.detectPeaks(ecgSignal: cleanedSignal, samplingFrequency: electrocardiogram.samplingRate)
         let qrsComplexes = rPeaks.map { (rPeak) -> QRSComplex in
@@ -27,7 +27,7 @@ extension Algorithm {
         }
         
         let cleanedECG = Electrocardiogram(ecg: cleanedSignal, samplingRate: electrocardiogram.samplingRate)
-        return .init(qrsComlexes: qrsComplexes, electrocardiogram: electrocardiogram, cleanedElectrocardiogram: cleanedECG)
+        return .init(qrsComplexes: qrsComplexes, electrocardiogram: electrocardiogram, cleanedElectrocardiogram: cleanedECG)
     }
     
     func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {

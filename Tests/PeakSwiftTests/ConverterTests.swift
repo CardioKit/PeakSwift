@@ -18,7 +18,7 @@ final class ConverterTests: XCTestCase {
         
         let qrsComplex = [QRSComplex(rPeak: 1, qWave: 2, sWave: 3)]
         let electrocardiogram = Electrocardiogram(ecg: [1,2,3], samplingRate: 1000)
-        let resultToConvert = QRSResult(qrsComlexes: qrsComplex, electrocardiogram: electrocardiogram, cleanedElectrocardiogram: electrocardiogram)
+        let resultToConvert = QRSResult(qrsComlexes: qrsComplex, electrocardiogram: electrocardiogram, cleanedElectrocardiogram: electrocardiogram, algorithm: .neurokit)
         
         let converter = JSONConverter<QRSResult>()
         let jsonSerialized = try converter.serialize(toConvert: resultToConvert)
@@ -29,6 +29,7 @@ final class ConverterTests: XCTestCase {
         XCTAssertEqual(resultToConvert.cleanedElectrocardiogram.ecg, actualDeserializedResults.cleanedElectrocardiogram.ecg)
         XCTAssertEqual(resultToConvert.electrocardiogram.samplingRate, actualDeserializedResults.electrocardiogram.samplingRate)
         XCTAssertEqual(resultToConvert.cleanedElectrocardiogram.samplingRate, actualDeserializedResults.cleanedElectrocardiogram.samplingRate)
+        XCTAssertEqual(resultToConvert.algorithm, actualDeserializedResults.algorithm)
     }
     
 }
