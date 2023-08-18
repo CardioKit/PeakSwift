@@ -71,4 +71,14 @@ final class ContextAwarenessTests: XCTestCase {
         
         AssertContainsExpectedAlgorithms(actualAlgorithm: actualResult.algorithm)
     }
+    
+    func testSelectionNoContext() throws {
+        
+        let qrsDetector = QRSDetector()
+        let ecg = try simpleECG()
+        
+        let actualResult = qrsDetector.detectPeaks(electrocardiogram: ecg)
+        
+        AssertContainsExpectedAlgorithms(actualAlgorithm: actualResult.algorithm)
+    }
 }
