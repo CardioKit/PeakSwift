@@ -18,7 +18,7 @@ public class ConfigurationBuilder {
         return self
     }
     
-    @available(macOS 13.0, *)
+    @available(macOS 13.0, iOS 14.0, *)
     public func setClassification(fromHealthKit hkClassification: HKElectrocardiogram.Classification) -> ConfigurationBuilder  {
         switch hkClassification {
         case .notSet:
