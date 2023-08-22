@@ -21,8 +21,8 @@ final class End2EndTests: XCTestCase {
         let qrsDetector = QRSDetector()
         
         do {
-            //let expectedResults = try testDataSetLoader.getTestData(testDataSet: testDataSet)
-            let expectedResults = [try testDataSetLoader.getTestData(testDataSet: testDataSet)[1]]
+            let expectedResults = try testDataSetLoader.getTestData(testDataSet: testDataSet)
+            //let expectedResults = [try testDataSetLoader.getTestData(testDataSet: testDataSet)[1]]
             
             for (index, expectedResult) in expectedResults.enumerated() {
                 let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: algorithm)
