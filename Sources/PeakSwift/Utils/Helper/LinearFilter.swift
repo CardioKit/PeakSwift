@@ -30,16 +30,15 @@ enum LinearFilter {
     }
     
     private static func createImpulseResponse(samplingFrequency: Double, c: Double) -> [Double] {
-        let impulseResponeTemp: [Double] = Array(repeating: 1, count: Int(samplingFrequency * c))
+        let denominator = MathUtils.roundToInteger(samplingFrequency * c)
+        let impulseResponeTemp: [Double] = Array(repeating: 1, count: denominator)
         
         let impulseRespone = impulseResponeTemp.map { x in
-            x / (samplingFrequency * c)
+            x / Double(denominator)
         }
         
         return impulseRespone
     }
-    
-    static func test() {}
     
     
     

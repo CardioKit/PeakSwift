@@ -32,7 +32,7 @@ class Christov: Algorithm {
         
         var MA3 = LinearFilter.applyLinearFilter(ecgSignal: Y, samplingFrequency: samplingFrequency, c: c3)
         
-        MA3.replaceSubrange(0...totalTaps, with: repeatElement(0, count: totalTaps))
+        VectorUtils.setToZeroInRange(&MA3, end: totalTaps)
         
         let ms50 = Int(0.05 * samplingFrequency)
         let ms200 = Int(0.2 * samplingFrequency)
@@ -62,7 +62,7 @@ class Christov: Algorithm {
         var rPeaks: [Int] = []
         
         
-        for i in 0...(MA3.count-1) {
+        for i in 0..<MA3.count {
            
             // M
             if Double(i) < (5 * samplingFrequency) {
@@ -94,13 +94,21 @@ class Christov: Algorithm {
             
             // F
             if i > ms350 {
-                let FSection = Array(MA3[(i - ms350)...i])
+                let FSection = Array(MA3[(i - ms350)..<i])
                 let maxLatest = MathUtils.maxInRange(FSection, from: FSection.count-ms50, to: FSection.count)
                 let maxEarliest = MathUtils.maxInRange(FSection, from: 0, to: ms50)
                 F += (maxLatest - maxEarliest) / 150.0
             }
             
-            if let lastRPeak = rPeaks.last, i < lastRPeak + Int(2.0 / 3.0 * Double(Rm)), i < lastRPeak + Rm {
+            // RR
+            if let lastRPeak = rPeaks.last,
+                i < lastRPeak + Int(2.0 / 3.0 * Double(Rm)) {
+              
+                R = 0
+                
+            } else if let lastRPeak = rPeaks.last,
+                        i > lastRPeak + Int(2.0 / 3.0 * Double(Rm)),
+                        i < lastRPeak + Rm {
                 let dec = (M - MathUtils.mean(MM)) / 1.4
                 R = dec
             }
@@ -116,7 +124,7 @@ class Christov: Algorithm {
             } else if let lastRPeak = rPeaks.last, i > lastRPeak + ms200, MA3[i] > MFR {
                 rPeaks.append(i)
                 if rPeaks.count > 2 {
-                    RR.append(Double(lastRPeak - rPeaks[rPeaks.count-2]))
+                    RR.append(Double(rPeaks[elementFromEnd: -1] - rPeaks[elementFromEnd: -2]))
                     if RR.count > 5 {
                         RR.remove(at: 0)
                     }

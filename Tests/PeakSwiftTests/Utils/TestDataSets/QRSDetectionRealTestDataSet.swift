@@ -12,5 +12,6 @@ enum QRSDetectionRealTestDataSet: String {
     case TestPoolTwoAverage = "TestPoolElgendi"
     case TestPoolPanTompkins = "TestPoolPanTompkins"
     case TestPoolKalidas = "TestPoolKalidas"
+    case TestPoolChristov = "TestPoolChristov"
     
 }

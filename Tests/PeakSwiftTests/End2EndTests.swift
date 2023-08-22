@@ -22,7 +22,7 @@ final class End2EndTests: XCTestCase {
         
         do {
             let expectedResults = try testDataSetLoader.getTestData(testDataSet: testDataSet)
-            //let expectedResults = [try testDataSetLoader.getTestData(testDataSet: testDataSet)[31]]
+            //let expectedResults = [try testDataSetLoader.getTestData(testDataSet: testDataSet)[1]]
             
             for (index, expectedResult) in expectedResults.enumerated() {
                 let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: algorithm)
@@ -50,6 +50,10 @@ final class End2EndTests: XCTestCase {
     
     func testKalidas() throws {
         try runTestForDataSet(testDataSet: .TestPoolKalidas, algorithm: .kalidas)
+    }
+    
+    func testChristov() throws {
+        try runTestForDataSet(testDataSet: .TestPoolChristov, algorithm: .christov)
     }
     
 }
