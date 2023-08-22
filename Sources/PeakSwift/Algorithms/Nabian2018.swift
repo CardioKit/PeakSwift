@@ -19,7 +19,6 @@ class Nabian2018: Algorithm {
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         var rPeaks: [Int] = []
         let windowSize = Int(0.4 * samplingFrequency)
-        print(windowSize)
         for i in stride(from: (1 + windowSize), to: (ecgSignal.count - windowSize), by:1) {
             let ecgWindow = Array(ecgSignal[i - windowSize ..< i + windowSize])
             var maxValue = Double()
