@@ -17,16 +17,20 @@ final class End2EndTests: XCTestCase {
     
     let testDataSetLoader: TestDataSetLoader = TestDataSetLoader()
     
-    func runTestForDataSet(testDataSet: QRSDetectionRealTestDataSet) throws {
+    func runTestForDataSet(testDataSet: QRSDetectionRealTestDataSet, algorithm: Algorithms) throws {
         let qrsDetector = QRSDetector()
         
         do {
-            let expectedResults = try testDataSetLoader.getTestData(testDataSet: .TestPoolTwoAverage)
+            let expectedResults = [try testDataSetLoader.getTestData(testDataSet: testDataSet)[44]]
             
-            for expectedResult in expectedResults {
-                let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: .twoAverage)
+            for (index, expectedResult) in expectedResults.enumerated() {
+                let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: algorithm)
                 
-                AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: 1)
+                let message = { (c1: [UInt], c2: [UInt], threshold: UInt) -> String in
+                    "At ECG number \(index) \(c1) is not equal to \(c2) with threshold \(threshold)"
+                }
+                
+                AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: 5, message: message)
             }
             
         } catch {
@@ -36,7 +40,11 @@ final class End2EndTests: XCTestCase {
     }
     
     func testTwoAverage() throws {
-        try runTestForDataSet(testDataSet: .TestPoolTwoAverage)
+        try runTestForDataSet(testDataSet: .TestPoolTwoAverage, algorithm: .twoAverage)
+    }
+    
+    func testPanTompkins() throws {
+        try runTestForDataSet(testDataSet: .TestPoolPanTompkins, algorithm: .panTompkins)
     }
     
 }

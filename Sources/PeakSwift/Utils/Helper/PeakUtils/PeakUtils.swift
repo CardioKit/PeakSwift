@@ -166,7 +166,8 @@ enum PeakUtils {
                         
                         if let detectedPeak = detectedPeak {
                             
-                            signalPeaks[signalPeaks.count-1] = detectedPeak
+                            let missedPeak = missedPeaks[detectedPeak]
+                            signalPeaks[signalPeaks.count-1] = missedPeak
                             signalPeaks.append(peak)
                         }
                     }

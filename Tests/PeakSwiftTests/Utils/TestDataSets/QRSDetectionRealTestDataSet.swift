@@ -10,5 +10,6 @@ import Foundation
 enum QRSDetectionRealTestDataSet: String {
     
     case TestPoolTwoAverage = "TestPoolElgendi"
+    case TestPoolPanTompkins = "TestPoolPanTompkins"
     
 }
