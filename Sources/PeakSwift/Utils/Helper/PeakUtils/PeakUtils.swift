@@ -114,7 +114,7 @@ enum PeakUtils {
              signal[index+1] < voltage
         }.map {
             (index, voltage) in
-            index //+ 1
+            index
         }
     }
     

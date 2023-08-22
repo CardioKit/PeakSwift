@@ -48,4 +48,8 @@ final class End2EndTests: XCTestCase {
         try runTestForDataSet(testDataSet: .TestPoolPanTompkins, algorithm: .panTompkins)
     }
     
+    func testKalidas() throws {
+        try runTestForDataSet(testDataSet: .TestPoolKalidas, algorithm: .kalidas)
+    }
+    
 }
