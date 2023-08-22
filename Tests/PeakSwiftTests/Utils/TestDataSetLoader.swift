@@ -20,6 +20,10 @@ class TestDataSetLoader {
         return try getTestData(fileName: testDataSet.fileName)
     }
     
+    func getTestData(testDataSet: QRSDetectionRealTestDataSet) throws -> [QRSExpectedTestResult] {
+        return try getTestData(fileName: testDataSet.rawValue)
+    }
+    
     private func getTestData<Result: Codable>(fileName: String) throws -> Result {
         let converter = JSONConverter<Result>()
         let fileContent = try fileReader.readFile(fileName: fileName, fileExtension: .json)
