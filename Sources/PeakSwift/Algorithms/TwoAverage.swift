@@ -10,6 +10,9 @@ import Accelerate
 
 class TwoAverage : Algorithm {
     
+    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        Butterworth().butterworth(signal: ecgSignal, order: .two, lowCutFrequency: 8, highCutFrequency: 20, sampleRate: samplingFrequency)
+    }
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
