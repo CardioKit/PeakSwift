@@ -21,7 +21,8 @@ final class End2EndTests: XCTestCase {
         let qrsDetector = QRSDetector()
         
         do {
-            let expectedResults = [try testDataSetLoader.getTestData(testDataSet: testDataSet)[44]]
+            let expectedResults = try testDataSetLoader.getTestData(testDataSet: testDataSet)
+            //let expectedResults = [try testDataSetLoader.getTestData(testDataSet: testDataSet)[31]]
             
             for (index, expectedResult) in expectedResults.enumerated() {
                 let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: algorithm)
@@ -30,7 +31,7 @@ final class End2EndTests: XCTestCase {
                     "At ECG number \(index) \(c1) is not equal to \(c2) with threshold \(threshold)"
                 }
                 
-                AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: 5, message: message)
+                AssertEqualWithThreshold(actualResult.rPeaks, expectedResult.rPeaks, threshold: 0, message: message)
             }
             
         } catch {

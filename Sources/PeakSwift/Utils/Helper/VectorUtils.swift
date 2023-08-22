@@ -16,7 +16,7 @@ class VectorUtils {
     }
         
     static func setToZeroInRange(_ array: inout [Double], start: Int = 0, end: Int) {
-        array.replaceSubrange(start...end, with: repeatElement(0, count: end-start))
+        array.replaceSubrange(start..<end, with: repeatElement(0, count: end-start))
     }
         
     static func setToZeroTilEnd(_ array: inout [Double], start: Int = 0) {
