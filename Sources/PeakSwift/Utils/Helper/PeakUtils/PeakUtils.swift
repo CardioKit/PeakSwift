@@ -114,7 +114,7 @@ enum PeakUtils {
              signal[index+1] < voltage
         }.map {
             (index, voltage) in
-            index + 1
+            index
         }
     }
     
@@ -166,7 +166,8 @@ enum PeakUtils {
                         
                         if let detectedPeak = detectedPeak {
                             
-                            signalPeaks[signalPeaks.count-1] = detectedPeak
+                            let missedPeak = missedPeaks[detectedPeak]
+                            signalPeaks[signalPeaks.count-1] = missedPeak
                             signalPeaks.append(peak)
                         }
                     }
