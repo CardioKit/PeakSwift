@@ -204,4 +204,11 @@ enum MathUtils {
         return vForce.pow(bases: bases, exponents: exponents)
 
     }
+    
+    static func argMaxAndMaximum(_ vector: [Double]) -> (maxValue: Double, argMax: Int) {
+        var maxValue: Double = 0.0
+        var argMax: vDSP_Length = 0
+        vDSP_maxviD(vector, 1, &maxValue, &argMax, vDSP_Length(vector.count))
+        return (maxValue: maxValue, argMax: Int(argMax))
+    }
 }
