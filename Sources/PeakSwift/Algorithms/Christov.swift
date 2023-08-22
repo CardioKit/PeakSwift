@@ -32,7 +32,8 @@ class Christov: Algorithm {
         
         var MA3 = LinearFilter.applyLinearFilter(ecgSignal: Y, samplingFrequency: samplingFrequency, c: c3)
         
-        MA3.replaceSubrange(0...totalTaps, with: repeatElement(0, count: totalTaps))
+        //MA3.replaceSubrange(0...totalTaps, with: repeatElement(0, count: totalTaps))
+        VectorUtils.setToZeroInRange(&MA3, end: totalTaps)
         
         let ms50 = Int(0.05 * samplingFrequency)
         let ms200 = Int(0.2 * samplingFrequency)
@@ -62,7 +63,7 @@ class Christov: Algorithm {
         var rPeaks: [Int] = []
         
         
-        for i in 0...(MA3.count-1) {
+        for i in 0..<MA3.count {
            
             // M
             if Double(i) < (5 * samplingFrequency) {

@@ -12,7 +12,7 @@ import Surge
 enum MathUtils {
     
     static func maxInRange(_ array: [Double], from: Int, to: Int) -> Double{
-        let arraySlice = array[from...to-1]
+        let arraySlice = array[from..<to]
         return vDSP.maximum(arraySlice)
     }
     
