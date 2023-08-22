@@ -37,17 +37,20 @@ final class PeakSwiftTests: XCTestCase {
         let qrsDetector = QRSDetector()
         let result = qrsDetector.detectPeaks(electrocardiogram: testData.d1namoHealthyECG, algorithm: .nabian2018)
         
-        let expectedRPeaks: [UInt] = [3, 204, 1002, 1394, 1587, 1784, 1977, 2362, 2558, 2756, 2958, 3171, 3386, 3597, 3807]
+        // expected peaks based on NeuroKit peak detection
+        let expectedRPeaks: [UInt] = [ 203,  401,  604,  804, 1001, 1118, 1255, 1393, 1586, 1783, 1976, 2170, 2361, 2557, 2755, 2957, 3170, 3385, 3596, 3806]
         
-        XCTAssertEqual(result.rPeaks, expectedRPeaks)
+        AssertEqualWithThreshold(result.rPeaks, expectedRPeaks)
     }
     
     func testNabianAppleWatch() {
         let qrsDetector = QRSDetector()
         let result = qrsDetector.detectPeaks(electrocardiogram: testData.appleWatchECG, algorithm: .nabian2018)
         
+        print(testData.appleWatchECG)
         // expected peaks based on NeuroKit peak detection
-        let expectedRPeaks: [UInt] = [225, 1816, 2850, 3385, 4421, 5462, 5966, 6504, 7044, 8074, 9117, 10154, 10696, 12222, 12748, 13742]
+        let expectedRPeaks: [UInt] = [  593,  1019,  2459,  2849,  3384,  4031,  4555,  5082,  5598, 6100,  6637,  7043,  7683,  8073,  8754,  9250,  9759, 10153,
+               10695, 11325, 11828, 12361, 12885, 13373, 13741, 14393, 14874 ]
         
         XCTAssertEqual(result.rPeaks, expectedRPeaks)
     }

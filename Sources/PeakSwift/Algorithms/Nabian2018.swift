@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Accelerate
 
 /// DOI: 10.1109/JTEHM.2018.2878000
 class Nabian2018: Algorithm {
@@ -21,7 +20,7 @@ class Nabian2018: Algorithm {
             let ecgWindow = Array(ecgSignal[i - windowSize ..< i + windowSize])
             let (_, rPeak) = MathUtils.argMaxAndMaximum(ecgWindow)
             
-            if i == (i - windowSize - 1 + Int(rPeak)){
+            if i == (i - windowSize - 1 + Int(rPeak)) {
                 rPeaks.append(i)
             }
             
