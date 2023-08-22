@@ -9,10 +9,10 @@ import Foundation
 
 class PanTompkins: Algorithm {
     
-//    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
-//        let cleanedSignal = Butterworth().butterworth(signal: ecgSignal, order: .one, lowCutFrequency: 5, highCutFrequency: 15, sampleRate: samplingFrequency)
-//        return cleanedSignal
-//    }
+    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        let cleanedSignal = Butterworth().butterworth(signal: ecgSignal, order: .one, lowCutFrequency: 5, highCutFrequency: 15, sampleRate: samplingFrequency)
+        return cleanedSignal
+    }
     
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
