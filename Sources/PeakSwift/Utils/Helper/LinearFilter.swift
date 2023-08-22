@@ -30,7 +30,7 @@ enum LinearFilter {
     }
     
     private static func createImpulseResponse(samplingFrequency: Double, c: Double) -> [Double] {
-       // Sometime precision erros
+       // Sometime precision erros that may lead to deviations to neurokit
        let denominator = samplingFrequency * c
        let impulseResponeTemp: [Double] = Array(repeating: 1, count: Int(denominator))
         
