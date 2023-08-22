@@ -18,9 +18,9 @@ class Hamilton: Algorithm {
         
         let difference = MathUtils.absolute(MathUtils.diff(ecgSignal))
         var movingAverage = LinearFilter.applyLinearFilter(ecgSignal: difference, samplingFrequency: samplingFrequency, c: 0.08)
-        let paddingSize = Int(0.08 * samplingFrequency * 2)
         
-        movingAverage.replaceSubrange(0...(paddingSize-1), with: repeatElement(0.0, count: paddingSize))
+        let paddingSize = Int(Int(0.08 * samplingFrequency) * 2)
+        VectorUtils.setToZeroInRange(&movingAverage, end: paddingSize)
         
         let amountOfpeaksToTrack = 8
         let noisePeaks = FixSizedQueue<Double>(size: amountOfpeaksToTrack)

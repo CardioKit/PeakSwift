@@ -22,7 +22,7 @@ final class End2EndTests: XCTestCase {
         
         do {
             let expectedResults = try testDataSetLoader.getTestData(testDataSet: testDataSet)
-            //let expectedResults = [try testDataSetLoader.getTestData(testDataSet: testDataSet)[1]]
+            //let expectedResults = [try testDataSetLoader.getTestData(testDataSet: testDataSet)[151]]
             
             for (index, expectedResult) in expectedResults.enumerated() {
                 let actualResult = qrsDetector.detectPeaks(electrocardiogram: expectedResult.electrocardiogram, algorithm: algorithm)
@@ -54,6 +54,10 @@ final class End2EndTests: XCTestCase {
     
     func testChristov() throws {
         try runTestForDataSet(testDataSet: .TestPoolChristov, algorithm: .christov)
+    }
+    
+    func testHamilton() throws {
+        try runTestForDataSet(testDataSet: .TestPoolHamilton, algorithm: .hamilton)
     }
     
 }
