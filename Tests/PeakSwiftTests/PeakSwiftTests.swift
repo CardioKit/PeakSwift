@@ -47,7 +47,6 @@ final class PeakSwiftTests: XCTestCase {
         let qrsDetector = QRSDetector()
         let result = qrsDetector.detectPeaks(electrocardiogram: testData.appleWatchECG, algorithm: .nabian2018)
         
-        print(testData.appleWatchECG)
         // expected peaks based on NeuroKit peak detection
         let expectedRPeaks: [UInt] = [  593,  1019,  2459,  2849,  3384,  4031,  4555,  5082,  5598, 6100,  6637,  7043,  7683,  8073,  8754,  9250,  9759, 10153,
                10695, 11325, 11828, 12361, 12885, 13373, 13741, 14393, 14874 ]
