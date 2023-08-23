@@ -91,6 +91,11 @@ class Engzee: Algorithm {
     }
     
     private func updateThfThreshold(index: Int, lowPassFiltered: [Double], voltage: Double, MM: SteepSlopeThreshold, engzeeThreshold: EngzeeThreshold) {
+       
+        guard engzeeThreshold.thi else {
+            return
+        }
+        
         if engzeeThreshold.thiList.isBeforeRelativeToLastQRS(sample: index, ms: 160) {
             if MM.belowThersholdNeg(sample: voltage),
                MM.overThersholdNeg(sample: lowPassFiltered[index-1]) {
@@ -106,8 +111,7 @@ class Engzee: Algorithm {
                 engzeeThreshold.resetCounters()
             }
             
-        } else if engzeeThreshold.thi,
-                  engzeeThreshold.thiList.isAfterRelativeToLastQRS(sample: index, ms: 160){
+        } else if engzeeThreshold.thiList.isAfterRelativeToLastQRS(sample: index, ms: 160) {
             engzeeThreshold.resetCounters()
         }
     }
