@@ -9,10 +9,10 @@ import Foundation
 
 class Engzee: Algorithm {
     
-//    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
-//        let cleanedSignal = Butterworth().butterworthBandStop(signal: ecgSignal, order: .four, lowCutFrequency: 48, highCutFrequency: 52, sampleRate: samplingFrequency)
-//        return cleanedSignal
-//    }
+    func preprocessSignal(ecgSignal: [Double], samplingFrequency: Double) -> [Double] {
+        let cleanedSignal = Butterworth().butterworthBandStop(signal: ecgSignal, order: .four, lowCutFrequency: 48, highCutFrequency: 52, sampleRate: samplingFrequency)
+        return cleanedSignal
+    }
     
     func detectPeaks(ecgSignal: [Double], samplingFrequency: Double) -> [UInt] {
         
