@@ -4,7 +4,7 @@
 [![Platforms](https://img.shields.io/badge/Platforms-macOS_iOS-yellowgreen?style=flat-square)](https://img.shields.io/badge/Platforms-macOS_iOS-Green?style=flat-square)
 [![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-blue?style=flat-square)](https://img.shields.io/badge/Swift_Package_Manager-compatible-blue?style=flat-square)
 
-PeakSwift is Swift package designed for accurate and real-time R-peak detection in single-lead Electrocardiogram (ECG= data, tailored for the iOS environment. PeakSwift provides also functionality for context-aware R-Peak detection and ECG signal quality evaluation.
+PeakSwift is a Swift package designed for accurate and real-time R-peak detection in single-lead Electrocardiogram (ECG) data, tailored for the iOS environment. PeakSwift provides also functionality for context-aware R-Peak detection and ECG signal quality evaluation.
 
 - [Features](#features)
 - [Requirements](#requirements)
@@ -18,7 +18,7 @@ PeakSwift is Swift package designed for accurate and real-time R-peak detection 
 - [Contributing](#contributing)
 - [License](license)
 
-### Features
+## Features
 
 - [x] 9 R-Peak detectors (Christov, nabian2018, Hamilton, TwoAverage, NeuroKit, Pan & Tompkins, UNSW, Engzee, Kalidas)
 - [x] 2 Signal quality evelautors (Zhao2018 Simple, Zhao2018 Fuzzy)
@@ -32,7 +32,6 @@ PeakSwift is Swift package designed for accurate and real-time R-peak detection 
 | iOS 13.0+ / macOS 10.15+  | 5.3 |  [Swift Package Manager](#swift-package-manager)| Fully Tested |
 
 ## Installation
-
 
 ### Swift Package Manager
 
@@ -70,7 +69,7 @@ targets: [
 ## Usage
 
 ### Setup Electrocardiogram
-First of all configure an ECG, you would like to analyze. 
+First of all, configure the ECG, you would like to analyze. 
 
 ```swift
 let ecg: [Double] = /* put your ECG here*/
@@ -109,7 +108,7 @@ qrsDetector.detectPeaks(electrocardiogram: electrocardiogram) { config in
 }
 ```  
 
-You can also directly pass the context provided by HealthKit:
+You can also directly specify the context provided by HealthKit:
 ```swift
 import HealthKit
 
@@ -121,7 +120,7 @@ qrsDetector.detectPeaks(electrocardiogram: electrocardiogram) { config in
 ```  
 
 ### ECG signal quality evaluation
-PeakSwift is also capable to support signal quality evaluations:
+PeakSwift support ssignal quality evaluations:
 
 ```swift
 let signalQualityEvaluator = ECGQualityEvaluator()
