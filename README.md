@@ -4,10 +4,9 @@
 [![Platforms](https://img.shields.io/badge/Platforms-macOS_iOS-yellowgreen?style=flat-square)](https://img.shields.io/badge/Platforms-macOS_iOS-Green?style=flat-square)
 [![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-blue?style=flat-square)](https://img.shields.io/badge/Swift_Package_Manager-compatible-blue?style=flat-square)
 
-PeakSwift is Swift package designed for accurate and real-time R-peak detec-
-tion in single-lead ECG data, tailored for the iOS environment.
+PeakSwift is Swift package designed for accurate and real-time R-peak detection in single-lead ECG data, tailored for the iOS environment.
 
-- [Features] (#features)
+- [Features] (#-features)
 - [Requirements] (#requirements)
 - [Installation] (#installation)
 - [Usage] (#usage)
