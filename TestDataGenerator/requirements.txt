@@ -1,0 +1,3 @@
+neurokit2==0.2.4
+numpy==1.25.2
+pywavelets==1.4.1

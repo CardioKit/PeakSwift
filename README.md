@@ -131,6 +131,31 @@ let signalQuality = signalQualityEvaluator.evaluateECGQuality(
 
 // signalQuality has to be unacceptable, barelyAcceptable or excellent
 ```
+
+## Test suite
+
+The python-based library [NeuroKit](https://github.com/neuropsychology/NeuroKit) is used to generate the test data.
+
+Firstly, install the necessary dependencies. We recommend to use the [virtual environment manager (venv)](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/) for isolating the dependencies. 
+
+```properties
+pip3 install -r requirements.txt
+```
+
+
+ To generate the test data & run the test suite use following commands:
+
+```properties
+# Generate test data
+cd TestDataGenerator
+python3 main.py
+
+# Run swift based test suite
+cd .. 
+swift build
+swift test
+```
+
 ## Dependencies
 
 PeakSwift relies on the following libraries:
@@ -138,6 +163,7 @@ PeakSwift relies on the following libraries:
 - [DSP IIR Realtime C++ filter library](https://github.com/berndporr/iir1)
 - [wavelib](https://github.com/rafat/wavelib)
 - [Surge](https://github.com/Jounce/Surge)
+- [NeuroKit (Test suite only)](https://github.com/neuropsychology/NeuroKit)
 
 ## Contributing
 
