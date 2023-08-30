@@ -4,7 +4,7 @@
 [![Platforms](https://img.shields.io/badge/Platforms-macOS_iOS-yellowgreen?style=flat-square)](https://img.shields.io/badge/Platforms-macOS_iOS-Green?style=flat-square)
 [![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-blue?style=flat-square)](https://img.shields.io/badge/Swift_Package_Manager-compatible-blue?style=flat-square)
 
-PeakSwift is Swift package designed for accurate and real-time R-peak detection in single-lead ECG data, tailored for the iOS environment.
+PeakSwift is Swift package designed for accurate and real-time R-peak detection in single-lead Electrocardiogram (ECG= data, tailored for the iOS environment. PeakSwift provides also functionality for context-aware R-Peak detection and ECG signal quality evaluation.
 
 - [Features](#features)
 - [Requirements](#requirements)
@@ -14,6 +14,8 @@ PeakSwift is Swift package designed for accurate and real-time R-peak detection 
     - [R-Peak detection](#r-peak-detection)
     - [Context-aware R-Peak detection](#context-aware-r-peak-detection)
     - [ECG signal quality evaluation](#ecg-signal-quality-evaluation)
+- [Dependencies](#dependencies)
+- [Contributing](#contributing)
 - [License](license)
 
 ### Features
@@ -68,7 +70,7 @@ targets: [
 ## Usage
 
 ### Setup Electrocardiogram
-First of all configure an Electrocardiogram (ECG), you would like to analyze. 
+First of all configure an ECG, you would like to analyze. 
 
 ```swift
 let ecg: [Double] = /* put your ECG here*/
@@ -81,17 +83,17 @@ let electrocardiogram = Electrocardiogram(ecg: ecg, samplingRate: samplingRate)
 PeakSwift provides a R-Peak detection feature as follows:
 
 ```swift
-    let qrsDetector = QRSDetector()
+let qrsDetector = QRSDetector()
     
-    // A default algorithm will be selected
-    qrsDetector.detectPeaks(electrocardiogram: electrocardiogram)
+// A default algorithm will be selected
+qrsDetector.detectPeaks(electrocardiogram: electrocardiogram)
 
-    // Alternative: An algorithm may be specified
-    let qrsResult = qrsDetector.detectPeaks(electrocardiogram: electrocardiogram, algorithm: .neurokit)
+// Alternative: An algorithm may be specified
+let qrsResult = qrsDetector.detectPeaks(electrocardiogram: electrocardiogram, algorithm: .neurokit)
 
-    // Extract results
-    let rPeaks = qrsResult.rPeaks
-    let cleanedSignal = qrsResult.cleanedElectrocardiogram
+// Extract results
+let rPeaks = qrsResult.rPeaks
+let cleanedSignal = qrsResult.cleanedElectrocardiogram
 ```
 
 ### Context-aware R-Peak detection
@@ -99,23 +101,23 @@ You can also, pass the ECG signal context to PeakSwift and let PeakSwift decide 
 
 
 ```swift
-    let qrsDetector = QRSDetector()
+let qrsDetector = QRSDetector()
     
-    // The most suitable algorithm for signal with Atrial Firbrillation will be selcted
-    qrsDetector.detectPeaks(electrocardiogram: electrocardiogram) { config in
-            config.setClassification(.atrialFibrillation)
-    }
+// The most suitable algorithm for signal with Atrial Firbrillation will be selcted
+qrsDetector.detectPeaks(electrocardiogram: electrocardiogram) { config in
+        config.setClassification(.atrialFibrillation)
+}
 ```  
 
 You can also directly pass the context provided by HealthKit:
 ```swift
-    import HealthKit
+import HealthKit
 
-    let qrsDetector = QRSDetector()
+let qrsDetector = QRSDetector()
  
-    qrsDetector.detectPeaks(electrocardiogram: electrocardiogram) { config in
-            config.setClassification(fromHealthKit: .sinusRhythm)
-    }
+qrsDetector.detectPeaks(electrocardiogram: electrocardiogram) { config in
+        config.setClassification(fromHealthKit: .sinusRhythm)
+}
 ```  
 
 ### ECG signal quality evaluation
@@ -130,6 +132,29 @@ let signalQuality = signalQualityEvaluator.evaluateECGQuality(
 
 // signalQuality has to be unacceptable, barelyAcceptable or excellent
 ```
+## Dependencies
+
+PeakSwift relies on the following libraries:
+
+- [DSP IIR Realtime C++ filter library](https://github.com/berndporr/iir1)
+- [wavelib](https://github.com/rafat/wavelib)
+- [Surge](https://github.com/Jounce/Surge)
+
+## Contributing
+
+We welcome contributions to enhance PeakSwift:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/your-feature-name`
+3. Commit your changes: `git commit -am 'feat(Scope): Add some feature'`
+4. Push to the branch: `git push origin feature/your-feature-name`
+5. Create a pull request.
+
+## Demo app
+
+To illustrate and analyze the functionalities of PeakSwift, a dedicated sample app is developed. It integrates R-Peak detection and signal quality analysis of PeakSwift and can be evaluated with an external analysis tool. 
+
+You can explore PeakWatch here: [PeakWatch](https://github.com/CardioKit/PeakWatch).
 
 ## License
 
