@@ -6,17 +6,17 @@
 
 PeakSwift is Swift package designed for accurate and real-time R-peak detection in single-lead ECG data, tailored for the iOS environment.
 
-- [Features] (#-features)
+- [Features](#features)
 - [Requirements] (#requirements)
 - [Installation] (#installation)
 - [Usage] (#usage)
     - [Setup Electrocardiogram] (#setup-electrocardiogram)
-     - [R-Peak detection] (#r-peak-detection)
-     - [Context-aware R-Peak detection] (#context-aware-r-Peak-detection)
-     - [ECG signal quality evaluation] (#ecg-signal-quality-evaluation)
+    - [R-Peak detection] (#r-peak-detection)
+    - [Context-aware R-Peak detection] (#context-aware-r-Peak-detection)
+    - [ECG signal quality evaluation] (#ecg-signal-quality-evaluation)
 - [License](license)
 
-## Features
+### Features
 
 - [x] 9 R-Peak detectors (Christov, nabian2018, Hamilton, TwoAverage, NeuroKit, Pan & Tompkins, UNSW, Engzee, Kalidas)
 - [x] 2 Signal quality evelautors (Zhao2018 Simple, Zhao2018 Fuzzy)
