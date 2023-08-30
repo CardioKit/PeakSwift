@@ -21,7 +21,7 @@ PeakSwift is a Swift package designed for accurate and real-time R-peak detectio
 ## Features
 
 - [x] 9 R-Peak detectors (Christov, nabian2018, Hamilton, TwoAverage, NeuroKit, Pan & Tompkins, UNSW, Engzee, Kalidas)
-- [x] 2 Signal quality evelautors (Zhao2018 Simple, Zhao2018 Fuzzy)
+- [x] 2 Signal quality evaluators (Zhao2018 Simple, Zhao2018 Fuzzy)
 - [x] Context-aware R-Peak detection
 
 
@@ -56,7 +56,7 @@ platforms: [
 ]
 ```
 
-And add PeakSwift, to your target library.
+And add PeakSwift to your target library.
 
 ```swift
 targets: [
@@ -96,7 +96,7 @@ let cleanedSignal = qrsResult.cleanedElectrocardiogram
 ```
 
 ### Context-aware R-Peak detection
-You can also, pass the ECG signal context to PeakSwift and let PeakSwift decide on the most suitable algorithm.
+You can pass the ECG signal context to PeakSwift and let PeakSwift decide on the most suitable algorithm.
 
 
 ```swift
@@ -120,7 +120,7 @@ qrsDetector.detectPeaks(electrocardiogram: electrocardiogram) { config in
 ```  
 
 ### ECG signal quality evaluation
-PeakSwift support ssignal quality evaluations:
+PeakSwift support signal quality evaluations:
 
 ```swift
 let signalQualityEvaluator = ECGQualityEvaluator()
