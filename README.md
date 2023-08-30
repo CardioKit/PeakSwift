@@ -14,8 +14,10 @@ PeakSwift is a Swift package designed for accurate and real-time R-peak detectio
     - [R-Peak detection](#r-peak-detection)
     - [Context-aware R-Peak detection](#context-aware-r-peak-detection)
     - [ECG signal quality evaluation](#ecg-signal-quality-evaluation)
+- [Test suite](#test-suite)
 - [Dependencies](#dependencies)
 - [Contributing](#contributing)
+- [PeakWatch - Demo app](#peakwatch---demo-app)
 - [License](license)
 
 ## Features
@@ -175,9 +177,9 @@ We welcome contributions to enhance PeakSwift:
 4. Push to the branch: `git push origin feature/your-feature-name`
 5. Create a pull request.
 
-## Demo app
+## PeakWatch - Demo app
 
-To illustrate and analyze the functionalities of PeakSwift, a dedicated sample app is developed. It integrates R-Peak detection and signal quality analysis of PeakSwift and can be evaluated with an external analysis tool. 
+To illustrate and analyze the functionalities of PeakSwift, a dedicated demo app is developed. It integrates R-Peak detection and signal quality analysis of PeakSwift and can be evaluated with an external analysis tool. 
 
 You can explore PeakWatch here: [PeakWatch](https://github.com/CardioKit/PeakWatch).
 
