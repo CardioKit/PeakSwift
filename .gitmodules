@@ -3,4 +3,4 @@
 	url = https://github.com/berndporr/iir1
 [submodule "Sources/wavelib"]
 	path = Sources/wavelib
-	url = git@github.com:rafat/wavelib.git
+	url = https://github.com/rafat/wavelib
