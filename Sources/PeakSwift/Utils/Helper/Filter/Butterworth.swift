@@ -39,15 +39,13 @@ public class Butterworth {
     ///   - sampleRate: the sampling rate of signal
     /// - Returns: Filtered signal with frequency in range between lowCutFrequency and highCutFrequency
     public func butterworth(signal: [Double], order: Order, lowCutFrequency: Double, highCutFrequency: Double, sampleRate: Double) -> [Double] {
-        let signalObjC : [NSNumber] = signal as [NSNumber]
-        let lowCutObjC = NSNumber(value: lowCutFrequency)
-        let highCutObjC = NSNumber(value: highCutFrequency)
-        let sampleRateObjC = NSNumber(value: sampleRate)
-        let orderObjC = NSNumber(value: order.rawValue)
         
-        let filteredSignal = butterworthWrapper.butterworth(signalObjC, orderObjC, sampleRateObjC, lowCutObjC, highCutObjC)
+        var signalToFilter = [Double](signal)
+        var highpassFilteredSignal = [Double](repeating: 0.0, count: signal.count)
         
-        return filteredSignal as! [Double]
+        butterworthWrapper.butterworth(&signalToFilter, &highpassFilteredSignal, Int32(signal.count), lowCutFrequency, highCutFrequency, Int32(order.rawValue), sampleRate)
+        
+        return highpassFilteredSignal
     }
     
     
@@ -59,33 +57,31 @@ public class Butterworth {
     ///   - sampleRate: the sampling rate of signal
     /// - Returns: The filter signal without frequencies below the lowCutFrequency
     public func butterworthForwardBackward(signal: [Double], order: Order, lowCutFrequency: Double, sampleRate: Double) -> [Double] {
-        let signalObjC : [NSNumber] = signal as [NSNumber]
-        let lowCutObjC = NSNumber(value: lowCutFrequency)
-        let sampleRateObjC = NSNumber(value: sampleRate)
-        let orderObjC = NSNumber(value: order.rawValue)
         
-        let filteredSignal = butterworthWrapper.butterworthHighPassForwardBackward(signalObjC, orderObjC, sampleRateObjC, lowCutObjC)
+        var signalToFilter = [Double](signal)
+        var highpassFilteredSignal = [Double](repeating: 0.0, count: signal.count)
         
-        return filteredSignal as! [Double]
+        butterworthWrapper.butterworthHighPassForwardBackward(&signalToFilter, &highpassFilteredSignal, Int32(signal.count), lowCutFrequency, Int32(order.rawValue), sampleRate)
+        
+        return highpassFilteredSignal
         
     }
     
     func butterworthBandStop(signal: [Double], order: Order, lowCutFrequency: Double, highCutFrequency: Double, sampleRate: Double) -> [Double] {
-        let signalObjC : [NSNumber] = signal as [NSNumber]
-        let lowCutObjC = NSNumber(value: lowCutFrequency)
-        let highCutObjC = NSNumber(value: highCutFrequency)
-        let sampleRateObjC = NSNumber(value: sampleRate)
-        let orderObjC = NSNumber(value: order.rawValue)
+        var signalToFilter = [Double](signal)
+        var bandStopFilteredSignal = [Double](repeating: 0.0, count: signal.count)
         
-        let filteredSignal = butterworthWrapper.butterworthBandstop(signalObjC, orderObjC, sampleRateObjC, lowCutObjC, highCutObjC)
+        butterworthWrapper.butterworthBandstop(&signalToFilter, &bandStopFilteredSignal, Int32(bandStopFilteredSignal.count), lowCutFrequency, highCutFrequency, Int32(order.rawValue), sampleRate)
         
-        return filteredSignal as! [Double]
+        return bandStopFilteredSignal
     }
 
     func butterworthLowPassForwardBackward(signal: [Double], order: Order, normalizedHighCutFrequency: Double, sampleRate: Double) -> [Double] {
         var signalToFilter = [Double](signal)
         var lowPassFilteredSignal = [Double](repeating: 0.0, count: signal.count)
+        
         butterworthWrapper.butterworthLowPassForwardBackward(&signalToFilter, &lowPassFilteredSignal, Int32(signal.count), normalizedHighCutFrequency, Int32(order.rawValue), sampleRate)
+        
         return lowPassFilteredSignal
     }
     
