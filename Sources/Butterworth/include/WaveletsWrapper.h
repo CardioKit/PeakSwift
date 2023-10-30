@@ -11,6 +11,6 @@
 
 @interface WaveletsWrapper : NSObject
 
-- (NSMutableArray<NSNumber *> *)stationaryWaveletTransformation: (double[]) signal :(int) signalSize :(NSString *) wavelet :(int) level;
+- (void)stationaryWaveletTransformation: (double[]) signal :(double[]) result  :(int) signalSize :(NSString *) wavelet :(int) level;
 
 @end

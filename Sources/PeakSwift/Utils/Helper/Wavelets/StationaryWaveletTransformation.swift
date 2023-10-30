@@ -28,12 +28,14 @@ class StationaryWaveletTransformation {
             fatalError("For applying stationary wavelets transformation: signal.size% 2^^level == 0")
         }
         
+        let outputWaveletTransformationSize = signalSize * (level + 1)
+        
         var inputSignal = [Double](signal)
+        var outputWaveletTransformation = [Double].init(repeating: 0.0, count: outputWaveletTransformationSize)
         
-        let outputWaveletTransformationRaw = waveletsWrapper.stationaryWaveletTransformation(&inputSignal, Int32(signalSize), wavelet.rawValue, Int32(level))
+        waveletsWrapper.stationaryWaveletTransformation(&inputSignal, &outputWaveletTransformation, Int32(signalSize), wavelet.rawValue, Int32(level))
         
-        let outputWaveletTransformation = outputWaveletTransformationRaw as! [Double]
-        
+       
         return extractCoefficients(waveletOutput: outputWaveletTransformation, level: level)
     }
     

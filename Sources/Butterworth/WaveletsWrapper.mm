@@ -1,6 +1,6 @@
 //
 //  WaveletsWrapper.cpp
-//  
+//
 //
 //  Created by Nikita Charushnikov on 01.08.23.
 //
@@ -11,7 +11,7 @@
 
 @implementation WaveletsWrapper
 
-- (NSMutableArray<NSNumber *> *)stationaryWaveletTransformation: (double[]) signal :(int) signalSize :(NSString *) wavelet :(int) level {
+- (void)stationaryWaveletTransformation: (double[]) signal :(double[]) result  :(int) signalSize :(NSString *) wavelet :(int) level {
     
     wave_object wave_obj;
     wt_object wavelet_obj;
@@ -26,17 +26,15 @@
     
     swt(wavelet_obj, signal);
     
-    NSMutableArray *waveletsOutput = [NSMutableArray array];
-    
     for (int i = 0; i < wavelet_obj->outlength; ++i) {
         const double output = wavelet_obj->output[i];
-        [waveletsOutput addObject:[NSNumber numberWithDouble:output]];
+        result[i] = output;
     }
     
     wave_free(wave_obj);
     wt_free(wavelet_obj);
     
-    return waveletsOutput;
 }
 
 @end
+
