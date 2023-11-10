@@ -11,11 +11,11 @@
 
 @interface ButterworthWrapper : NSObject
 
-- (NSMutableArray<NSNumber *> *) butterworth: (NSArray<NSNumber *> *) signal :(NSNumber *) order :(NSNumber*)samplingRate :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency;
+- (void)butterworth: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(double) highCutFrequency :(int) order :(double) samplingRate;
 
-- (NSMutableArray<NSNumber *> *) butterworthBandstop: (NSArray<NSNumber *> *) signal :(NSNumber *) order :(NSNumber*)samplingRate :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency;
+- (void)butterworthBandstop: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(double) highCutFrequency :(int) order :(double) samplingRate;
 
-- (NSMutableArray<NSNumber *> *) butterworthHighPassForwardBackward: (NSArray<NSNumber *> *) signal :(NSNumber *) order :(NSNumber*)samplingRate :(NSNumber*) lowCutFrequency;
+- (void)butterworthHighPassForwardBackward: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(int) order :(double) samplingRate;
 
 - (void)butterworthLowPassForwardBackward: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) normalizedLowCutFrequency :(int) order :(double) samplingRate;
 

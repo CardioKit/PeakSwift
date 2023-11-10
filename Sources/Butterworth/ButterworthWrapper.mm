@@ -15,86 +15,59 @@
 
 static const int MAX_ORDER = 8;
 
-- (NSMutableArray *) butterworth: (NSArray *) signal :(NSNumber *) order :(NSNumber*)samplingRate  :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency {
+- (void)butterworth: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(double) highCutFrequency :(int) order :(double) samplingRate {
     Iir::Butterworth::BandPass<MAX_ORDER> butterworthBandPass;
     
-    const double double_samplingRate = [samplingRate doubleValue]; // Hz
-    const double double_lowCutFrequency = [lowCutFrequency doubleValue];
-    const double double_highCutFrequency = [highCutFrequency doubleValue];
-    const int requestedOrder = [order intValue];
 
-    const double centerFrequency = (double_highCutFrequency + double_lowCutFrequency) / 2;
-    const double widthFrequency = double_highCutFrequency - double_lowCutFrequency;
+    const double centerFrequency = (highCutFrequency + lowCutFrequency) / 2;
+    const double widthFrequency = highCutFrequency - lowCutFrequency;
     
-    butterworthBandPass.setup(requestedOrder, double_samplingRate, centerFrequency, widthFrequency);
+    butterworthBandPass.setup(order, samplingRate, centerFrequency, widthFrequency);
     
-    NSMutableArray *filteredSignal = [NSMutableArray array];
-    for(NSNumber *sampleRaw in signal) {
-        const double sample = [sampleRaw doubleValue];
-        const double filteredSample = butterworthBandPass.filter(sample);
-        [filteredSignal addObject:[NSNumber numberWithDouble:filteredSample]];
+    for (int i = 0; i < vectorLength; ++i) {
+        const double filteredSample =  butterworthBandPass.filter(signal[i]);
+        filteredResult[i] = filteredSample;
     }
-    return filteredSignal;
     
 }
 
-- (NSMutableArray *) butterworthBandstop: (NSArray *) signal :(NSNumber *) order :(NSNumber*)samplingRate  :(NSNumber*) lowCutFrequency :(NSNumber*) highCutFrequency {
+
+- (void)butterworthBandstop: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(double) highCutFrequency :(int) order :(double) samplingRate {
+    
     Iir::Butterworth::BandStop<MAX_ORDER> butterworthBandStop;
+    const double centerFrequency = (highCutFrequency + lowCutFrequency) / 2;
+    const double widthFrequency = highCutFrequency - lowCutFrequency;
     
-    const double double_samplingRate = [samplingRate doubleValue]; // Hz
-    const double double_lowCutFrequency = [lowCutFrequency doubleValue];
-    const double double_highCutFrequency = [highCutFrequency doubleValue];
-    const int requestedOrder = [order intValue];
-
-    const double centerFrequency = (double_highCutFrequency + double_lowCutFrequency) / 2;
-    const double widthFrequency = double_highCutFrequency - double_lowCutFrequency;
+    butterworthBandStop.setupN(order, samplingRate, centerFrequency, widthFrequency);
     
-    butterworthBandStop.setupN(requestedOrder, double_samplingRate, centerFrequency, widthFrequency);
-    
-    NSMutableArray *filteredSignal = [NSMutableArray array];
-    for(NSNumber *sampleRaw in signal) {
-        const double sample = [sampleRaw doubleValue];
-        const double filteredSample = butterworthBandStop.filter(sample);
-        [filteredSignal addObject:[NSNumber numberWithDouble:filteredSample]];
+    for (int i = 0; i < vectorLength; ++i) {
+        const double filteredSample =  butterworthBandStop.filter(signal[i]);
+        filteredResult[i] = filteredSample;
     }
-    return filteredSignal;
     
 }
 
-- (NSMutableArray<NSNumber *> *) butterworthHighPassForwardBackward: (NSArray<NSNumber *> *) signal :(NSNumber *) order :(NSNumber*)samplingRate :(NSNumber*) lowCutFrequency {
-    
-    const double double_samplingRate = [samplingRate doubleValue]; // Hz
-    const double double_lowCutFrequency = [lowCutFrequency doubleValue];
-    const int requestedOrder = [order intValue];
-    
+- (void)butterworthHighPassForwardBackward: (double[]) signal :(double[]) filteredResult :(int) vectorLength :(double) lowCutFrequency :(int) order :(double) samplingRate {
     Iir::Butterworth::HighPass<MAX_ORDER> butterworthHighPassForwardFilter;
-    butterworthHighPassForwardFilter.setup(requestedOrder, double_samplingRate, double_lowCutFrequency);
+    butterworthHighPassForwardFilter.setup(order, samplingRate, lowCutFrequency);
     
     // Applying forward filter
-    NSMutableArray *filteredSignal = [NSMutableArray array];
-    for(NSNumber *sampleRaw in signal) {
-        const double sample = [sampleRaw doubleValue];
+    for (int i = 0; i < vectorLength; ++i) {
         // Library Issue: The returned sample has an inverted sign. Therefore, we manually flip it.
         // Workaround:Therefore, we manually flip it.
         // First documented here: https://github.com/berndporr/iir1/issues/38
-        const double filteredSample = butterworthHighPassForwardFilter.filter(sample) * -1;
-        [filteredSignal addObject:[NSNumber numberWithDouble:filteredSample]];
+        const double filteredSample =  butterworthHighPassForwardFilter.filter(signal[i]) * -1;
+        filteredResult[i] = filteredSample;
     }
     
     Iir::Butterworth::HighPass<MAX_ORDER> butterworthHighPassBackwardFilter;
-    butterworthHighPassBackwardFilter.setup(requestedOrder, double_samplingRate, double_lowCutFrequency);
+    butterworthHighPassBackwardFilter.setup(order, samplingRate, lowCutFrequency);
     
     // Applying backward filter
-    for (int i = ((int)[filteredSignal count] - 1); i > -1; i--) {
-        const double sample = [filteredSignal[i] doubleValue];
-        // Library Issue: The returned sample has an inverted sign.
-        // Workaround:Therefore, we manually flip it.
-        // First documented here: https://github.com/berndporr/iir1/issues/38
-        const double filteredSample = butterworthHighPassBackwardFilter.filter(sample) * -1;
-        [filteredSignal replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:filteredSample]];
+    for (int i = vectorLength - 1; i >= 0; --i) {
+        const double filteredSample =  butterworthHighPassBackwardFilter.filter(filteredResult[i]) * -1;
+        filteredResult[i] = filteredSample;
     }
-    
-    return filteredSignal;
 }
 
 #warning("Review  if signal can be passed as a const pointer")
