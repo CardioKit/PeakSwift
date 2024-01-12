@@ -183,6 +183,10 @@ To illustrate and analyze the functionalities of PeakSwift, a dedicated demo app
 
 You can explore PeakWatch here: [PeakWatch](https://github.com/CardioKit/PeakWatch).
 
+## Warning
+
+This software is for research purposes only.
+
 ## License
 
 PeakSwift is released under Apache License 2.0. [See LICENSE](https://github.com/CardioKit/PeakSwift/blob/main/LICENSE) for details.
