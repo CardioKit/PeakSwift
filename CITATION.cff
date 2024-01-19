@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Kapsecker"
+  given-names: "Maximilian"
+- family-names: "Charushnikov"
+  given-names: "Nikita"
+- family-names: "Nissen"
+  given-names: "Leon"
+- family-names: "Jonas"
+  given-names: "Stephan M."
+title: "PeakSwift: Mobile Detection of R-peaks in Single Lead Electrocardiograms"
+version: 1.0.0
+doi: https://doi.org/10.1016/j.softx.2023.101608
+date-released: 2023-09-03
+url: "https://github.com/CardioKit/PeakSwift"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Kapsecker"
+      given-names: "Maximilian"
+    - family-names: "Charushnikov"
+      given-names: "Nikita"
+    - family-names: "Nissen"
+      given-names: "Leon"
+    - family-names: "Jonas"
+      given-names: "Stephan M."
+  doi: "https://doi.org/10.1016/j.softx.2023.101608"
+  journal: "SoftwareX"
+  pages: 101608
+  title: "PeakSwift: Mobile Detection of R-peaks in Single Lead Electrocardiograms"
+  volume: 25
+  year: 2024
