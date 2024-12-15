@@ -187,6 +187,24 @@ You can explore PeakWatch here: [PeakWatch](https://github.com/CardioKit/PeakWat
 
 This software is for research purposes only.
 
+## How to cite?
+
+If you are using parts of this work or build your experiments up on this repository please cite the following article:
+```
+@article{kapsecker2024peakswift,
+    title = {PeakSwift: Mobile Detection of R-peaks in Single Lead Electrocardiograms},
+    journal = {SoftwareX},
+    volume = {25},
+    pages = {101608},
+    year = {2024},
+    issn = {2352-7110},
+    doi = {https://doi.org/10.1016/j.softx.2023.101608},
+    url = {https://www.sciencedirect.com/science/article/pii/S2352711023003047},
+    author = {Maximilian Kapsecker and Nikita Charushnikov and Leon Nissen and Stephan M. Jonas},
+    keywords = {Electrocardiogram, R-peak detection, Swift, Benchmark}
+}
+```
+
 ## License
 
 PeakSwift is released under Apache License 2.0. [See LICENSE](https://github.com/CardioKit/PeakSwift/blob/main/LICENSE) for details.
